@@ -3,31 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GaragHub</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: #fff;
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-        }
-        p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-    </style>
+    <title>GaragHub — Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
-    <h1>Welcome to GaragHub</h1>
-    <p>Your one-stop hub for all things garage.</p>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand-logo">GH</div>
+                <span class="brand-name">GaragHub</span>
+            </div>
+            <nav class="nav">
+                <a class="nav-item active" data-view="dashboard" href="#dashboard">
+                    <span class="nav-icon">📊</span><span>Dashboard</span>
+                </a>
+                <a class="nav-item" data-view="workorders" href="#workorders">
+                    <span class="nav-icon">🔧</span><span>Work Orders</span>
+                </a>
+                <a class="nav-item" data-view="appointments" href="#appointments">
+                    <span class="nav-icon">📅</span><span>Appointments</span>
+                </a>
+                <a class="nav-item" data-view="vehicles" href="#vehicles">
+                    <span class="nav-icon">🚗</span><span>Vehicles</span>
+                </a>
+                <a class="nav-item" data-view="customers" href="#customers">
+                    <span class="nav-icon">👥</span><span>Customers</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="tech-card">
+                    <div class="tech-avatar">MJ</div>
+                    <div>
+                        <div class="tech-name">Mike Johnson</div>
+                        <div class="tech-role">Shop Manager</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">☰</button>
+                    <div>
+                        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+                        <p class="page-sub" id="pageSub">Overview of your shop's performance</p>
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <div class="search">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" placeholder="Search work orders, customers..." id="searchInput">
+                    </div>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+                    <button class="btn-primary" id="newOrderBtn">+ New Work Order</button>
+                </div>
+            </header>
+
+            <div class="content">
+                <!-- Dashboard View -->
+                <section class="view active" id="view-dashboard">
+                    <div class="kpi-grid" id="kpiGrid"></div>
+
+                    <div class="charts-grid">
+                        <div class="card chart-card">
+                            <div class="card-head">
+                                <h2>Revenue (last 7 days)</h2>
+                                <span class="badge badge-up" id="revenueTrend">+0%</span>
+                            </div>
+                            <canvas id="revenueChart" height="120"></canvas>
+                        </div>
+                        <div class="card chart-card">
+                            <div class="card-head">
+                                <h2>Service Breakdown</h2>
+                            </div>
+                            <canvas id="serviceChart" height="120"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="lower-grid">
+                        <div class="card">
+                            <div class="card-head">
+                                <h2>Active Work Orders</h2>
+                                <a class="link" href="#workorders" data-view="workorders">View all</a>
+                            </div>
+                            <div class="table-wrap">
+                                <table id="activeOrdersTable"></table>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-head">
+                                <h2>Today's Appointments</h2>
+                                <a class="link" href="#appointments" data-view="appointments">View all</a>
+                            </div>
+                            <div id="todayAppointments" class="appt-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Work Orders View -->
+                <section class="view" id="view-workorders">
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>All Work Orders</h2>
+                            <div class="filters" id="orderFilters">
+                                <button class="chip active" data-status="all">All</button>
+                                <button class="chip" data-status="In Progress">In Progress</button>
+                                <button class="chip" data-status="Waiting Parts">Waiting Parts</button>
+                                <button class="chip" data-status="Completed">Completed</button>
+                            </div>
+                        </div>
+                        <div class="table-wrap">
+                            <table id="allOrdersTable"></table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Appointments View -->
+                <section class="view" id="view-appointments">
+                    <div class="card">
+                        <div class="card-head"><h2>Upcoming Appointments</h2></div>
+                        <div id="allAppointments" class="appt-list"></div>
+                    </div>
+                </section>
+
+                <!-- Vehicles View -->
+                <section class="view" id="view-vehicles">
+                    <div class="card">
+                        <div class="card-head"><h2>Vehicles in Service</h2></div>
+                        <div class="table-wrap">
+                            <table id="vehiclesTable"></table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Customers View -->
+                <section class="view" id="view-customers">
+                    <div class="card">
+                        <div class="card-head"><h2>Customers</h2></div>
+                        <div class="table-wrap">
+                            <table id="customersTable"></table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
