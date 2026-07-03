@@ -23,11 +23,11 @@
             <svg aria-hidden="true"><use href="#icon-users"></use></svg>
             Customers
           </a>
-          <a class="nav-item active" href="#vehicles" data-view="vehicles" aria-current="page">
+          <a class="nav-item" href="#vehicles" data-view="vehicles">
             <svg aria-hidden="true"><use href="#icon-car"></use></svg>
             Vehicles
           </a>
-          <a class="nav-item" href="#">
+          <a class="nav-item active" href="#repair-orders" data-view="repair-orders" aria-current="page">
             <svg aria-hidden="true"><use href="#icon-clipboard"></use></svg>
             Repair Orders
           </a>
@@ -85,7 +85,7 @@
 
           <label class="search-field">
             <svg aria-hidden="true"><use href="#icon-search"></use></svg>
-            <input id="dashboardSearch" type="search" placeholder="Search customers, vehicles, orders..." />
+            <input id="dashboardSearch" type="search" placeholder="Search customers, vehicles, repair orders..." />
           </label>
 
           <div class="topbar-actions">
@@ -543,7 +543,7 @@
           </section>
         </section>
 
-        <section class="view vehicles-view active" data-view-panel="vehicles">
+        <section class="view vehicles-view" data-view-panel="vehicles">
           <section class="page-heading">
             <div>
               <h1>Vehicles</h1>
@@ -777,6 +777,231 @@
             </div>
           </section>
         </section>
+
+        <section class="view repair-orders-view active" data-view-panel="repair-orders">
+          <section class="page-heading">
+            <div>
+              <h1>Repair Orders</h1>
+              <p>Create, manage and track all repair orders in your workshop.</p>
+            </div>
+            <button class="primary-action" type="button">
+              <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
+              New Repair Order
+            </button>
+          </section>
+
+          <section class="repair-stats" aria-label="Repair order summary">
+            <article class="repair-stat" data-search="total repair orders">
+              <span class="metric-icon blue"><svg aria-hidden="true"><use href="#icon-wrench"></use></svg></span>
+              <div>
+                <p>Total Orders</p>
+                <strong>236</strong>
+                <small class="repair-trend up"><span>12.5%</span> vs last month</small>
+              </div>
+            </article>
+            <article class="repair-stat" data-search="in progress repair orders">
+              <span class="metric-icon orange"><svg aria-hidden="true"><use href="#icon-gauge"></use></svg></span>
+              <div>
+                <p>In Progress</p>
+                <strong>67</strong>
+                <small class="repair-trend up"><span>8.3%</span> vs last month</small>
+              </div>
+            </article>
+            <article class="repair-stat" data-search="waiting approval repair orders">
+              <span class="metric-icon purple"><svg aria-hidden="true"><use href="#icon-clock"></use></svg></span>
+              <div>
+                <p>Waiting Approval</p>
+                <strong>25</strong>
+                <small class="repair-trend down"><span>5.6%</span> vs last month</small>
+              </div>
+            </article>
+            <article class="repair-stat" data-search="completed repair orders">
+              <span class="metric-icon green"><svg aria-hidden="true"><use href="#icon-check-circle"></use></svg></span>
+              <div>
+                <p>Completed</p>
+                <strong>129</strong>
+                <small class="repair-trend up"><span>15.7%</span> vs last month</small>
+              </div>
+            </article>
+            <article class="repair-stat" data-search="cancelled repair orders">
+              <span class="metric-icon red"><svg aria-hidden="true"><use href="#icon-x-circle"></use></svg></span>
+              <div>
+                <p>Cancelled</p>
+                <strong>15</strong>
+                <small class="repair-trend down"><span>3.2%</span> vs last month</small>
+              </div>
+            </article>
+          </section>
+
+          <section class="repair-orders-panel" data-search="repair order table toyota camry honda city hyundai i20 ford ecosport mahindra xuv700 maruti swift kia seltos skoda octavia oil change brake pads wheel alignment suspension ac cooling battery clutch">
+            <div class="repair-toolbar">
+              <label class="customer-search">
+                <svg aria-hidden="true"><use href="#icon-search"></use></svg>
+                <input type="search" placeholder="Search by RO number, customer, vehicle, or problem..." />
+              </label>
+              <button class="filter-button" type="button">All Status <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+              <button class="filter-button" type="button">All Mechanics <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+              <button class="filter-button date-filter" type="button"><svg aria-hidden="true"><use href="#icon-calendar"></use></svg>May 1 - May 16, 2024 <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+              <button class="filter-button" type="button"><svg aria-hidden="true"><use href="#icon-filter"></use></svg>Filters</button>
+              <button class="icon-button" type="button" aria-label="Table view options">
+                <svg aria-hidden="true"><use href="#icon-list"></use></svg>
+              </button>
+            </div>
+
+            <div class="repair-orders-table-wrap">
+              <table class="repair-orders-table">
+                <thead>
+                  <tr>
+                    <th>RO Number</th>
+                    <th>Vehicle / Customer</th>
+                    <th>Problem / Services</th>
+                    <th>Mechanic</th>
+                    <th>Status</th>
+                    <th>Total Amount</th>
+                    <th>Created Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><div class="ro-number"><strong>#RO-2024-064</strong><span class="tag blue">In Progress</span></div></td>
+                    <td>
+                      <div class="repair-vehicle-cell">
+                        <span class="vehicle-thumb silver" aria-hidden="true"><span></span></span>
+                        <div><strong>Toyota Camry</strong><small>ABC-1234</small><span><em class="customer-avatar blue-soft">RS</em> Rahul Sharma</span></div>
+                      </div>
+                    </td>
+                    <td><strong>Engine Oil Change</strong><small>Oil Filter, Engine Oil 5W-30</small></td>
+                    <td><div class="mechanic-cell"><span class="mechanic-avatar warm">AK</span>Arun Kumar</div></td>
+                    <td><span class="tag blue">In Progress</span></td>
+                    <td><strong>$450.00</strong></td>
+                    <td><strong>May 16, 2024</strong><small>10:30 AM</small></td>
+                    <td><button class="dots-button" type="button" aria-label="Repair order actions">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="ro-number"><strong>#RO-2024-063</strong><span class="tag orange">Waiting Approval</span></div></td>
+                    <td>
+                      <div class="repair-vehicle-cell">
+                        <span class="vehicle-thumb charcoal" aria-hidden="true"><span></span></span>
+                        <div><strong>Honda City</strong><small>DEF-5678</small><span><em class="customer-avatar lavender">AV</em> Amit Verma</span></div>
+                      </div>
+                    </td>
+                    <td><strong>Brake Pads Replacement</strong><small>Front Brake Pads</small></td>
+                    <td><div class="mechanic-cell"><span class="mechanic-avatar cap">IA</span>Imran Ali</div></td>
+                    <td><span class="tag orange">Waiting Approval</span></td>
+                    <td><strong>$320.00</strong></td>
+                    <td><strong>May 16, 2024</strong><small>09:15 AM</small></td>
+                    <td><button class="dots-button" type="button" aria-label="Repair order actions">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="ro-number"><strong>#RO-2024-062</strong><span class="tag green">Completed</span></div></td>
+                    <td>
+                      <div class="repair-vehicle-cell">
+                        <span class="vehicle-thumb pearl" aria-hidden="true"><span></span></span>
+                        <div><strong>Hyundai i20</strong><small>GHI-9012</small><span><em class="customer-avatar lavender">SP</em> Sneha Patel</span></div>
+                      </div>
+                    </td>
+                    <td><strong>Wheel Alignment</strong><small>Wheel Alignment</small></td>
+                    <td><div class="mechanic-cell"><span class="mechanic-avatar warm">VY</span>Vikash Yadav</div></td>
+                    <td><span class="tag green">Completed</span></td>
+                    <td><strong>$650.00</strong></td>
+                    <td><strong>May 15, 2024</strong><small>04:20 PM</small></td>
+                    <td><button class="dots-button" type="button" aria-label="Repair order actions">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="ro-number"><strong>#RO-2024-061</strong><span class="tag blue">In Progress</span></div></td>
+                    <td>
+                      <div class="repair-vehicle-cell">
+                        <span class="vehicle-thumb cobalt" aria-hidden="true"><span></span></span>
+                        <div><strong>Ford EcoSport</strong><small>JKL-3456</small><span><em class="customer-avatar mint">VS</em> Vikram Singh</span></div>
+                      </div>
+                    </td>
+                    <td><strong>Suspension Repair</strong><small>Shock Absorber, Bush Kit</small></td>
+                    <td><div class="mechanic-cell"><span class="mechanic-avatar warm">RS</span>Ramesh Singh</div></td>
+                    <td><span class="tag blue">In Progress</span></td>
+                    <td><strong>$1,250.00</strong></td>
+                    <td><strong>May 15, 2024</strong><small>11:40 AM</small></td>
+                    <td><button class="dots-button" type="button" aria-label="Repair order actions">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="ro-number"><strong>#RO-2024-060</strong><span class="tag orange">Waiting Approval</span></div></td>
+                    <td>
+                      <div class="repair-vehicle-cell">
+                        <span class="vehicle-thumb charcoal" aria-hidden="true"><span></span></span>
+                        <div><strong>Mahindra XUV700</strong><small>MNO-7890</small><span><em class="customer-avatar mint">NK</em> Neha Kapoor</span></div>
+                      </div>
+                    </td>
+                    <td><strong>AC Cooling Issue</strong><small>AC Gas Recharge, Leak Test</small></td>
+                    <td><div class="mechanic-cell"><span class="mechanic-avatar warm">AK</span>Arun Kumar</div></td>
+                    <td><span class="tag orange">Waiting Approval</span></td>
+                    <td><strong>$850.00</strong></td>
+                    <td><strong>May 14, 2024</strong><small>03:05 PM</small></td>
+                    <td><button class="dots-button" type="button" aria-label="Repair order actions">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="ro-number"><strong>#RO-2024-059</strong><span class="tag red">Cancelled</span></div></td>
+                    <td>
+                      <div class="repair-vehicle-cell">
+                        <span class="vehicle-thumb crimson" aria-hidden="true"><span></span></span>
+                        <div><strong>Maruti Swift</strong><small>PQR-2345</small><span><em class="customer-avatar peach">DM</em> Deepak Mehta</span></div>
+                      </div>
+                    </td>
+                    <td><strong>Battery Replacement</strong><small>Car Battery</small></td>
+                    <td><div class="mechanic-cell"><span class="mechanic-avatar cap">IA</span>Imran Ali</div></td>
+                    <td><span class="tag red">Cancelled</span></td>
+                    <td><strong>$120.00</strong></td>
+                    <td><strong>May 14, 2024</strong><small>10:10 AM</small></td>
+                    <td><button class="dots-button" type="button" aria-label="Repair order actions">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="ro-number"><strong>#RO-2024-058</strong><span class="tag green">Completed</span></div></td>
+                    <td>
+                      <div class="repair-vehicle-cell">
+                        <span class="vehicle-thumb pearl" aria-hidden="true"><span></span></span>
+                        <div><strong>Kia Seltos</strong><small>STU-6789</small><span><em class="customer-avatar blue-soft">PJ</em> Pooja Jain</span></div>
+                      </div>
+                    </td>
+                    <td><strong>Periodic Service</strong><small>Full Service Package</small></td>
+                    <td><div class="mechanic-cell"><span class="mechanic-avatar warm">VY</span>Vikash Yadav</div></td>
+                    <td><span class="tag green">Completed</span></td>
+                    <td><strong>$1,150.00</strong></td>
+                    <td><strong>May 13, 2024</strong><small>02:30 PM</small></td>
+                    <td><button class="dots-button" type="button" aria-label="Repair order actions">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="ro-number"><strong>#RO-2024-057</strong><span class="tag blue">In Progress</span></div></td>
+                    <td>
+                      <div class="repair-vehicle-cell">
+                        <span class="vehicle-thumb silver" aria-hidden="true"><span></span></span>
+                        <div><strong>Skoda Octavia</strong><small>VWX-0123</small><span><em class="customer-avatar peach">AS</em> Arjun Saxena</span></div>
+                      </div>
+                    </td>
+                    <td><strong>Clutch Replacement</strong><small>Clutch Kit Assembly</small></td>
+                    <td><div class="mechanic-cell"><span class="mechanic-avatar warm">RS</span>Ramesh Singh</div></td>
+                    <td><span class="tag blue">In Progress</span></td>
+                    <td><strong>$2,100.00</strong></td>
+                    <td><strong>May 13, 2024</strong><small>11:00 AM</small></td>
+                    <td><button class="dots-button" type="button" aria-label="Repair order actions">⋮</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="customer-pagination">
+              <span>Showing 1 to 8 of 236 repair orders</span>
+              <div>
+                <button type="button" disabled><svg aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+                <button class="active" type="button">1</button>
+                <button type="button">2</button>
+                <button type="button">3</button>
+                <button type="button">...</button>
+                <button type="button">30</button>
+                <button type="button"><svg aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
+                <button class="per-page" type="button">10 / page <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+              </div>
+            </div>
+          </section>
+        </section>
       </main>
     </div>
 
@@ -826,6 +1051,9 @@
       <symbol id="icon-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5 5L3 18l3 3 6.7-6.7a4 4 0 0 0 5-5l-3 3-3-3z"/></symbol>
       <symbol id="icon-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
       <symbol id="icon-gauge" viewBox="0 0 24 24"><path d="M4 15a8 8 0 0 1 16 0"/><path d="M6 19h12"/><path d="m13 13 4-4"/><circle cx="12" cy="15" r="1"/></symbol>
+      <symbol id="icon-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="icon-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="m8.5 12.5 2.4 2.4 4.8-5.2"/></symbol>
+      <symbol id="icon-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="m9.5 9.5 5 5M14.5 9.5l-5 5"/></symbol>
       <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 2.8 8.6 7 10 4.2-1.4 7-5.5 7-10V6z"/><path d="M9 11 11 13l4-4"/></symbol>
       <symbol id="icon-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
     </svg>
