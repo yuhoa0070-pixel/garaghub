@@ -6,6 +6,7 @@ const closeModalButton = document.querySelector("#closeModalButton");
 const toast = document.querySelector("#toast");
 const quickActions = [...document.querySelectorAll(".quick-actions button")];
 const navItems = [...document.querySelectorAll(".nav-item")];
+const views = [...document.querySelectorAll("[data-view-panel]")];
 
 let toastTimer;
 
@@ -30,15 +31,21 @@ function closeQuickAdd() {
 
 searchInput.addEventListener("input", (event) => {
   const query = event.target.value.trim().toLowerCase();
+  const activeView = document.querySelector("[data-view-panel].active");
+  const activeCards = activeView
+    ? [...activeView.querySelectorAll("[data-search]")]
+    : searchableCards;
 
-  searchableCards.forEach((card) => {
+  searchableCards.forEach((card) => card.classList.remove("is-hidden"));
+
+  activeCards.forEach((card) => {
     const text = `${card.dataset.search} ${card.textContent}`.toLowerCase();
     card.classList.toggle("is-hidden", query.length > 0 && !text.includes(query));
   });
 
   if (query.length > 1) {
-    const visibleCount = searchableCards.filter((card) => !card.classList.contains("is-hidden")).length;
-    showToast(`${visibleCount} dashboard sections match "${query}".`);
+    const visibleCount = activeCards.filter((card) => !card.classList.contains("is-hidden")).length;
+    showToast(`${visibleCount} sections match "${query}".`);
   }
 });
 
@@ -67,12 +74,22 @@ quickActions.forEach((button) => {
 navItems.forEach((item) => {
   item.addEventListener("click", (event) => {
     event.preventDefault();
+    const viewName = item.dataset.view;
+    const targetView = views.find((view) => view.dataset.viewPanel === viewName);
+
     navItems.forEach((navItem) => {
       navItem.classList.remove("active");
       navItem.removeAttribute("aria-current");
     });
     item.classList.add("active");
     item.setAttribute("aria-current", "page");
+
+    if (targetView) {
+      views.forEach((view) => view.classList.toggle("active", view === targetView));
+      searchInput.value = "";
+      searchableCards.forEach((card) => card.classList.remove("is-hidden"));
+    }
+
     showToast(`${item.textContent.trim()} selected.`);
   });
 });

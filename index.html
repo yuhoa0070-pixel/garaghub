@@ -15,11 +15,11 @@
         </a>
 
         <nav class="nav-list">
-          <a class="nav-item active" href="#" aria-current="page">
+          <a class="nav-item" href="#dashboard" data-view="dashboard">
             <svg aria-hidden="true"><use href="#icon-grid"></use></svg>
             Dashboard
           </a>
-          <a class="nav-item" href="#">
+          <a class="nav-item active" href="#customers" data-view="customers" aria-current="page">
             <svg aria-hidden="true"><use href="#icon-users"></use></svg>
             Customers
           </a>
@@ -100,27 +100,31 @@
             <button class="icon-button" type="button" aria-label="Messages">
               <svg aria-hidden="true"><use href="#icon-message"></use></svg>
             </button>
-            <button class="shop-switcher" type="button">
-              <span class="shop-icon"><svg aria-hidden="true"><use href="#icon-shop"></use></svg></span>
-              AutoFix Workshop
+            <button class="shop-switcher top-profile" type="button">
+              <span class="avatar">JS</span>
+              <span>
+                <strong>John Smith</strong>
+                <small>Owner</small>
+              </span>
               <svg aria-hidden="true"><use href="#icon-chevron"></use></svg>
             </button>
           </div>
         </header>
 
-        <section class="welcome-row">
-          <div>
-            <h1>Welcome back, John!</h1>
-            <p>Here is what is happening in your workshop today.</p>
-          </div>
-          <button class="date-button" type="button">
-            <svg aria-hidden="true"><use href="#icon-calendar"></use></svg>
-            May 16, 2024
-            <svg aria-hidden="true"><use href="#icon-chevron"></use></svg>
-          </button>
-        </section>
+        <section class="view dashboard-view" data-view-panel="dashboard">
+          <section class="welcome-row">
+            <div>
+              <h1>Welcome back, John!</h1>
+              <p>Here is what is happening in your workshop today.</p>
+            </div>
+            <button class="date-button" type="button">
+              <svg aria-hidden="true"><use href="#icon-calendar"></use></svg>
+              May 16, 2024
+              <svg aria-hidden="true"><use href="#icon-chevron"></use></svg>
+            </button>
+          </section>
 
-        <section class="metric-grid" aria-label="Workshop summary">
+          <section class="metric-grid" aria-label="Workshop summary">
           <article class="metric-card" data-search="revenue today money income">
             <div class="metric-heading">
               <span class="metric-icon green"><svg aria-hidden="true"><use href="#icon-dollar"></use></svg></span>
@@ -192,9 +196,9 @@
               <path d="M2 10 L20 24 L38 31 L56 23 L74 32 L92 20 L110 34 L128 27 L146 32 L164 26 L178 27" />
             </svg>
           </article>
-        </section>
+          </section>
 
-        <section class="content-grid">
+          <section class="content-grid">
           <article class="panel revenue-panel" data-search="revenue overview monthly chart income">
             <div class="panel-header">
               <div>
@@ -350,6 +354,192 @@
               <li><span class="alert-icon orange"><svg aria-hidden="true"><use href="#icon-shield"></use></svg></span><div><strong>Oil Filter</strong><small>Low Stock (4 left)</small></div></li>
             </ul>
           </article>
+          </section>
+        </section>
+
+        <section class="view customers-view active" data-view-panel="customers">
+          <section class="page-heading">
+            <div>
+              <h1>Customers</h1>
+              <p>Manage your customers, view their vehicles, repair history and total spending.</p>
+            </div>
+            <button class="primary-action" type="button">
+              <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
+              New Customer
+            </button>
+          </section>
+
+          <section class="customer-stats" aria-label="Customer summary">
+            <article class="customer-stat" data-search="total customers">
+              <span class="metric-icon blue"><svg aria-hidden="true"><use href="#icon-users"></use></svg></span>
+              <div>
+                <p>Total Customers</p>
+                <strong>1,248</strong>
+                <small class="trend up">8.5% vs last month</small>
+              </div>
+            </article>
+            <article class="customer-stat" data-search="active customers">
+              <span class="metric-icon green"><svg aria-hidden="true"><use href="#icon-settings"></use></svg></span>
+              <div>
+                <p>Active Customers</p>
+                <strong>987</strong>
+                <small class="trend up">10.2% vs last month</small>
+              </div>
+            </article>
+            <article class="customer-stat" data-search="new customers">
+              <span class="metric-icon purple"><svg aria-hidden="true"><use href="#icon-users"></use></svg></span>
+              <div>
+                <p>New Customers</p>
+                <strong>128</strong>
+                <small class="trend up">15.3% vs last month</small>
+              </div>
+            </article>
+            <article class="customer-stat" data-search="total spent customer revenue">
+              <span class="metric-icon orange"><svg aria-hidden="true"><use href="#icon-receipt"></use></svg></span>
+              <div>
+                <p>Total Spent</p>
+                <strong>$245,680</strong>
+                <small class="trend up">12.6% vs last month</small>
+              </div>
+            </article>
+          </section>
+
+          <section class="customers-panel" data-search="customer table rahul amit sneha vikram neha deepak pooja arjun">
+            <div class="customer-toolbar">
+              <label class="customer-search">
+                <svg aria-hidden="true"><use href="#icon-search"></use></svg>
+                <input type="search" placeholder="Search by name, phone, email or address..." />
+              </label>
+              <button class="filter-button" type="button">All Status <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+              <button class="filter-button" type="button">All Tags <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+              <button class="filter-button" type="button"><svg aria-hidden="true"><use href="#icon-filter"></use></svg>More Filters</button>
+              <button class="icon-button" type="button" aria-label="Table view options">
+                <svg aria-hidden="true"><use href="#icon-list"></use></svg>
+              </button>
+            </div>
+
+            <div class="customers-table-wrap">
+              <table class="customers-table">
+                <thead>
+                  <tr>
+                    <th><input type="checkbox" aria-label="Select all customers" /></th>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Vehicles</th>
+                    <th>Last Visit</th>
+                    <th>Total Spent</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="checkbox" aria-label="Select Rahul Sharma" /></td>
+                    <td><div class="customer-cell"><span class="customer-avatar gold">RS</span><strong>Rahul Sharma</strong><em class="customer-tag vip">VIP</em></div></td>
+                    <td>+1 (555) 123-4567 <span class="whatsapp">●</span></td>
+                    <td>rahul.sharma@email.com</td>
+                    <td>2</td>
+                    <td>May 16, 2024</td>
+                    <td><strong>$4,850.00</strong></td>
+                    <td><span class="tag green">Active</span></td>
+                    <td><button class="dots-button" type="button" aria-label="Customer actions">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" aria-label="Select Amit Verma" /></td>
+                    <td><div class="customer-cell"><span class="customer-avatar photo">AV</span><strong>Amit Verma</strong></div></td>
+                    <td>+1 (555) 987-6543 <span class="whatsapp">●</span></td>
+                    <td>amit.verma@email.com</td>
+                    <td>1</td>
+                    <td>May 15, 2024</td>
+                    <td><strong>$1,250.00</strong></td>
+                    <td><span class="tag green">Active</span></td>
+                    <td><button class="dots-button" type="button" aria-label="Customer actions">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" aria-label="Select Sneha Patel" /></td>
+                    <td><div class="customer-cell"><span class="customer-avatar lavender">SP</span><strong>Sneha Patel</strong></div></td>
+                    <td>+1 (555) 567-8901 <span class="whatsapp">●</span></td>
+                    <td>sneha.patel@email.com</td>
+                    <td>1</td>
+                    <td>May 14, 2024</td>
+                    <td><strong>$2,320.00</strong></td>
+                    <td><span class="tag green">Active</span></td>
+                    <td><button class="dots-button" type="button" aria-label="Customer actions">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" aria-label="Select Vikram Singh" /></td>
+                    <td><div class="customer-cell"><span class="customer-avatar photo">VS</span><strong>Vikram Singh</strong><em class="customer-tag regular">Regular</em></div></td>
+                    <td>+1 (555) 234-5678 <span class="whatsapp">●</span></td>
+                    <td>vikram.singh@email.com</td>
+                    <td>3</td>
+                    <td>May 13, 2024</td>
+                    <td><strong>$6,750.00</strong></td>
+                    <td><span class="tag green">Active</span></td>
+                    <td><button class="dots-button" type="button" aria-label="Customer actions">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" aria-label="Select Neha Kapoor" /></td>
+                    <td><div class="customer-cell"><span class="customer-avatar mint">NK</span><strong>Neha Kapoor</strong></div></td>
+                    <td>+1 (555) 345-6789 <span class="whatsapp">●</span></td>
+                    <td>neha.kapoor@email.com</td>
+                    <td>1</td>
+                    <td>May 12, 2024</td>
+                    <td><strong>$980.00</strong></td>
+                    <td><span class="tag gray">Inactive</span></td>
+                    <td><button class="dots-button" type="button" aria-label="Customer actions">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" aria-label="Select Deepak Mehta" /></td>
+                    <td><div class="customer-cell"><span class="customer-avatar photo">DM</span><strong>Deepak Mehta</strong></div></td>
+                    <td>+1 (555) 456-7890 <span class="whatsapp">●</span></td>
+                    <td>deepak.mehta@email.com</td>
+                    <td>2</td>
+                    <td>May 10, 2024</td>
+                    <td><strong>$3,450.00</strong></td>
+                    <td><span class="tag green">Active</span></td>
+                    <td><button class="dots-button" type="button" aria-label="Customer actions">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" aria-label="Select Pooja Jain" /></td>
+                    <td><div class="customer-cell"><span class="customer-avatar blue-soft">PJ</span><strong>Pooja Jain</strong></div></td>
+                    <td>+1 (555) 678-9012 <span class="whatsapp">●</span></td>
+                    <td>pooja.jain@email.com</td>
+                    <td>1</td>
+                    <td>May 09, 2024</td>
+                    <td><strong>$1,120.00</strong></td>
+                    <td><span class="tag gray">Inactive</span></td>
+                    <td><button class="dots-button" type="button" aria-label="Customer actions">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" aria-label="Select Arjun Saxena" /></td>
+                    <td><div class="customer-cell"><span class="customer-avatar peach">AS</span><strong>Arjun Saxena</strong><em class="customer-tag new">New</em></div></td>
+                    <td>+1 (555) 789-0123 <span class="whatsapp">●</span></td>
+                    <td>arjun.saxena@email.com</td>
+                    <td>1</td>
+                    <td>May 08, 2024</td>
+                    <td><strong>$650.00</strong></td>
+                    <td><span class="tag green">Active</span></td>
+                    <td><button class="dots-button" type="button" aria-label="Customer actions">⋮</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="customer-pagination">
+              <span>Showing 1 to 8 of 1,248 customers</span>
+              <div>
+                <button type="button" disabled><svg aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+                <button class="active" type="button">1</button>
+                <button type="button">2</button>
+                <button type="button">3</button>
+                <button type="button">...</button>
+                <button type="button">156</button>
+                <button type="button"><svg aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
+                <button class="per-page" type="button">10 / page <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+              </div>
+            </div>
+          </section>
         </section>
       </main>
     </div>
@@ -389,6 +579,10 @@
       <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
       <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></symbol>
       <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="icon-filter" viewBox="0 0 24 24"><path d="M4 5h16l-6 7v5l-4 2v-7z"/></symbol>
+      <symbol id="icon-list" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12"/><path d="M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+      <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+      <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
       <symbol id="icon-message" viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/><path d="M8 9h8M8 13h5"/></symbol>
       <symbol id="icon-shop" viewBox="0 0 24 24"><path d="M4 10h16l-1-6H5z"/><path d="M6 10v10h12V10"/><path d="M9 20v-6h6v6M4 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></symbol>
       <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7 3v4M17 3v4M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"/></symbol>
