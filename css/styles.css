@@ -59,9 +59,14 @@ a {
   text-decoration: none;
 }
 
-svg {
+svg,
+iconify-icon {
   width: 20px;
   height: 20px;
+  color: currentColor;
+}
+
+svg {
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -69,8 +74,10 @@ svg {
   stroke-width: 1.5;
 }
 
-.icon-sprite {
-  display: none;
+iconify-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  line-height: 1;
 }
 
 .app-shell {
@@ -160,7 +167,7 @@ svg {
   transform: translateY(-50%);
 }
 
-.nav-item svg {
+.nav-item :is(svg, iconify-icon) {
   flex: 0 0 auto;
 }
 
@@ -185,7 +192,7 @@ svg {
   box-shadow: var(--shadow-soft);
 }
 
-.help-card svg {
+.help-card :is(svg, iconify-icon) {
   width: 32px;
   height: 32px;
   color: var(--blue);
@@ -209,7 +216,7 @@ svg {
   text-align: left;
 }
 
-.profile-button > svg {
+.profile-button > :is(svg, iconify-icon) {
   margin-left: auto;
   width: 16px;
   height: 16px;
@@ -393,7 +400,7 @@ input:focus-visible,
   background: #ebf3ff;
 }
 
-.shop-switcher > svg {
+.shop-switcher > :is(svg, iconify-icon) {
   width: 16px;
   height: 16px;
 }
@@ -423,9 +430,9 @@ input:focus-visible,
   padding: 0 18px;
 }
 
-.date-button svg:last-child,
-.ghost-button svg,
-.quick-add svg:last-child {
+.date-button :is(svg, iconify-icon):last-child,
+.ghost-button :is(svg, iconify-icon),
+.quick-add :is(svg, iconify-icon):last-child {
   width: 16px;
   height: 16px;
 }
@@ -748,7 +755,7 @@ input:focus-visible,
   font-weight: 760;
 }
 
-.filter-button svg {
+.filter-button :is(svg, iconify-icon) {
   width: 18px;
   height: 18px;
 }
@@ -1225,7 +1232,7 @@ input:focus-visible,
   border-radius: 50%;
 }
 
-.metric-icon svg {
+.metric-icon :is(svg, iconify-icon) {
   width: 22px;
   height: 22px;
 }
@@ -1943,7 +1950,7 @@ td {
   height: 40px;
 }
 
-.metric-icon svg {
+.metric-icon :is(svg, iconify-icon) {
   width: 20px;
   height: 20px;
 }
@@ -2361,8 +2368,8 @@ td {
   background: transparent;
 }
 
-.invoice-actions svg,
-.outline-action svg {
+.invoice-actions :is(svg, iconify-icon),
+.outline-action :is(svg, iconify-icon) {
   width: 17px;
   height: 17px;
 }
@@ -3268,7 +3275,7 @@ td {
   border-radius: 50%;
 }
 
-.movement-icon svg {
+.movement-icon :is(svg, iconify-icon) {
   width: 16px;
   height: 16px;
 }
@@ -3647,7 +3654,7 @@ td {
   font-weight: 680;
 }
 
-.staff-contact-list svg {
+.staff-contact-list :is(svg, iconify-icon) {
   width: 18px;
   height: 18px;
   color: #475569;
@@ -3938,7 +3945,7 @@ td {
   text-align: left;
 }
 
-.quick-actions svg {
+.quick-actions :is(svg, iconify-icon) {
   color: var(--blue);
 }
 
@@ -4254,7 +4261,7 @@ td {
     padding: 0 12px;
   }
 
-  .quick-add svg {
+  .quick-add :is(svg, iconify-icon) {
     margin: 0;
   }
 
@@ -4561,7 +4568,7 @@ td {
   line-height: 0;
 }
 
-.app-shell.sidebar-collapsed .nav-item svg {
+.app-shell.sidebar-collapsed .nav-item :is(svg, iconify-icon) {
   width: 21px;
   height: 21px;
   margin: 0;
@@ -4591,14 +4598,14 @@ td {
   gap: 0;
 }
 
-.app-shell.sidebar-collapsed .help-card svg {
+.app-shell.sidebar-collapsed .help-card :is(svg, iconify-icon) {
   width: 24px;
   height: 24px;
 }
 
 .app-shell.sidebar-collapsed .help-card div,
 .app-shell.sidebar-collapsed .profile-button span:nth-child(2),
-.app-shell.sidebar-collapsed .profile-button > svg {
+.app-shell.sidebar-collapsed .profile-button > :is(svg, iconify-icon) {
   display: none;
 }
 
