@@ -1,12 +1,35 @@
 const searchInput = document.querySelector("#dashboardSearch");
 const searchableCards = [...document.querySelectorAll("[data-search]")];
 const quickAddButton = document.querySelector("#quickAddButton");
+const quickAddLabel = document.querySelector("#quickAddLabel");
 const quickAddModal = document.querySelector("#quickAddModal");
 const closeModalButton = document.querySelector("#closeModalButton");
 const toast = document.querySelector("#toast");
 const quickActions = [...document.querySelectorAll(".quick-actions button")];
 const navItems = [...document.querySelectorAll(".nav-item")];
 const views = [...document.querySelectorAll("[data-view-panel]")];
+const viewChrome = {
+  dashboard: {
+    search: "Search customers, vehicles, repair orders...",
+    action: "Quick Add",
+  },
+  customers: {
+    search: "Search customers, vehicles, orders...",
+    action: "Quick Add",
+  },
+  vehicles: {
+    search: "Search customers, vehicles, orders...",
+    action: "Quick Add",
+  },
+  "repair-orders": {
+    search: "Search customers, vehicles, repair orders...",
+    action: "Quick Add",
+  },
+  invoices: {
+    search: "Search invoices, customers, vehicles...",
+    action: "Create Invoice",
+  },
+};
 
 let toastTimer;
 
@@ -28,6 +51,17 @@ function closeQuickAdd() {
   quickAddModal.setAttribute("aria-hidden", "true");
   quickAddButton.focus();
 }
+
+function updateViewChrome(viewName) {
+  const chrome = viewChrome[viewName] || viewChrome.dashboard;
+  searchInput.placeholder = chrome.search;
+  if (quickAddLabel) {
+    quickAddLabel.textContent = chrome.action;
+  }
+}
+
+const activeNav = navItems.find((item) => item.classList.contains("active") && item.dataset.view);
+updateViewChrome(activeNav ? activeNav.dataset.view : "dashboard");
 
 searchInput.addEventListener("input", (event) => {
   const query = event.target.value.trim().toLowerCase();
@@ -77,6 +111,11 @@ navItems.forEach((item) => {
     const viewName = item.dataset.view;
     const targetView = views.find((view) => view.dataset.viewPanel === viewName);
 
+    if (!viewName || !targetView) {
+      showToast(`${item.textContent.trim()} is coming soon.`);
+      return;
+    }
+
     navItems.forEach((navItem) => {
       navItem.classList.remove("active");
       navItem.removeAttribute("aria-current");
@@ -84,11 +123,10 @@ navItems.forEach((item) => {
     item.classList.add("active");
     item.setAttribute("aria-current", "page");
 
-    if (targetView) {
-      views.forEach((view) => view.classList.toggle("active", view === targetView));
-      searchInput.value = "";
-      searchableCards.forEach((card) => card.classList.remove("is-hidden"));
-    }
+    views.forEach((view) => view.classList.toggle("active", view === targetView));
+    updateViewChrome(viewName);
+    searchInput.value = "";
+    searchableCards.forEach((card) => card.classList.remove("is-hidden"));
 
     showToast(`${item.textContent.trim()} selected.`);
   });

@@ -27,11 +27,11 @@
             <svg aria-hidden="true"><use href="#icon-car"></use></svg>
             Vehicles
           </a>
-          <a class="nav-item active" href="#repair-orders" data-view="repair-orders" aria-current="page">
+          <a class="nav-item" href="#repair-orders" data-view="repair-orders">
             <svg aria-hidden="true"><use href="#icon-clipboard"></use></svg>
             Repair Orders
           </a>
-          <a class="nav-item" href="#">
+          <a class="nav-item active" href="#invoices" data-view="invoices" aria-current="page">
             <svg aria-hidden="true"><use href="#icon-receipt"></use></svg>
             Invoices
           </a>
@@ -85,13 +85,13 @@
 
           <label class="search-field">
             <svg aria-hidden="true"><use href="#icon-search"></use></svg>
-            <input id="dashboardSearch" type="search" placeholder="Search customers, vehicles, repair orders..." />
+            <input id="dashboardSearch" type="search" placeholder="Search invoices, customers, vehicles..." />
           </label>
 
           <div class="topbar-actions">
             <button class="quick-add" id="quickAddButton" type="button">
               <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
-              Quick Add
+              <span id="quickAddLabel">Create Invoice</span>
               <svg aria-hidden="true"><use href="#icon-chevron"></use></svg>
             </button>
             <button class="icon-button has-badge" type="button" aria-label="Notifications">
@@ -778,7 +778,7 @@
           </section>
         </section>
 
-        <section class="view repair-orders-view active" data-view-panel="repair-orders">
+        <section class="view repair-orders-view" data-view-panel="repair-orders">
           <section class="page-heading">
             <div>
               <h1>Repair Orders</h1>
@@ -1002,6 +1002,287 @@
             </div>
           </section>
         </section>
+
+        <section class="view invoices-view active" data-view-panel="invoices">
+          <section class="page-heading invoice-heading">
+            <div>
+              <h1>Invoices</h1>
+              <p>Create, send and manage all invoices and payments.</p>
+            </div>
+          </section>
+
+          <section class="invoice-stats" aria-label="Invoice summary">
+            <article class="invoice-stat" data-search="total invoices invoice count">
+              <span class="metric-icon green"><svg aria-hidden="true"><use href="#icon-receipt"></use></svg></span>
+              <div>
+                <p>Total Invoices</p>
+                <strong>327</strong>
+                <small class="invoice-trend up"><span>12.8%</span> vs last month</small>
+              </div>
+            </article>
+            <article class="invoice-stat" data-search="paid invoices settled payments">
+              <span class="metric-icon blue"><svg aria-hidden="true"><use href="#icon-clipboard"></use></svg></span>
+              <div>
+                <p>Paid Invoices</p>
+                <strong>218</strong>
+                <small class="invoice-trend up"><span>15.3%</span> vs last month</small>
+              </div>
+            </article>
+            <article class="invoice-stat" data-search="pending invoices awaiting payment">
+              <span class="metric-icon orange"><svg aria-hidden="true"><use href="#icon-clock"></use></svg></span>
+              <div>
+                <p>Pending Invoices</p>
+                <strong>68</strong>
+                <small class="invoice-trend down"><span>6.7%</span> vs last month</small>
+              </div>
+            </article>
+            <article class="invoice-stat" data-search="overdue invoices late payments">
+              <span class="metric-icon red"><svg aria-hidden="true"><use href="#icon-x-circle"></use></svg></span>
+              <div>
+                <p>Overdue Invoices</p>
+                <strong>41</strong>
+                <small class="invoice-trend down"><span>8.3%</span> vs last month</small>
+              </div>
+            </article>
+            <article class="invoice-stat" data-search="total revenue invoices money">
+              <span class="metric-icon purple"><svg aria-hidden="true"><use href="#icon-dollar"></use></svg></span>
+              <div>
+                <p>Total Revenue</p>
+                <strong>$78,540.00</strong>
+                <small class="invoice-trend up"><span>14.6%</span> vs last month</small>
+              </div>
+            </article>
+          </section>
+
+          <section class="invoice-layout">
+            <section class="invoice-list-panel" data-search="invoice table rahul amit sneha vikram neha deepak pooja arjun paid pending overdue toyota honda hyundai ford mahindra maruti kia skoda">
+              <div class="invoice-toolbar">
+                <label class="customer-search">
+                  <svg aria-hidden="true"><use href="#icon-search"></use></svg>
+                  <input type="search" placeholder="Search by invoice number, customer or vehicle..." />
+                </label>
+                <button class="filter-button" type="button">All Status <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+                <button class="filter-button date-filter" type="button"><svg aria-hidden="true"><use href="#icon-calendar"></use></svg>May 1 - May 16, 2024 <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+                <button class="filter-button" type="button"><svg aria-hidden="true"><use href="#icon-filter"></use></svg>Filters</button>
+                <button class="icon-button" type="button" aria-label="Table view options">
+                  <svg aria-hidden="true"><use href="#icon-list"></use></svg>
+                </button>
+              </div>
+
+              <div class="invoice-table-wrap">
+                <table class="invoice-table">
+                  <thead>
+                    <tr>
+                      <th><input type="checkbox" aria-label="Select all invoices" /></th>
+                      <th>Invoice #</th>
+                      <th>Customer / Vehicle</th>
+                      <th>Repair Order</th>
+                      <th>Date</th>
+                      <th>Due Date</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="checkbox" aria-label="Select invoice INV-2024-099" /></td>
+                      <td><strong>INV-2024-099</strong></td>
+                      <td><div class="invoice-customer"><span class="customer-avatar blue-soft">RS</span><div><strong>Rahul Sharma</strong><small>Toyota Camry (ABC-1234)</small></div></div></td>
+                      <td><a href="#">RO-2024-064</a></td>
+                      <td>May 16, 2024</td>
+                      <td>May 23, 2024</td>
+                      <td><strong>$450.00</strong></td>
+                      <td><span class="tag green">Paid</span></td>
+                      <td><div class="invoice-actions"><button type="button" aria-label="Preview invoice"><svg aria-hidden="true"><use href="#icon-eye"></use></svg></button><button type="button" aria-label="Download invoice"><svg aria-hidden="true"><use href="#icon-download"></use></svg></button><button class="dots-button" type="button" aria-label="Invoice actions">⋮</button></div></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" aria-label="Select invoice INV-2024-098" /></td>
+                      <td><strong>INV-2024-098</strong></td>
+                      <td><div class="invoice-customer"><span class="customer-avatar lavender">AV</span><div><strong>Amit Verma</strong><small>Honda City (DEF-5678)</small></div></div></td>
+                      <td><a href="#">RO-2024-063</a></td>
+                      <td>May 16, 2024</td>
+                      <td>May 23, 2024</td>
+                      <td><strong>$320.00</strong></td>
+                      <td><span class="tag orange">Pending</span></td>
+                      <td><div class="invoice-actions"><button type="button" aria-label="Preview invoice"><svg aria-hidden="true"><use href="#icon-eye"></use></svg></button><button type="button" aria-label="Download invoice"><svg aria-hidden="true"><use href="#icon-download"></use></svg></button><button class="dots-button" type="button" aria-label="Invoice actions">⋮</button></div></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" aria-label="Select invoice INV-2024-097" /></td>
+                      <td><strong>INV-2024-097</strong></td>
+                      <td><div class="invoice-customer"><span class="customer-avatar lavender">SP</span><div><strong>Sneha Patel</strong><small>Hyundai i20 (GHI-9012)</small></div></div></td>
+                      <td><a href="#">RO-2024-062</a></td>
+                      <td>May 15, 2024</td>
+                      <td>May 22, 2024</td>
+                      <td><strong>$650.00</strong></td>
+                      <td><span class="tag green">Paid</span></td>
+                      <td><div class="invoice-actions"><button type="button" aria-label="Preview invoice"><svg aria-hidden="true"><use href="#icon-eye"></use></svg></button><button type="button" aria-label="Download invoice"><svg aria-hidden="true"><use href="#icon-download"></use></svg></button><button class="dots-button" type="button" aria-label="Invoice actions">⋮</button></div></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" aria-label="Select invoice INV-2024-096" /></td>
+                      <td><strong>INV-2024-096</strong></td>
+                      <td><div class="invoice-customer"><span class="customer-avatar mint">VS</span><div><strong>Vikram Singh</strong><small>Ford EcoSport (JKL-3456)</small></div></div></td>
+                      <td><a href="#">RO-2024-061</a></td>
+                      <td>May 15, 2024</td>
+                      <td>May 22, 2024</td>
+                      <td><strong>$1,250.00</strong></td>
+                      <td><span class="tag green">Paid</span></td>
+                      <td><div class="invoice-actions"><button type="button" aria-label="Preview invoice"><svg aria-hidden="true"><use href="#icon-eye"></use></svg></button><button type="button" aria-label="Download invoice"><svg aria-hidden="true"><use href="#icon-download"></use></svg></button><button class="dots-button" type="button" aria-label="Invoice actions">⋮</button></div></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" aria-label="Select invoice INV-2024-095" /></td>
+                      <td><strong>INV-2024-095</strong></td>
+                      <td><div class="invoice-customer"><span class="customer-avatar mint">NK</span><div><strong>Neha Kapoor</strong><small>Mahindra XUV700 (MNO-7890)</small></div></div></td>
+                      <td><a href="#">RO-2024-060</a></td>
+                      <td>May 14, 2024</td>
+                      <td>May 21, 2024</td>
+                      <td><strong>$850.00</strong></td>
+                      <td><span class="tag orange">Pending</span></td>
+                      <td><div class="invoice-actions"><button type="button" aria-label="Preview invoice"><svg aria-hidden="true"><use href="#icon-eye"></use></svg></button><button type="button" aria-label="Download invoice"><svg aria-hidden="true"><use href="#icon-download"></use></svg></button><button class="dots-button" type="button" aria-label="Invoice actions">⋮</button></div></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" aria-label="Select invoice INV-2024-094" /></td>
+                      <td><strong>INV-2024-094</strong></td>
+                      <td><div class="invoice-customer"><span class="customer-avatar peach">DM</span><div><strong>Deepak Mehta</strong><small>Maruti Swift (PQR-2345)</small></div></div></td>
+                      <td><a href="#">RO-2024-059</a></td>
+                      <td>May 14, 2024</td>
+                      <td>May 21, 2024</td>
+                      <td><strong>$120.00</strong></td>
+                      <td><span class="tag red">Overdue</span></td>
+                      <td><div class="invoice-actions"><button type="button" aria-label="Preview invoice"><svg aria-hidden="true"><use href="#icon-eye"></use></svg></button><button type="button" aria-label="Download invoice"><svg aria-hidden="true"><use href="#icon-download"></use></svg></button><button class="dots-button" type="button" aria-label="Invoice actions">⋮</button></div></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" aria-label="Select invoice INV-2024-093" /></td>
+                      <td><strong>INV-2024-093</strong></td>
+                      <td><div class="invoice-customer"><span class="customer-avatar blue-soft">PJ</span><div><strong>Pooja Jain</strong><small>Kia Seltos (STU-6789)</small></div></div></td>
+                      <td><a href="#">RO-2024-058</a></td>
+                      <td>May 13, 2024</td>
+                      <td>May 20, 2024</td>
+                      <td><strong>$1,150.00</strong></td>
+                      <td><span class="tag red">Overdue</span></td>
+                      <td><div class="invoice-actions"><button type="button" aria-label="Preview invoice"><svg aria-hidden="true"><use href="#icon-eye"></use></svg></button><button type="button" aria-label="Download invoice"><svg aria-hidden="true"><use href="#icon-download"></use></svg></button><button class="dots-button" type="button" aria-label="Invoice actions">⋮</button></div></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" aria-label="Select invoice INV-2024-092" /></td>
+                      <td><strong>INV-2024-092</strong></td>
+                      <td><div class="invoice-customer"><span class="customer-avatar peach">AS</span><div><strong>Arjun Saxena</strong><small>Skoda Octavia (VWX-0123)</small></div></div></td>
+                      <td><a href="#">RO-2024-057</a></td>
+                      <td>May 13, 2024</td>
+                      <td>May 20, 2024</td>
+                      <td><strong>$2,100.00</strong></td>
+                      <td><span class="tag green">Paid</span></td>
+                      <td><div class="invoice-actions"><button type="button" aria-label="Preview invoice"><svg aria-hidden="true"><use href="#icon-eye"></use></svg></button><button type="button" aria-label="Download invoice"><svg aria-hidden="true"><use href="#icon-download"></use></svg></button><button class="dots-button" type="button" aria-label="Invoice actions">⋮</button></div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="customer-pagination">
+                <span>Showing 1 to 8 of 327 invoices</span>
+                <div>
+                  <button type="button" disabled><svg aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+                  <button class="active" type="button">1</button>
+                  <button type="button">2</button>
+                  <button type="button">3</button>
+                  <button type="button">...</button>
+                  <button type="button">41</button>
+                  <button type="button"><svg aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
+                  <button class="per-page" type="button">10 / page <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+                </div>
+              </div>
+            </section>
+
+            <aside class="invoice-preview" data-search="invoice preview inv 2024 099 paid rahul sharma toyota camry payment pdf">
+              <div class="invoice-preview-head">
+                <div>
+                  <h2>INV-2024-099</h2>
+                  <p><span class="tag green">Paid</span> Paid on May 16, 2024</p>
+                </div>
+                <button class="icon-button" type="button" aria-label="Close invoice preview">
+                  <svg aria-hidden="true"><use href="#icon-x"></use></svg>
+                </button>
+              </div>
+
+              <div class="invoice-preview-actions">
+                <button class="outline-action" type="button"><svg aria-hidden="true"><use href="#icon-paper-plane"></use></svg>Send</button>
+                <button class="icon-button" type="button" aria-label="More invoice actions"><span aria-hidden="true">...</span></button>
+              </div>
+
+              <div class="invoice-tabs" role="tablist" aria-label="Invoice details">
+                <button class="active" type="button" role="tab" aria-selected="true">Overview</button>
+                <button type="button" role="tab" aria-selected="false">Payments</button>
+              </div>
+
+              <article class="invoice-sheet">
+                <header class="invoice-sheet-header">
+                  <div>
+                    <div class="invoice-brand"><span class="brand-mark">gh</span><strong>GarageHub</strong></div>
+                    <p>AutoFix Workshop<br />123 Garage Street<br />Los Angeles, CA 90001<br />+1 (555) 123-4567<br />info@autofix.com</p>
+                  </div>
+                  <div>
+                    <h3>Invoice</h3>
+                    <strong>#INV-2024-099</strong>
+                    <dl>
+                      <dt>Invoice Date</dt>
+                      <dd>May 16, 2024</dd>
+                      <dt>Due Date</dt>
+                      <dd>May 23, 2024</dd>
+                    </dl>
+                  </div>
+                </header>
+
+                <section class="invoice-billing">
+                  <div>
+                    <h4>Bill To</h4>
+                    <strong>Rahul Sharma</strong>
+                    <p>+1 (555) 123-4567<br />rahul.sharma@email.com</p>
+                  </div>
+                  <div>
+                    <h4>Vehicle</h4>
+                    <strong>Toyota Camry (2020)</strong>
+                    <span class="plate-badge">ABC-1234</span>
+                    <p>VIN: 4T1BF1FK9EU123456</p>
+                  </div>
+                </section>
+
+                <table class="invoice-items">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Qty</th>
+                      <th>Rate</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Engine Oil 5W-30</td><td>4.0 L</td><td>$12.00</td><td>$48.00</td></tr>
+                    <tr><td>Oil Filter</td><td>1</td><td>$15.00</td><td>$15.00</td></tr>
+                    <tr><td>Labor Charge</td><td>1</td><td>$120.00</td><td>$120.00</td></tr>
+                    <tr><td>Engine Checkup</td><td>1</td><td>$80.00</td><td>$80.00</td></tr>
+                    <tr><td>Brake Inspection</td><td>1</td><td>$50.00</td><td>$50.00</td></tr>
+                    <tr><td>Shop Supplies</td><td>1</td><td>$10.00</td><td>$10.00</td></tr>
+                  </tbody>
+                </table>
+
+                <dl class="invoice-totals">
+                  <dt>Subtotal</dt>
+                  <dd>$323.00</dd>
+                  <dt>Tax (10%)</dt>
+                  <dd>$32.30</dd>
+                  <dt>Discount</dt>
+                  <dd>-$5.30</dd>
+                  <dt>Total</dt>
+                  <dd>$450.00</dd>
+                </dl>
+              </article>
+
+              <div class="invoice-footer-actions">
+                <button class="outline-action" type="button"><svg aria-hidden="true"><use href="#icon-download"></use></svg>Download PDF</button>
+                <button class="primary-action" type="button"><svg aria-hidden="true"><use href="#icon-dollar"></use></svg>Record Payment</button>
+              </div>
+            </aside>
+          </section>
+        </section>
       </main>
     </div>
 
@@ -1042,6 +1323,9 @@
       <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
       <symbol id="icon-filter" viewBox="0 0 24 24"><path d="M4 5h16l-6 7v5l-4 2v-7z"/></symbol>
       <symbol id="icon-list" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12"/><path d="M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+      <symbol id="icon-eye" viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></symbol>
+      <symbol id="icon-paper-plane" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4z"/></symbol>
       <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
       <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
       <symbol id="icon-message" viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/><path d="M8 9h8M8 13h5"/></symbol>
