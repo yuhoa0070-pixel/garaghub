@@ -31,11 +31,11 @@
             <svg aria-hidden="true"><use href="#icon-clipboard"></use></svg>
             Repair Orders
           </a>
-          <a class="nav-item active" href="#invoices" data-view="invoices" aria-current="page">
+          <a class="nav-item" href="#invoices" data-view="invoices">
             <svg aria-hidden="true"><use href="#icon-receipt"></use></svg>
             Invoices
           </a>
-          <a class="nav-item" href="#">
+          <a class="nav-item active" href="#inventory" data-view="inventory" aria-current="page">
             <svg aria-hidden="true"><use href="#icon-box"></use></svg>
             Inventory
           </a>
@@ -85,13 +85,13 @@
 
           <label class="search-field">
             <svg aria-hidden="true"><use href="#icon-search"></use></svg>
-            <input id="dashboardSearch" type="search" placeholder="Search invoices, customers, vehicles..." />
+            <input id="dashboardSearch" type="search" placeholder="Search parts, categories, brands or SKU..." />
           </label>
 
           <div class="topbar-actions">
             <button class="quick-add" id="quickAddButton" type="button">
               <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
-              <span id="quickAddLabel">Create Invoice</span>
+              <span id="quickAddLabel">Add Stock</span>
               <svg aria-hidden="true"><use href="#icon-chevron"></use></svg>
             </button>
             <button class="icon-button has-badge" type="button" aria-label="Notifications">
@@ -1003,7 +1003,7 @@
           </section>
         </section>
 
-        <section class="view invoices-view active" data-view-panel="invoices">
+        <section class="view invoices-view" data-view-panel="invoices">
           <section class="page-heading invoice-heading">
             <div>
               <h1>Invoices</h1>
@@ -1283,6 +1283,258 @@
             </aside>
           </section>
         </section>
+
+        <section class="view inventory-view active" data-view-panel="inventory">
+          <section class="page-heading inventory-heading">
+            <div>
+              <h1>Inventory</h1>
+              <p>Manage your stock, track parts and get low stock alerts.</p>
+            </div>
+            <div class="inventory-heading-actions">
+              <button class="outline-action" type="button"><svg aria-hidden="true"><use href="#icon-upload"></use></svg>Import</button>
+              <button class="outline-action" type="button"><svg aria-hidden="true"><use href="#icon-download"></use></svg>Export</button>
+              <button class="primary-action" type="button"><svg aria-hidden="true"><use href="#icon-plus"></use></svg>Add New Item</button>
+            </div>
+          </section>
+
+          <section class="inventory-layout">
+            <div class="inventory-main">
+              <section class="inventory-stats" aria-label="Inventory summary">
+                <article class="inventory-stat" data-search="total items inventory stock">
+                  <span class="metric-icon blue"><svg aria-hidden="true"><use href="#icon-box"></use></svg></span>
+                  <div>
+                    <p>Total Items</p>
+                    <strong>2,451</strong>
+                    <small class="inventory-trend up"><span>8.7%</span> vs last month</small>
+                  </div>
+                </article>
+                <article class="inventory-stat" data-search="total value stock value money">
+                  <span class="metric-icon green"><svg aria-hidden="true"><use href="#icon-dollar"></use></svg></span>
+                  <div>
+                    <p>Total Value</p>
+                    <strong>$128,540.00</strong>
+                    <small class="inventory-trend up"><span>12.5%</span> vs last month</small>
+                  </div>
+                </article>
+                <article class="inventory-stat" data-search="low stock items alerts">
+                  <span class="metric-icon orange"><svg aria-hidden="true"><use href="#icon-alert-triangle"></use></svg></span>
+                  <div>
+                    <p>Low Stock Items</p>
+                    <strong>86</strong>
+                    <small class="inventory-trend alert"><span>6</span> vs last month</small>
+                  </div>
+                </article>
+                <article class="inventory-stat" data-search="out of stock items">
+                  <span class="metric-icon red"><svg aria-hidden="true"><use href="#icon-x-circle"></use></svg></span>
+                  <div>
+                    <p>Out of Stock Items</p>
+                    <strong>24</strong>
+                    <small class="inventory-trend down"><span>4</span> vs last month</small>
+                  </div>
+                </article>
+                <article class="inventory-stat" data-search="stock movements inventory activity">
+                  <span class="metric-icon purple"><svg aria-hidden="true"><use href="#icon-refresh"></use></svg></span>
+                  <div>
+                    <p>Stock Movements</p>
+                    <strong>312</strong>
+                    <small class="inventory-trend up"><span>15.3%</span> vs last month</small>
+                  </div>
+                </article>
+              </section>
+
+              <section class="inventory-list-panel" data-search="inventory table engine oil brake pads oil filter air filter spark plug car battery wiper blade coolant mobil brembo mann bosch ngk exide valeo prestone">
+                <div class="inventory-toolbar">
+                  <label class="customer-search">
+                    <svg aria-hidden="true"><use href="#icon-search"></use></svg>
+                    <input type="search" placeholder="Search by part name, SKU or barcode..." />
+                  </label>
+                  <button class="filter-button" type="button">All Categories <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+                  <button class="filter-button" type="button">All Brands <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+                  <button class="filter-button" type="button">All Status <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+                  <button class="filter-button" type="button"><svg aria-hidden="true"><use href="#icon-filter"></use></svg>Filters</button>
+                  <button class="icon-button" type="button" aria-label="Table view options">
+                    <svg aria-hidden="true"><use href="#icon-list"></use></svg>
+                  </button>
+                </div>
+
+                <div class="inventory-table-wrap">
+                  <table class="inventory-table">
+                    <thead>
+                      <tr>
+                        <th><input type="checkbox" aria-label="Select all inventory items" /></th>
+                        <th>Item</th>
+                        <th>Category</th>
+                        <th>Brand</th>
+                        <th>SKU / Part #</th>
+                        <th>In Stock</th>
+                        <th>Unit Cost</th>
+                        <th>Total Value</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Engine Oil 5W-30" /></td>
+                        <td><div class="inventory-item-cell"><span class="part-thumb oil" aria-hidden="true"><span></span></span><div><strong>Engine Oil 5W-30</strong><small>Fully Synthetic</small></div></div></td>
+                        <td>Lubricants</td>
+                        <td>Mobil 1</td>
+                        <td>MOB-5W30-4L</td>
+                        <td><strong>42</strong><small>Pcs</small></td>
+                        <td>$12.00</td>
+                        <td>$504.00</td>
+                        <td><span class="tag green">In Stock</span></td>
+                        <td><button class="dots-button" type="button" aria-label="Inventory item actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Brake Pads Front" /></td>
+                        <td><div class="inventory-item-cell"><span class="part-thumb pads" aria-hidden="true"><span></span></span><div><strong>Brake Pads (Front)</strong><small>Ceramic</small></div></div></td>
+                        <td>Brakes</td>
+                        <td>Brembo</td>
+                        <td>BRM-BP-FR001</td>
+                        <td><strong>15</strong><small>Sets</small></td>
+                        <td>$28.00</td>
+                        <td>$420.00</td>
+                        <td><span class="tag orange">Low Stock</span></td>
+                        <td><button class="dots-button" type="button" aria-label="Inventory item actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Oil Filter" /></td>
+                        <td><div class="inventory-item-cell"><span class="part-thumb filter" aria-hidden="true"><span></span></span><div><strong>Oil Filter</strong><small>Spin-On</small></div></div></td>
+                        <td>Filters</td>
+                        <td>MANN</td>
+                        <td>MNF-1A-001</td>
+                        <td><strong>8</strong><small>Pcs</small></td>
+                        <td>$15.00</td>
+                        <td>$120.00</td>
+                        <td><span class="tag orange">Low Stock</span></td>
+                        <td><button class="dots-button" type="button" aria-label="Inventory item actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Air Filter" /></td>
+                        <td><div class="inventory-item-cell"><span class="part-thumb air" aria-hidden="true"><span></span></span><div><strong>Air Filter</strong><small>Panel Type</small></div></div></td>
+                        <td>Filters</td>
+                        <td>Bosch</td>
+                        <td>BOS-AF-987</td>
+                        <td><strong>0</strong><small>Pcs</small></td>
+                        <td>$18.00</td>
+                        <td>$0.00</td>
+                        <td><span class="tag red">Out of Stock</span></td>
+                        <td><button class="dots-button" type="button" aria-label="Inventory item actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Spark Plug" /></td>
+                        <td><div class="inventory-item-cell"><span class="part-thumb plug" aria-hidden="true"><span></span></span><div><strong>Spark Plug</strong><small>Iridium</small></div></div></td>
+                        <td>Engine</td>
+                        <td>NGK</td>
+                        <td>NGK-ILZKAR7B</td>
+                        <td><strong>26</strong><small>Pcs</small></td>
+                        <td>$9.50</td>
+                        <td>$247.00</td>
+                        <td><span class="tag green">In Stock</span></td>
+                        <td><button class="dots-button" type="button" aria-label="Inventory item actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Car Battery 12V 60Ah" /></td>
+                        <td><div class="inventory-item-cell"><span class="part-thumb battery" aria-hidden="true"><span></span></span><div><strong>Car Battery 12V 60Ah</strong><small>Maintenance Free</small></div></div></td>
+                        <td>Electrical</td>
+                        <td>Exide</td>
+                        <td>EXD-60AH</td>
+                        <td><strong>6</strong><small>Pcs</small></td>
+                        <td>$85.00</td>
+                        <td>$510.00</td>
+                        <td><span class="tag orange">Low Stock</span></td>
+                        <td><button class="dots-button" type="button" aria-label="Inventory item actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Wiper Blade 20 inch" /></td>
+                        <td><div class="inventory-item-cell"><span class="part-thumb wiper" aria-hidden="true"><span></span></span><div><strong>Wiper Blade (20&quot;)</strong><small>All Season</small></div></div></td>
+                        <td>Body Parts</td>
+                        <td>Valeo</td>
+                        <td>VAL-WB-20</td>
+                        <td><strong>31</strong><small>Pcs</small></td>
+                        <td>$7.50</td>
+                        <td>$232.50</td>
+                        <td><span class="tag green">In Stock</span></td>
+                        <td><button class="dots-button" type="button" aria-label="Inventory item actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Coolant 1L" /></td>
+                        <td><div class="inventory-item-cell"><span class="part-thumb coolant" aria-hidden="true"><span></span></span><div><strong>Coolant 1L</strong><small>Long Life</small></div></div></td>
+                        <td>Fluids</td>
+                        <td>Prestone</td>
+                        <td>PRS-COOL-1L</td>
+                        <td><strong>19</strong><small>Pcs</small></td>
+                        <td>$6.20</td>
+                        <td>$117.80</td>
+                        <td><span class="tag green">In Stock</span></td>
+                        <td><button class="dots-button" type="button" aria-label="Inventory item actions">⋮</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="customer-pagination">
+                  <span>Showing 1 to 8 of 2,451 items</span>
+                  <div>
+                    <button type="button" disabled><svg aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+                    <button class="active" type="button">1</button>
+                    <button type="button">2</button>
+                    <button type="button">3</button>
+                    <button type="button">...</button>
+                    <button type="button">307</button>
+                    <button type="button"><svg aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
+                    <button class="per-page" type="button">10 / page <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <aside class="inventory-side">
+              <article class="inventory-side-card stock-overview-card" data-search="stock overview in stock low stock out of stock">
+                <h2>Stock Overview</h2>
+                <div class="stock-overview-content">
+                  <div class="stock-donut" aria-label="Stock overview chart">
+                    <span><strong>2,451</strong><small>Total Items</small></span>
+                  </div>
+                  <ul class="stock-legend">
+                    <li><span class="stock-dot green"></span><strong>In Stock</strong><small>1,986 (81%)</small></li>
+                    <li><span class="stock-dot orange"></span><strong>Low Stock</strong><small>86 (3.5%)</small></li>
+                    <li><span class="stock-dot red"></span><strong>Out of Stock</strong><small>24 (1%)</small></li>
+                    <li><span class="stock-dot gray"></span><strong>Others</strong><small>355 (14.5%)</small></li>
+                  </ul>
+                </div>
+              </article>
+
+              <article class="inventory-side-card" data-search="low stock items brake pads oil filter battery spark plug coolant">
+                <div class="side-card-title">
+                  <h2>Low Stock Items</h2>
+                  <a href="#">View all</a>
+                </div>
+                <ul class="stock-watch-list">
+                  <li><span class="part-thumb pads mini" aria-hidden="true"><span></span></span><div><strong>Brake Pads (Front)</strong><small>SKU: BRM-BP-FR001</small></div><em>15 Sets</em></li>
+                  <li><span class="part-thumb filter mini" aria-hidden="true"><span></span></span><div><strong>Oil Filter</strong><small>SKU: MNF-1A-001</small></div><em>8 Pcs</em></li>
+                  <li><span class="part-thumb battery mini" aria-hidden="true"><span></span></span><div><strong>Car Battery 12V 60Ah</strong><small>SKU: EXD-60AH</small></div><em>6 Pcs</em></li>
+                  <li><span class="part-thumb plug mini" aria-hidden="true"><span></span></span><div><strong>Spark Plug</strong><small>SKU: NGK-ILZKAR7B</small></div><em>26 Pcs</em></li>
+                  <li><span class="part-thumb coolant mini" aria-hidden="true"><span></span></span><div><strong>Coolant 1L</strong><small>SKU: PRS-COOL-1L</small></div><em>19 Pcs</em></li>
+                </ul>
+              </article>
+
+              <article class="inventory-side-card" data-search="recent stock movements added used parts inventory">
+                <div class="side-card-title">
+                  <h2>Recent Stock Movements</h2>
+                  <a href="#">View all</a>
+                </div>
+                <ul class="stock-movement-list">
+                  <li><span class="movement-icon up"><svg aria-hidden="true"><use href="#icon-arrow-up"></use></svg></span><div><strong>Engine Oil 5W-30</strong><small>Added 10 Pcs</small></div><time>May 16, 2024</time></li>
+                  <li><span class="movement-icon down"><svg aria-hidden="true"><use href="#icon-arrow-down"></use></svg></span><div><strong>Brake Pads (Front)</strong><small>Used 4 Sets</small></div><time>May 16, 2024</time></li>
+                  <li><span class="movement-icon up"><svg aria-hidden="true"><use href="#icon-arrow-up"></use></svg></span><div><strong>Air Filter</strong><small>Added 15 Pcs</small></div><time>May 15, 2024</time></li>
+                  <li><span class="movement-icon down"><svg aria-hidden="true"><use href="#icon-arrow-down"></use></svg></span><div><strong>Car Battery 12V 60Ah</strong><small>Used 2 Pcs</small></div><time>May 14, 2024</time></li>
+                </ul>
+              </article>
+            </aside>
+          </section>
+        </section>
       </main>
     </div>
 
@@ -1325,7 +1577,12 @@
       <symbol id="icon-list" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12"/><path d="M4 6h.01M4 12h.01M4 18h.01"/></symbol>
       <symbol id="icon-eye" viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="3"/></symbol>
       <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></symbol>
+      <symbol id="icon-upload" viewBox="0 0 24 24"><path d="M12 21V9"/><path d="m7 14 5-5 5 5"/><path d="M5 21h14"/></symbol>
       <symbol id="icon-paper-plane" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4z"/></symbol>
+      <symbol id="icon-alert-triangle" viewBox="0 0 24 24"><path d="M12 3 2.5 20h19z"/><path d="M12 9v5M12 17h.01"/></symbol>
+      <symbol id="icon-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5"/><path d="M4 17v-5h5"/><path d="M6.2 9A7 7 0 0 1 18 6.8L20 9M17.8 15A7 7 0 0 1 6 17.2L4 15"/></symbol>
+      <symbol id="icon-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5"/><path d="m7 10 5-5 5 5"/></symbol>
+      <symbol id="icon-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m7 14 5 5 5-5"/></symbol>
       <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
       <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
       <symbol id="icon-message" viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/><path d="M8 9h8M8 13h5"/></symbol>

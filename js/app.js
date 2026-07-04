@@ -29,6 +29,10 @@ const viewChrome = {
     search: "Search invoices, customers, vehicles...",
     action: "Create Invoice",
   },
+  inventory: {
+    search: "Search parts, categories, brands or SKU...",
+    action: "Add Stock",
+  },
 };
 
 let toastTimer;
