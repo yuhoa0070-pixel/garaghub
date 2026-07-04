@@ -33,6 +33,10 @@ const viewChrome = {
     search: "Search parts, categories, brands or SKU...",
     action: "Add Stock",
   },
+  staff: {
+    search: "Search customers, vehicles, repair orders...",
+    action: "Add Staff",
+  },
 };
 
 let toastTimer;

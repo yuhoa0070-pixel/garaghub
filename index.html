@@ -35,11 +35,11 @@
             <svg aria-hidden="true"><use href="#icon-receipt"></use></svg>
             Invoices
           </a>
-          <a class="nav-item active" href="#inventory" data-view="inventory" aria-current="page">
+          <a class="nav-item" href="#inventory" data-view="inventory">
             <svg aria-hidden="true"><use href="#icon-box"></use></svg>
             Inventory
           </a>
-          <a class="nav-item" href="#">
+          <a class="nav-item active" href="#staff" data-view="staff" aria-current="page">
             <svg aria-hidden="true"><use href="#icon-team"></use></svg>
             Staff
           </a>
@@ -85,13 +85,13 @@
 
           <label class="search-field">
             <svg aria-hidden="true"><use href="#icon-search"></use></svg>
-            <input id="dashboardSearch" type="search" placeholder="Search parts, categories, brands or SKU..." />
+            <input id="dashboardSearch" type="search" placeholder="Search customers, vehicles, repair orders..." />
           </label>
 
           <div class="topbar-actions">
             <button class="quick-add" id="quickAddButton" type="button">
               <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
-              <span id="quickAddLabel">Add Stock</span>
+              <span id="quickAddLabel">Add Staff</span>
               <svg aria-hidden="true"><use href="#icon-chevron"></use></svg>
             </button>
             <button class="icon-button has-badge" type="button" aria-label="Notifications">
@@ -1284,7 +1284,7 @@
           </section>
         </section>
 
-        <section class="view inventory-view active" data-view-panel="inventory">
+        <section class="view inventory-view" data-view-panel="inventory">
           <section class="page-heading inventory-heading">
             <div>
               <h1>Inventory</h1>
@@ -1535,6 +1535,275 @@
             </aside>
           </section>
         </section>
+
+        <section class="view staff-view active" data-view-panel="staff">
+          <section class="page-heading staff-heading">
+            <div>
+              <h1>Staff</h1>
+              <p>Manage your team members, roles, permissions and performance.</p>
+            </div>
+            <button class="primary-action" type="button">
+              <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
+              Invite Staff
+            </button>
+          </section>
+
+          <section class="staff-layout">
+            <div class="staff-main">
+              <section class="staff-stats" aria-label="Staff summary">
+                <article class="staff-stat" data-search="total staff team members">
+                  <span class="metric-icon blue"><svg aria-hidden="true"><use href="#icon-team"></use></svg></span>
+                  <div>
+                    <p>Total Staff</p>
+                    <strong>18</strong>
+                    <small class="staff-trend up"><span>12.5%</span> vs last month</small>
+                  </div>
+                </article>
+                <article class="staff-stat" data-search="active staff available team">
+                  <span class="metric-icon green"><svg aria-hidden="true"><use href="#icon-user-check"></use></svg></span>
+                  <div>
+                    <p>Active Staff</p>
+                    <strong>16</strong>
+                    <small class="staff-trend up"><span>6.7%</span> vs last month</small>
+                  </div>
+                </article>
+                <article class="staff-stat" data-search="staff on leave">
+                  <span class="metric-icon purple"><svg aria-hidden="true"><use href="#icon-users"></use></svg></span>
+                  <div>
+                    <p>On Leave</p>
+                    <strong>2</strong>
+                    <small class="staff-trend up"><span>2.1%</span> vs last month</small>
+                  </div>
+                </article>
+                <article class="staff-stat" data-search="admins staff permissions">
+                  <span class="metric-icon orange"><svg aria-hidden="true"><use href="#icon-crown"></use></svg></span>
+                  <div>
+                    <p>Admins</p>
+                    <strong>3</strong>
+                    <small class="staff-trend flat"><span>0%</span> vs last month</small>
+                  </div>
+                </article>
+                <article class="staff-stat" data-search="average attendance staff performance">
+                  <span class="metric-icon red"><svg aria-hidden="true"><use href="#icon-calendar"></use></svg></span>
+                  <div>
+                    <p>Avg. Attendance</p>
+                    <strong>94%</strong>
+                    <small class="staff-trend up"><span>4.3%</span> vs last month</small>
+                  </div>
+                </article>
+              </section>
+
+              <section class="staff-list-panel" data-search="staff table arun imran vikash ramesh neha pooja deepak sanjay anjali rahul service manager mechanic technician advisor accountant cleaner">
+                <div class="staff-toolbar">
+                  <label class="customer-search">
+                    <svg aria-hidden="true"><use href="#icon-search"></use></svg>
+                    <input type="search" placeholder="Search staff by name, role, email or phone..." />
+                  </label>
+                  <button class="filter-button" type="button">All Roles <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+                  <button class="filter-button" type="button">All Status <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+                  <button class="filter-button" type="button"><svg aria-hidden="true"><use href="#icon-filter"></use></svg>Filters</button>
+                  <button class="icon-button" type="button" aria-label="Table view options">
+                    <svg aria-hidden="true"><use href="#icon-list"></use></svg>
+                  </button>
+                </div>
+
+                <div class="staff-table-wrap">
+                  <table class="staff-table">
+                    <thead>
+                      <tr>
+                        <th><input type="checkbox" aria-label="Select all staff members" /></th>
+                        <th>Staff Member</th>
+                        <th>Role</th>
+                        <th>Department</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Join Date</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Arun Kumar" /></td>
+                        <td><div class="staff-member-cell"><span class="staff-photo warm" aria-hidden="true"></span><div><strong>Arun Kumar</strong><small>arun.kumar@autofix.com</small></div></div></td>
+                        <td><span class="role-tag service">Service Manager</span></td>
+                        <td>Service</td>
+                        <td>+1 (555) 123-4567</td>
+                        <td><span class="tag green">Active</span></td>
+                        <td>Jan 10, 2023</td>
+                        <td><button class="dots-button" type="button" aria-label="Staff actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Imran Ali" /></td>
+                        <td><div class="staff-member-cell"><span class="staff-photo cap" aria-hidden="true"></span><div><strong>Imran Ali</strong><small>imran.ali@autofix.com</small></div></div></td>
+                        <td><span class="role-tag senior">Senior Mechanic</span></td>
+                        <td>Workshop</td>
+                        <td>+1 (555) 234-5678</td>
+                        <td><span class="tag green">Active</span></td>
+                        <td>Feb 18, 2023</td>
+                        <td><button class="dots-button" type="button" aria-label="Staff actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Vikash Yadav" /></td>
+                        <td><div class="staff-member-cell"><span class="staff-photo olive" aria-hidden="true"></span><div><strong>Vikash Yadav</strong><small>vikash.yadav@autofix.com</small></div></div></td>
+                        <td><span class="role-tag mechanic">Mechanic</span></td>
+                        <td>Workshop</td>
+                        <td>+1 (555) 345-6789</td>
+                        <td><span class="tag green">Active</span></td>
+                        <td>Mar 05, 2023</td>
+                        <td><button class="dots-button" type="button" aria-label="Staff actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Ramesh Singh" /></td>
+                        <td><div class="staff-member-cell"><span class="staff-photo warm" aria-hidden="true"></span><div><strong>Ramesh Singh</strong><small>ramesh.singh@autofix.com</small></div></div></td>
+                        <td><span class="role-tag technician">Technician</span></td>
+                        <td>Workshop</td>
+                        <td>+1 (555) 456-7890</td>
+                        <td><span class="tag green">Active</span></td>
+                        <td>Apr 12, 2023</td>
+                        <td><button class="dots-button" type="button" aria-label="Staff actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Neha Kapoor" /></td>
+                        <td><div class="staff-member-cell"><span class="staff-photo olive" aria-hidden="true"></span><div><strong>Neha Kapoor</strong><small>neha.kapoor@autofix.com</small></div></div></td>
+                        <td><span class="role-tag parts">Parts Manager</span></td>
+                        <td>Parts</td>
+                        <td>+1 (555) 567-8901</td>
+                        <td><span class="tag green">Active</span></td>
+                        <td>May 01, 2023</td>
+                        <td><button class="dots-button" type="button" aria-label="Staff actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Pooja Sharma" /></td>
+                        <td><div class="staff-member-cell"><span class="staff-photo rose" aria-hidden="true"></span><div><strong>Pooja Sharma</strong><small>pooja.sharma@autofix.com</small></div></div></td>
+                        <td><span class="role-tag advisor">Service Advisor</span></td>
+                        <td>Service</td>
+                        <td>+1 (555) 678-9012</td>
+                        <td><span class="tag green">Active</span></td>
+                        <td>Jun 15, 2023</td>
+                        <td><button class="dots-button" type="button" aria-label="Staff actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Deepak Mehta" /></td>
+                        <td><div class="staff-member-cell"><span class="staff-photo warm" aria-hidden="true"></span><div><strong>Deepak Mehta</strong><small>deepak.mehta@autofix.com</small></div></div></td>
+                        <td><span class="role-tag store">Store Keeper</span></td>
+                        <td>Parts</td>
+                        <td>+1 (555) 789-0123</td>
+                        <td><span class="tag green">Active</span></td>
+                        <td>Jul 07, 2023</td>
+                        <td><button class="dots-button" type="button" aria-label="Staff actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Sanjay Patel" /></td>
+                        <td><div class="staff-member-cell"><span class="staff-photo olive" aria-hidden="true"></span><div><strong>Sanjay Patel</strong><small>sanjay.patel@autofix.com</small></div></div></td>
+                        <td><span class="role-tag junior">Junior Mechanic</span></td>
+                        <td>Workshop</td>
+                        <td>+1 (555) 890-1234</td>
+                        <td><span class="tag orange">On Leave</span></td>
+                        <td>Aug 20, 2023</td>
+                        <td><button class="dots-button" type="button" aria-label="Staff actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Anjali Verma" /></td>
+                        <td><div class="staff-member-cell"><span class="staff-photo rose" aria-hidden="true"></span><div><strong>Anjali Verma</strong><small>anjali.verma@autofix.com</small></div></div></td>
+                        <td><span class="role-tag accountant">Accountant</span></td>
+                        <td>Accounts</td>
+                        <td>+1 (555) 901-2345</td>
+                        <td><span class="tag green">Active</span></td>
+                        <td>Sep 11, 2023</td>
+                        <td><button class="dots-button" type="button" aria-label="Staff actions">⋮</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" aria-label="Select Rahul Das" /></td>
+                        <td><div class="staff-member-cell"><span class="staff-photo warm" aria-hidden="true"></span><div><strong>Rahul Das</strong><small>rahul.das@autofix.com</small></div></div></td>
+                        <td><span class="role-tag cleaner">Cleaner</span></td>
+                        <td>Maintenance</td>
+                        <td>+1 (555) 012-3456</td>
+                        <td><span class="tag gray">Inactive</span></td>
+                        <td>Oct 01, 2023</td>
+                        <td><button class="dots-button" type="button" aria-label="Staff actions">⋮</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="customer-pagination">
+                  <span>Showing 1 to 10 of 18 staff members</span>
+                  <div>
+                    <button type="button" disabled><svg aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+                    <button class="active" type="button">1</button>
+                    <button type="button">2</button>
+                    <button type="button"><svg aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
+                    <button class="per-page" type="button">10 / page <svg aria-hidden="true"><use href="#icon-chevron"></use></svg></button>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <aside class="staff-side">
+              <article class="staff-profile-card" data-search="arun kumar service manager profile email phone employee">
+                <button class="icon-button staff-close" type="button" aria-label="Close staff profile">
+                  <svg aria-hidden="true"><use href="#icon-x"></use></svg>
+                </button>
+                <div class="staff-profile-hero">
+                  <span class="staff-photo large warm" aria-hidden="true"><i></i></span>
+                  <div>
+                    <h2>Arun Kumar</h2>
+                    <span class="role-tag service">Service Manager</span>
+                  </div>
+                </div>
+                <ul class="staff-contact-list">
+                  <li><svg aria-hidden="true"><use href="#icon-mail"></use></svg><span>arun.kumar@autofix.com</span></li>
+                  <li><svg aria-hidden="true"><use href="#icon-phone"></use></svg><span>+1 (555) 123-4567</span></li>
+                  <li><svg aria-hidden="true"><use href="#icon-calendar"></use></svg><span>Joined on Jan 10, 2023</span></li>
+                  <li><svg aria-hidden="true"><use href="#icon-id-card"></use></svg><span>Employee ID: GH-EMP-0003</span></li>
+                </ul>
+              </article>
+
+              <article class="staff-side-card" data-search="role permissions service manager department permissions edit">
+                <div class="side-card-title">
+                  <h2>Role &amp; Permissions</h2>
+                  <a href="#">Edit</a>
+                </div>
+                <dl class="staff-detail-list">
+                  <dt>Role</dt>
+                  <dd>Service Manager</dd>
+                  <dt>Department</dt>
+                  <dd>Service</dd>
+                </dl>
+                <div class="permission-block">
+                  <span>Permissions</span>
+                  <div>
+                    <em>Repair Orders</em>
+                    <em>Customers</em>
+                    <em>Invoices</em>
+                    <em>Reports</em>
+                    <em>Staff Management</em>
+                    <em>+2 more</em>
+                  </div>
+                </div>
+              </article>
+
+              <article class="staff-side-card" data-search="performance this month repair orders satisfaction attendance hours">
+                <h2>Performance <span>(This Month)</span></h2>
+                <dl class="performance-list">
+                  <dt>Repair Orders Closed</dt>
+                  <dd>26</dd>
+                  <dt>Customer Satisfaction</dt>
+                  <dd>98%</dd>
+                  <dt>Attendance</dt>
+                  <dd>96%</dd>
+                  <dt>Working Hours</dt>
+                  <dd>176 hrs</dd>
+                </dl>
+              </article>
+
+              <div class="staff-side-actions">
+                <button class="outline-action" type="button"><svg aria-hidden="true"><use href="#icon-message"></use></svg>Message</button>
+                <button class="primary-action" type="button"><svg aria-hidden="true"><use href="#icon-pen"></use></svg>Edit Profile</button>
+              </div>
+            </aside>
+          </section>
+        </section>
       </main>
     </div>
 
@@ -1581,6 +1850,12 @@
       <symbol id="icon-paper-plane" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4z"/></symbol>
       <symbol id="icon-alert-triangle" viewBox="0 0 24 24"><path d="M12 3 2.5 20h19z"/><path d="M12 9v5M12 17h.01"/></symbol>
       <symbol id="icon-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5"/><path d="M4 17v-5h5"/><path d="M6.2 9A7 7 0 0 1 18 6.8L20 9M17.8 15A7 7 0 0 1 6 17.2L4 15"/></symbol>
+      <symbol id="icon-user-check" viewBox="0 0 24 24"><path d="M15 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="m16 11 2 2 4-5"/></symbol>
+      <symbol id="icon-crown" viewBox="0 0 24 24"><path d="m3 7 5 4 4-7 4 7 5-4-2 12H5z"/><path d="M5 19h14"/></symbol>
+      <symbol id="icon-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></symbol>
+      <symbol id="icon-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.3 19.3 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></symbol>
+      <symbol id="icon-id-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 17a3 3 0 0 1 6 0M14 10h4M14 14h4"/></symbol>
+      <symbol id="icon-pen" viewBox="0 0 24 24"><path d="m16 4 4 4L8 20H4v-4z"/><path d="m14 6 4 4"/></symbol>
       <symbol id="icon-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5"/><path d="m7 10 5-5 5 5"/></symbol>
       <symbol id="icon-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m7 14 5 5 5-5"/></symbol>
       <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>

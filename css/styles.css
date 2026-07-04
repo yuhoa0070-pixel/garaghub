@@ -3274,6 +3274,466 @@ td {
   background: #ffecef;
 }
 
+.staff-heading {
+  align-items: center;
+}
+
+.staff-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 360px);
+  align-items: start;
+  gap: 20px;
+  padding: 0 28px 34px;
+}
+
+.staff-main {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+
+.staff-stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(145px, 1fr));
+  gap: 16px;
+}
+
+.staff-stat {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 126px;
+  min-width: 0;
+  padding: 18px;
+  background: rgba(255, 255, 255, .98);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+.staff-stat .metric-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+}
+
+.staff-stat p {
+  margin: 0 0 5px;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 760;
+}
+
+.staff-stat strong {
+  display: block;
+  overflow: hidden;
+  color: #0f172a;
+  font-size: clamp(1.3rem, .52vw + 1rem, 1.6rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 850;
+  line-height: 1.08;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.staff-trend {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 720;
+}
+
+.staff-trend::before {
+  content: "";
+  width: 0;
+  height: 0;
+  margin-right: 1px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+
+.staff-trend.up::before {
+  border-bottom: 7px solid var(--green);
+  transform: translateY(-1px);
+}
+
+.staff-trend.flat::before {
+  width: 9px;
+  height: 2px;
+  border: 0;
+  border-radius: 999px;
+  background: #64748b;
+}
+
+.staff-trend.up span {
+  color: var(--green);
+}
+
+.staff-list-panel,
+.staff-profile-card,
+.staff-side-card {
+  overflow: hidden;
+  background: rgba(255, 255, 255, .98);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+.staff-toolbar {
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) 180px 180px 120px 52px;
+  gap: 12px;
+  padding: 16px;
+  background: #fbfdff;
+  border-bottom: 1px solid var(--line);
+}
+
+.staff-table-wrap {
+  overflow-x: auto;
+}
+
+.staff-table {
+  width: 100%;
+  min-width: 1040px;
+  border-collapse: collapse;
+}
+
+.staff-table th,
+.staff-table td {
+  height: 62px;
+  padding: 0 14px;
+  color: #1e293b;
+  font-size: 13px;
+  font-weight: 680;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.staff-table th {
+  height: 48px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 820;
+  background: #f8fafc;
+}
+
+.staff-table tbody tr:hover {
+  background: #f8fbff;
+}
+
+.staff-table input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--blue);
+}
+
+.staff-member-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.staff-member-cell > div {
+  display: grid;
+  min-width: 0;
+}
+
+.staff-member-cell small {
+  margin-top: 2px;
+  color: #52627a;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.staff-photo {
+  --skin: #d99b72;
+  --hair: #111827;
+  --shirt: #2563eb;
+  position: relative;
+  display: block;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  overflow: hidden;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255,255,255,.48), transparent 18%),
+    linear-gradient(145deg, #dbe6f4, #eef4fb);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.86), 0 10px 18px rgba(15, 23, 42, .08);
+}
+
+.staff-photo::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  width: 42%;
+  height: 42%;
+  border-radius: 50%;
+  background: var(--skin);
+  box-shadow: 0 -7px 0 -1px var(--hair);
+  transform: translateX(-50%);
+}
+
+.staff-photo::after {
+  content: "";
+  position: absolute;
+  left: 22%;
+  bottom: -6%;
+  width: 56%;
+  height: 40%;
+  border-radius: 50% 50% 10px 10px;
+  background: var(--shirt);
+}
+
+.staff-photo.cap::before {
+  box-shadow: 0 -8px 0 1px #111827;
+}
+
+.staff-photo.cap::after {
+  --shirt: #475569;
+}
+
+.staff-photo.olive {
+  --skin: #c8875a;
+  --hair: #1f2937;
+  --shirt: #0f766e;
+}
+
+.staff-photo.rose {
+  --skin: #e4a581;
+  --hair: #5b2c31;
+  --shirt: #db2777;
+}
+
+.staff-photo.large {
+  width: 76px;
+  height: 76px;
+  flex-basis: 76px;
+}
+
+.staff-photo.large i {
+  position: absolute;
+  right: 5px;
+  bottom: 7px;
+  z-index: 2;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.role-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: start;
+  min-height: 26px;
+  padding: 0 10px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 820;
+  white-space: nowrap;
+}
+
+.role-tag.service {
+  color: #0f4ee8;
+  background: #eaf2ff;
+}
+
+.role-tag.senior {
+  color: #087443;
+  background: #e5f8ee;
+}
+
+.role-tag.mechanic {
+  color: #1d5fd6;
+  background: #edf4ff;
+}
+
+.role-tag.technician {
+  color: #6b35c9;
+  background: #f1ebff;
+}
+
+.role-tag.parts {
+  color: #d54b16;
+  background: #fff0df;
+}
+
+.role-tag.advisor {
+  color: #0f766e;
+  background: #dff8f5;
+}
+
+.role-tag.store {
+  color: #a45c00;
+  background: #fff4dd;
+}
+
+.role-tag.junior,
+.role-tag.cleaner {
+  color: #475569;
+  background: #eef2f7;
+}
+
+.role-tag.accountant {
+  color: #be123c;
+  background: #ffe7ef;
+}
+
+.staff-side {
+  position: sticky;
+  top: 104px;
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.staff-profile-card {
+  position: relative;
+  padding: 24px 20px 20px;
+}
+
+.staff-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.staff-profile-hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-right: 30px;
+}
+
+.staff-profile-hero h2 {
+  margin: 0 0 8px;
+  color: #0f172a;
+  font-size: 1.28rem;
+  line-height: 1.12;
+}
+
+.staff-contact-list {
+  display: grid;
+  gap: 16px;
+  margin: 24px 0 0;
+  padding: 0;
+  color: #334155;
+  list-style: none;
+}
+
+.staff-contact-list li {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 680;
+}
+
+.staff-contact-list svg {
+  width: 18px;
+  height: 18px;
+  color: #475569;
+}
+
+.staff-contact-list span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.staff-side-card {
+  padding: 18px;
+}
+
+.staff-side-card h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1rem;
+  line-height: 1.15;
+}
+
+.staff-side-card h2 span {
+  color: #475569;
+  font-size: 12px;
+  font-weight: 760;
+}
+
+.staff-detail-list,
+.performance-list {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 18px 16px;
+  margin: 20px 0 0;
+}
+
+.staff-detail-list dt,
+.staff-detail-list dd,
+.performance-list dt,
+.performance-list dd {
+  margin: 0;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 680;
+}
+
+.staff-detail-list dd,
+.performance-list dd {
+  color: #0f172a;
+  font-weight: 850;
+  text-align: right;
+}
+
+.permission-block {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.permission-block > span {
+  color: #475569;
+  font-size: 13px;
+  font-weight: 720;
+}
+
+.permission-block div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.permission-block em {
+  min-height: 28px;
+  padding: 6px 10px;
+  color: #334155;
+  border-radius: 7px;
+  background: #eef2f8;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.staff-side-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.staff-side-actions .outline-action,
+.staff-side-actions .primary-action {
+  min-width: 0;
+  min-height: 46px;
+  width: 100%;
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -3372,8 +3832,16 @@ td {
     grid-template-columns: repeat(3, minmax(200px, 1fr));
   }
 
+  .staff-stats {
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+  }
+
   .inventory-toolbar {
     grid-template-columns: minmax(280px, 1fr) 160px 150px 150px 108px 52px;
+  }
+
+  .staff-toolbar {
+    grid-template-columns: minmax(280px, 1fr) 160px 160px 108px 52px;
   }
 
   .repair-toolbar {
@@ -3409,6 +3877,19 @@ td {
   .inventory-side {
     position: static;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .staff-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-side {
+    position: static;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .staff-side-actions {
+    grid-column: 1 / -1;
   }
 }
 
@@ -3492,7 +3973,8 @@ td {
   }
 
   .invoice-layout,
-  .inventory-layout {
+  .inventory-layout,
+  .staff-layout {
     padding-left: 20px;
     padding-right: 20px;
   }
@@ -3508,7 +3990,8 @@ td {
   .vehicle-stats,
   .repair-stats,
   .invoice-stats,
-  .inventory-stats {
+  .inventory-stats,
+  .staff-stats {
     grid-template-columns: repeat(2, minmax(220px, 1fr));
   }
 
@@ -3566,6 +4049,18 @@ td {
 
   .inventory-toolbar .filter-button:nth-of-type(4) {
     grid-column: 1 / 4;
+  }
+
+  .staff-toolbar {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) 52px;
+  }
+
+  .staff-toolbar .customer-search {
+    grid-column: 1 / -1;
+  }
+
+  .staff-side {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .stock-overview-content {
@@ -3644,7 +4139,8 @@ td {
   .vehicle-stats,
   .repair-stats,
   .invoice-stats,
-  .inventory-stats {
+  .inventory-stats,
+  .staff-stats {
     grid-template-columns: 1fr;
   }
 
@@ -3652,7 +4148,8 @@ td {
   .vehicle-toolbar,
   .repair-toolbar,
   .invoice-toolbar,
-  .inventory-toolbar {
+  .inventory-toolbar,
+  .staff-toolbar {
     grid-template-columns: 1fr;
   }
 
@@ -3664,7 +4161,8 @@ td {
   .invoice-toolbar .customer-search,
   .invoice-toolbar .date-filter,
   .inventory-toolbar .customer-search,
-  .inventory-toolbar .filter-button:nth-of-type(4) {
+  .inventory-toolbar .filter-button:nth-of-type(4),
+  .staff-toolbar .customer-search {
     grid-column: auto;
   }
 
@@ -3675,6 +4173,14 @@ td {
   }
 
   .inventory-side {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-side {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-side-actions {
     grid-template-columns: 1fr;
   }
 
@@ -3737,7 +4243,8 @@ td {
   }
 
   .invoice-layout,
-  .inventory-layout {
+  .inventory-layout,
+  .staff-layout {
     padding-left: 14px;
     padding-right: 14px;
   }
@@ -3753,7 +4260,8 @@ td {
   .vehicle-stat,
   .repair-stat,
   .invoice-stat,
-  .inventory-stat {
+  .inventory-stat,
+  .staff-stat {
     min-height: 132px;
     padding: 20px;
   }
