@@ -8,6 +8,9 @@ const toast = document.querySelector("#toast");
 const quickActions = [...document.querySelectorAll(".quick-actions button")];
 const navItems = [...document.querySelectorAll(".nav-item")];
 const views = [...document.querySelectorAll("[data-view-panel]")];
+const appShell = document.querySelector(".app-shell");
+const menuButton = document.querySelector(".menu-button");
+const sidebarCollapsedKey = "garagehubSidebarCollapsed";
 const viewChrome = {
   dashboard: {
     search: "Search customers, vehicles, repair orders...",
@@ -66,6 +69,44 @@ function updateViewChrome(viewName) {
   if (quickAddLabel) {
     quickAddLabel.textContent = chrome.action;
   }
+}
+
+function getSavedSidebarState() {
+  try {
+    return localStorage.getItem(sidebarCollapsedKey) === "true";
+  } catch {
+    return false;
+  }
+}
+
+function setSidebarCollapsed(isCollapsed, persist = true) {
+  appShell.classList.toggle("sidebar-collapsed", isCollapsed);
+  menuButton.setAttribute("aria-expanded", String(!isCollapsed));
+  menuButton.setAttribute("aria-label", isCollapsed ? "Expand menu" : "Collapse menu");
+
+  if (persist) {
+    try {
+      localStorage.setItem(sidebarCollapsedKey, String(isCollapsed));
+    } catch {
+      // The toggle still works if browser storage is unavailable.
+    }
+  }
+}
+
+navItems.forEach((item) => {
+  if (!item.title) {
+    item.title = item.textContent.trim();
+  }
+});
+
+if (appShell && menuButton) {
+  setSidebarCollapsed(getSavedSidebarState(), false);
+
+  menuButton.addEventListener("click", () => {
+    const shouldCollapse = !appShell.classList.contains("sidebar-collapsed");
+    setSidebarCollapsed(shouldCollapse);
+    showToast(shouldCollapse ? "Navigation collapsed." : "Navigation expanded.");
+  });
 }
 
 const activeNav = navItems.find((item) => item.classList.contains("active") && item.dataset.view);

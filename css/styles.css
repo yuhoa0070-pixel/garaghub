@@ -247,7 +247,7 @@ svg {
 }
 
 .menu-button {
-  display: none;
+  display: inline-flex;
 }
 
 .search-field {
@@ -4490,6 +4490,143 @@ td {
 
   .quick-actions {
     grid-template-columns: 1fr;
+  }
+}
+
+.app-shell,
+.sidebar,
+.brand,
+.nav-list,
+.nav-item,
+.sidebar-footer,
+.help-card,
+.profile-button {
+  transition: grid-template-columns .22s ease, width .22s ease, max-width .22s ease, padding .22s ease, gap .22s ease, background .18s ease, color .18s ease;
+}
+
+.app-shell.sidebar-collapsed {
+  grid-template-columns: 88px minmax(0, 1fr);
+}
+
+.app-shell.sidebar-collapsed .sidebar {
+  position: sticky;
+  top: 0;
+  width: 88px;
+  min-width: 88px;
+  max-width: 88px;
+  height: 100vh;
+  overflow-x: hidden;
+  padding: 22px 14px;
+  border-right: 1px solid var(--line);
+  border-bottom: 0;
+}
+
+.app-shell.sidebar-collapsed .brand {
+  justify-content: center;
+  width: 100%;
+  gap: 0;
+  min-height: 42px;
+  margin-bottom: 0;
+}
+
+.app-shell.sidebar-collapsed .brand > span:not(.brand-mark) {
+  display: none;
+}
+
+.app-shell.sidebar-collapsed .brand-mark {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+}
+
+.app-shell.sidebar-collapsed .nav-list {
+  display: grid;
+  gap: 8px;
+  max-width: none;
+  min-width: 0;
+  margin-top: 32px;
+  overflow: visible;
+  padding-bottom: 0;
+}
+
+.app-shell.sidebar-collapsed .nav-item {
+  justify-content: center;
+  width: 100%;
+  min-height: 46px;
+  flex: none;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  font-size: 0;
+  line-height: 0;
+}
+
+.app-shell.sidebar-collapsed .nav-item svg {
+  width: 21px;
+  height: 21px;
+  margin: 0;
+}
+
+.app-shell.sidebar-collapsed .nav-item.active::before {
+  left: -14px;
+  top: 50%;
+  bottom: auto;
+  width: 4px;
+  height: 24px;
+  border-radius: 0 999px 999px 0;
+  transform: translateY(-50%);
+}
+
+.app-shell.sidebar-collapsed .sidebar-footer {
+  display: grid;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.app-shell.sidebar-collapsed .help-card,
+.app-shell.sidebar-collapsed .profile-button {
+  justify-content: center;
+  min-height: 48px;
+  padding: 0;
+  gap: 0;
+}
+
+.app-shell.sidebar-collapsed .help-card svg {
+  width: 24px;
+  height: 24px;
+}
+
+.app-shell.sidebar-collapsed .help-card div,
+.app-shell.sidebar-collapsed .profile-button span:nth-child(2),
+.app-shell.sidebar-collapsed .profile-button > svg {
+  display: none;
+}
+
+.app-shell.sidebar-collapsed .profile-button .avatar {
+  width: 34px;
+  height: 34px;
+  flex-basis: 34px;
+  font-size: 12px;
+}
+
+@media (max-width: 580px) {
+  .app-shell.sidebar-collapsed {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .app-shell.sidebar-collapsed .sidebar {
+    width: 76px;
+    min-width: 76px;
+    max-width: 76px;
+    padding: 16px 10px;
+  }
+
+  .app-shell.sidebar-collapsed .nav-item {
+    min-height: 42px;
+  }
+
+  .app-shell.sidebar-collapsed .nav-item.active::before {
+    left: -10px;
   }
 }
 

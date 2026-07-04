@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="app-shell">
-      <aside class="sidebar" aria-label="Main navigation">
+      <aside class="sidebar" id="mainSidebar" aria-label="Main navigation">
         <a class="brand" href="#" aria-label="GarageHub home">
           <span class="brand-mark">gh</span>
           <span>GarageHub</span>
@@ -79,7 +79,7 @@
 
       <main class="main-area">
         <header class="topbar">
-          <button class="icon-button menu-button" type="button" aria-label="Open menu">
+          <button class="icon-button menu-button" type="button" aria-label="Collapse menu" aria-controls="mainSidebar" aria-expanded="true">
             <svg aria-hidden="true"><use href="#icon-menu"></use></svg>
           </button>
 
