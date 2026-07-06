@@ -485,7 +485,7 @@ input:focus-visible,
   border: 0;
   border-radius: var(--radius);
   background: linear-gradient(135deg, #236eff 0%, #1056e9 100%);
-  box-shadow: 0 16px 28px rgba(29, 100, 242, .22);
+  box-shadow: none;
   cursor: pointer;
   font-weight: 820;
 }
@@ -1913,7 +1913,7 @@ td {
   min-height: 52px;
   padding: 0 20px;
   background: linear-gradient(135deg, #2165ff 0%, #124fe7 100%);
-  box-shadow: 0 14px 24px rgba(23, 92, 255, .2);
+  box-shadow: none;
 }
 
 .welcome-row,
