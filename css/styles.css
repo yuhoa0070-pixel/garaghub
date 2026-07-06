@@ -24,6 +24,21 @@
   --shadow: 0 20px 50px rgba(15, 23, 42, .08);
   --shadow-soft: 0 1px 2px rgba(15, 23, 42, .05), 0 12px 30px rgba(15, 23, 42, .04);
   --radius: 8px;
+  --radius-card: 12px;
+  --radius-control: 12px;
+  --radius-pill: 999px;
+  --page-pad: 32px;
+  --section-gap: 16px;
+  --content-gap: 24px;
+  --panel-pad: 24px;
+  --card-pad: 16px;
+  --toolbar-pad: 16px;
+  --control-h: 44px;
+  --table-head-h: 48px;
+  --table-row-h: 60px;
+  --panel-bg: rgba(255, 255, 255, .98);
+  --panel-border: var(--line);
+  --panel-shadow: var(--shadow-soft);
   --font-sans: "Plus Jakarta Sans", "SF Pro Text", "Segoe UI Variable", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-display: "Plus Jakarta Sans", "SF Pro Display", "Segoe UI Variable", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-data: "Plus Jakarta Sans", "SF Pro Text", "Segoe UI Variable", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -5762,4 +5777,283 @@ td {
 .app-shell.sidebar-collapsed .nav-item > span,
 .app-shell.sidebar-collapsed .nav-badge {
   display: none;
+}
+
+/* UI normalization */
+.welcome-row,
+.page-heading,
+.metric-grid,
+.content-grid,
+.customer-stats,
+.vehicle-stats,
+.repair-stats,
+.invoice-stats,
+.invoice-layout,
+.inventory-layout,
+.staff-layout,
+.settings-layout {
+  padding-left: var(--page-pad);
+  padding-right: var(--page-pad);
+}
+
+.welcome-row,
+.page-heading {
+  gap: var(--content-gap);
+}
+
+.welcome-row {
+  padding-top: 32px;
+  padding-bottom: 24px;
+}
+
+.page-heading {
+  padding-top: 32px;
+  padding-bottom: 24px;
+}
+
+.metric-grid,
+.customer-stats,
+.vehicle-stats,
+.repair-stats,
+.invoice-stats,
+.inventory-stats,
+.staff-stats,
+.settings-overview {
+  gap: var(--section-gap);
+}
+
+.content-grid,
+.invoice-layout,
+.inventory-layout,
+.staff-layout,
+.settings-layout,
+.inventory-main,
+.staff-main,
+.settings-main {
+  gap: var(--content-gap);
+}
+
+.metric-card,
+.panel,
+.customers-panel,
+.vehicles-panel,
+.repair-orders-panel,
+.invoice-list-panel,
+.invoice-preview,
+.invoice-sheet,
+.inventory-side-card,
+.staff-list-panel,
+.staff-profile-card,
+.staff-side-card,
+.settings-card,
+.settings-side-card,
+.settings-stat,
+.customer-stat,
+.vehicle-stat,
+.repair-stat,
+.invoice-stat,
+.inventory-stat,
+.staff-stat {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--panel-shadow);
+}
+
+.customers-panel,
+.vehicles-panel,
+.repair-orders-panel {
+  margin-left: var(--page-pad);
+  margin-right: var(--page-pad);
+  margin-bottom: 32px;
+}
+
+.metric-card {
+  min-height: 154px;
+  padding: 16px;
+  border-radius: var(--radius-card);
+}
+
+.panel,
+.invoice-preview,
+.staff-profile-card,
+.settings-card,
+.settings-side-card {
+  padding: var(--panel-pad);
+}
+
+.customer-stat,
+.vehicle-stat,
+.repair-stat,
+.invoice-stat,
+.inventory-stat,
+.staff-stat,
+.settings-stat {
+  gap: 16px;
+  min-height: 128px;
+  padding: 16px;
+}
+
+.customer-stat .metric-icon,
+.vehicle-stat .metric-icon,
+.repair-stat .metric-icon,
+.invoice-stat .metric-icon,
+.inventory-stat .metric-icon,
+.staff-stat .metric-icon,
+.settings-stat .metric-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+}
+
+.customer-stat p,
+.vehicle-stat p,
+.repair-stat p,
+.invoice-stat p,
+.inventory-stat p,
+.staff-stat p,
+.settings-stat p,
+.settings-stat small {
+  margin: 0 0 4px;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 560;
+}
+
+.customer-stat strong,
+.vehicle-stat strong,
+.repair-stat strong,
+.invoice-stat strong,
+.inventory-stat strong,
+.staff-stat strong,
+.settings-stat strong {
+  display: block;
+  overflow: hidden;
+  color: #0f172a;
+  font-size: clamp(1.28rem, .45vw + 1rem, 1.62rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 720;
+  line-height: 1.08;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.customer-toolbar,
+.vehicle-toolbar,
+.repair-toolbar,
+.invoice-toolbar,
+.inventory-toolbar,
+.staff-toolbar {
+  gap: 12px;
+  padding: var(--toolbar-pad);
+  background: #fbfdff;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.search-field,
+.customer-search,
+.filter-button,
+.date-button,
+.ghost-button,
+.outline-action,
+.topbar-actions .icon-button,
+.topbar-actions .quick-add,
+.topbar-actions .shop-switcher,
+.customer-pagination button,
+.customer-pagination .per-page,
+.plate-badge {
+  border-radius: var(--radius-control);
+}
+
+.search-field,
+.customer-search,
+.filter-button,
+.date-button {
+  min-height: var(--control-h);
+}
+
+.customers-table th,
+.vehicles-table th,
+.repair-orders-table th,
+.invoice-table th,
+.inventory-table th,
+.staff-table th {
+  height: var(--table-head-h);
+  color: #53637a;
+  font-size: 12px;
+  font-weight: 620;
+  letter-spacing: 0;
+  background: #f8fafc;
+}
+
+.customers-table td,
+.vehicles-table td,
+.repair-orders-table td,
+.invoice-table td,
+.inventory-table td,
+.staff-table td {
+  height: var(--table-row-h);
+  color: #1e293b;
+  font-size: 13px;
+  font-weight: 480;
+}
+
+.customers-table tbody tr:hover,
+.vehicles-table tbody tr:hover,
+.repair-orders-table tbody tr:hover,
+.invoice-table tbody tr:hover,
+.inventory-table tbody tr:hover,
+.staff-table tbody tr:hover {
+  background: #f8fbff;
+}
+
+.invoice-actions button,
+.outline-action,
+.inventory-heading-actions .outline-action,
+.inventory-heading-actions .primary-action,
+.staff-side-actions .outline-action,
+.staff-side-actions .primary-action,
+.settings-side-card .outline-action,
+.invoice-footer-actions .primary-action,
+.invoice-footer-actions .outline-action {
+  min-height: var(--control-h);
+  border-radius: var(--radius-control);
+}
+
+.customer-pagination {
+  min-height: 64px;
+  color: #475569;
+}
+
+.customer-pagination button {
+  min-width: 40px;
+  height: 40px;
+  box-shadow: none;
+}
+
+.tag,
+.role-tag,
+.plate-badge,
+.invoice-pill,
+.permission-block em {
+  border-radius: 8px;
+}
+
+@media (max-width: 1120px) {
+  :root {
+    --page-pad: 24px;
+    --panel-pad: 16px;
+  }
+}
+
+@media (max-width: 580px) {
+  :root {
+    --page-pad: 16px;
+    --panel-pad: 16px;
+    --toolbar-pad: 16px;
+  }
+
+  .metric-card {
+    min-height: 148px;
+  }
 }
