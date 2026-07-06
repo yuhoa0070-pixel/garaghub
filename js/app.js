@@ -773,6 +773,7 @@
       item.setAttribute("role", menuOptions.multiple ? "menuitemcheckbox" : "menuitemradio");
       item.setAttribute("aria-checked", String(option.active));
       item.className = option.active ? "active" : "";
+      item.dataset.filterControl = button.dataset.filterControl || "";
       item.classList.toggle("is-multi-option", Boolean(menuOptions.multiple));
       if (tone) {
         item.dataset.filterTone = tone;

@@ -6067,6 +6067,59 @@ td {
   background: #f5f0ff;
 }
 
+.filter-button[data-filter-control="status"].active[data-filter-tone] {
+  color: #243246;
+  border-color: #d9e4f1;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.filter-button[data-filter-control="status"].active[data-filter-tone] [data-filter-label],
+.toolbar-menu button[data-filter-control="status"][data-filter-tone] .toolbar-menu-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 26px;
+  width: auto;
+  min-width: 0;
+  flex: 0 1 auto;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 620;
+  line-height: 1;
+}
+
+.filter-button[data-filter-control="status"].active[data-filter-tone="green"] [data-filter-label],
+.toolbar-menu button[data-filter-control="status"][data-filter-tone="green"] .toolbar-menu-label {
+  color: #087443;
+  background: #e7f7ee;
+}
+
+.filter-button[data-filter-control="status"].active[data-filter-tone="amber"] [data-filter-label],
+.toolbar-menu button[data-filter-control="status"][data-filter-tone="amber"] .toolbar-menu-label {
+  color: #a75505;
+  background: #fff4df;
+}
+
+.filter-button[data-filter-control="status"].active[data-filter-tone="red"] [data-filter-label],
+.toolbar-menu button[data-filter-control="status"][data-filter-tone="red"] .toolbar-menu-label {
+  color: #b42332;
+  background: #ffe8ec;
+}
+
+.filter-button[data-filter-control="status"].active[data-filter-tone="gray"] [data-filter-label],
+.toolbar-menu button[data-filter-control="status"][data-filter-tone="gray"] .toolbar-menu-label {
+  color: #596579;
+  background: #eef2f7;
+}
+
+.filter-button[data-filter-control="status"].active[data-filter-tone="purple"] [data-filter-label],
+.toolbar-menu button[data-filter-control="status"][data-filter-tone="purple"] .toolbar-menu-label {
+  color: #5d35a7;
+  background: #f5f0ff;
+}
+
 .toolbar-menu {
   gap: 6px;
   min-width: min(236px, calc(100vw - 32px));
@@ -6106,27 +6159,27 @@ td {
 
 .toolbar-menu button.active[data-filter-tone="green"] {
   color: #087443;
-  background: #e7f7ee;
+  background: #f8fbff;
 }
 
 .toolbar-menu button.active[data-filter-tone="amber"] {
   color: #a75505;
-  background: #fff4df;
+  background: #f8fbff;
 }
 
 .toolbar-menu button.active[data-filter-tone="red"] {
   color: #b42332;
-  background: #ffe8ec;
+  background: #f8fbff;
 }
 
 .toolbar-menu button.active[data-filter-tone="gray"] {
   color: #596579;
-  background: #eef2f7;
+  background: #f8fbff;
 }
 
 .toolbar-menu button.active[data-filter-tone="purple"] {
   color: #5d35a7;
-  background: #f5f0ff;
+  background: #f8fbff;
 }
 
 .toolbar-menu button.active::before,
