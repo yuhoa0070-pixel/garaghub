@@ -52,7 +52,7 @@
             <svg aria-hidden="true"><use href="#icon-bell"></use></svg>
             Reminders
           </a>
-          <a class="nav-item" href="#">
+          <a class="nav-item" href="#settings" data-view="settings">
             <svg aria-hidden="true"><use href="#icon-settings"></use></svg>
             Settings
           </a>
@@ -1802,6 +1802,194 @@
                 <button class="outline-action" type="button"><svg aria-hidden="true"><use href="#icon-message"></use></svg>Message</button>
                 <button class="primary-action" type="button"><svg aria-hidden="true"><use href="#icon-pen"></use></svg>Edit Profile</button>
               </div>
+            </aside>
+          </section>
+        </section>
+
+        <section class="view settings-view" data-view-panel="settings">
+          <section class="page-heading settings-heading">
+            <div>
+              <h1>Settings</h1>
+              <p>Control workshop profile, team access, Telegram alerts and billing preferences.</p>
+            </div>
+            <button class="primary-action" data-settings-action="settings saved" type="button">
+              <svg aria-hidden="true"><use href="#icon-check"></use></svg>
+              Save Changes
+            </button>
+          </section>
+
+          <section class="settings-layout">
+            <div class="settings-main">
+              <section class="settings-overview" aria-label="Settings summary">
+                <article class="settings-stat" data-search="settings workshop profile verified">
+                  <span class="metric-icon blue"><svg aria-hidden="true"><use href="#icon-shop"></use></svg></span>
+                  <div>
+                    <p>Workshop Profile</p>
+                    <strong>Verified</strong>
+                    <small>AutoFix Workshop</small>
+                  </div>
+                </article>
+                <article class="settings-stat" data-search="telegram notifications connected">
+                  <span class="metric-icon green"><svg aria-hidden="true"><use href="#icon-telegram"></use></svg></span>
+                  <div>
+                    <p>Telegram Alerts</p>
+                    <strong>Connected</strong>
+                    <small>@garagehub_alerts</small>
+                  </div>
+                </article>
+                <article class="settings-stat" data-search="security access roles">
+                  <span class="metric-icon purple"><svg aria-hidden="true"><use href="#icon-shield"></use></svg></span>
+                  <div>
+                    <p>Security</p>
+                    <strong>Strong</strong>
+                    <small>2 roles need review</small>
+                  </div>
+                </article>
+                <article class="settings-stat" data-search="backup sync data">
+                  <span class="metric-icon orange"><svg aria-hidden="true"><use href="#icon-refresh"></use></svg></span>
+                  <div>
+                    <p>Last Backup</p>
+                    <strong>Today</strong>
+                    <small>10:24 AM</small>
+                  </div>
+                </article>
+              </section>
+
+              <section class="settings-card" data-search="workshop profile address phone currency tax">
+                <div class="settings-card-head">
+                  <div>
+                    <h2>Workshop Profile</h2>
+                    <p>These details appear on invoices, repair orders and customer messages.</p>
+                  </div>
+                  <span class="tag green">Active</span>
+                </div>
+                <div class="settings-form-grid">
+                  <label>
+                    <span>Workshop name</span>
+                    <input type="text" value="AutoFix Workshop" />
+                  </label>
+                  <label>
+                    <span>Owner</span>
+                    <input type="text" value="John Smith" />
+                  </label>
+                  <label>
+                    <span>Phone</span>
+                    <input type="tel" value="+1 (555) 123-4567" />
+                  </label>
+                  <label>
+                    <span>Telegram</span>
+                    <input type="text" value="@garagehub_workshop" />
+                  </label>
+                  <label class="settings-wide">
+                    <span>Address</span>
+                    <input type="text" value="123 Garage Street, Los Angeles, CA 90001" />
+                  </label>
+                  <label>
+                    <span>Currency</span>
+                    <select>
+                      <option selected>USD - US Dollar</option>
+                      <option>KHR - Cambodian Riel</option>
+                      <option>THB - Thai Baht</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Default tax</span>
+                    <input type="text" value="10%" />
+                  </label>
+                </div>
+              </section>
+
+              <section class="settings-card" data-search="telegram reminders notification alerts repair invoices low stock">
+                <div class="settings-card-head">
+                  <div>
+                    <h2>Telegram Notifications</h2>
+                    <p>Choose what GarageHub sends to your team channel.</p>
+                  </div>
+                  <button class="outline-action" data-settings-action="test telegram message sent" type="button">
+                    <svg aria-hidden="true"><use href="#icon-paper-plane"></use></svg>
+                    Test Message
+                  </button>
+                </div>
+                <div class="settings-list">
+                  <label class="settings-toggle-row">
+                    <span><strong>Repair order updates</strong><small>Send status changes and mechanic assignments.</small></span>
+                    <input data-setting-toggle type="checkbox" checked />
+                  </label>
+                  <label class="settings-toggle-row">
+                    <span><strong>Payment reminders</strong><small>Notify when invoices become due or overdue.</small></span>
+                    <input data-setting-toggle type="checkbox" checked />
+                  </label>
+                  <label class="settings-toggle-row">
+                    <span><strong>Low stock alerts</strong><small>Send parts alerts when stock drops below threshold.</small></span>
+                    <input data-setting-toggle type="checkbox" checked />
+                  </label>
+                  <label class="settings-toggle-row">
+                    <span><strong>Daily workshop summary</strong><small>Send revenue, open orders and check-in summary at 6 PM.</small></span>
+                    <input data-setting-toggle type="checkbox" />
+                  </label>
+                </div>
+              </section>
+            </div>
+
+            <aside class="settings-side">
+              <article class="settings-side-card" data-search="access roles permissions staff">
+                <div class="settings-card-head compact">
+                  <div>
+                    <h2>Access Control</h2>
+                    <p>Role permissions for the current workspace.</p>
+                  </div>
+                </div>
+                <dl class="settings-detail-list">
+                  <dt>Admins</dt><dd>3</dd>
+                  <dt>Service users</dt><dd>6</dd>
+                  <dt>Inventory users</dt><dd>4</dd>
+                  <dt>Pending invites</dt><dd>2</dd>
+                </dl>
+                <button class="outline-action" data-settings-action="role permissions opened" type="button">
+                  <svg aria-hidden="true"><use href="#icon-shield"></use></svg>
+                  Manage Roles
+                </button>
+              </article>
+
+              <article class="settings-side-card" data-search="billing plan payment subscription">
+                <div class="settings-card-head compact">
+                  <div>
+                    <h2>Billing</h2>
+                    <p>GarageHub Pro renews on Jun 16, 2024.</p>
+                  </div>
+                  <span class="tag blue">Pro</span>
+                </div>
+                <dl class="settings-detail-list">
+                  <dt>Plan</dt><dd>$49/mo</dd>
+                  <dt>Invoices</dt><dd>327</dd>
+                  <dt>Staff seats</dt><dd>18</dd>
+                </dl>
+                <button class="outline-action" data-settings-action="billing settings opened" type="button">
+                  <svg aria-hidden="true"><use href="#icon-dollar"></use></svg>
+                  Billing Settings
+                </button>
+              </article>
+
+              <article class="settings-side-card" data-search="backup export data sync">
+                <div class="settings-card-head compact">
+                  <div>
+                    <h2>Data Backup</h2>
+                    <p>Automatic backup keeps operational records recoverable.</p>
+                  </div>
+                </div>
+                <div class="backup-meter" aria-label="Backup health">
+                  <span style="width: 88%"></span>
+                </div>
+                <dl class="settings-detail-list">
+                  <dt>Health</dt><dd>88%</dd>
+                  <dt>Last sync</dt><dd>10:24 AM</dd>
+                  <dt>Storage</dt><dd>4.8 GB</dd>
+                </dl>
+                <button class="outline-action" data-settings-action="backup export started" type="button">
+                  <svg aria-hidden="true"><use href="#icon-download"></use></svg>
+                  Export Backup
+                </button>
+              </article>
             </aside>
           </section>
         </section>

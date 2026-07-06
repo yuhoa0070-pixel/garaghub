@@ -50,6 +50,10 @@
       search: "Search staff by name, role, phone or Telegram...",
       action: "Add Staff",
     },
+    settings: {
+      search: "Search settings, roles, Telegram, billing...",
+      action: "Save Changes",
+    },
   });
 
   const state = {
@@ -600,7 +604,16 @@
   }
 
   function bindQuickAdd(elements) {
-    elements.quickAddButton?.addEventListener("click", () => openQuickAdd(elements));
+    elements.quickAddButton?.addEventListener("click", () => {
+      const activeView = query(SELECTORS.visibleView)?.dataset.viewPanel;
+
+      if (activeView === "settings") {
+        showToast("Settings saved.", elements);
+        return;
+      }
+
+      openQuickAdd(elements);
+    });
     elements.closeModalButton?.addEventListener("click", () => closeQuickAdd(elements));
 
     elements.quickAddModal?.addEventListener("click", (event) => {
@@ -1237,6 +1250,22 @@
     });
   }
 
+  function bindSettingsPage(elements) {
+    queryAll("[data-setting-toggle]").forEach((toggle) => {
+      toggle.addEventListener("change", () => {
+        const label = toggle.closest(".settings-toggle-row")?.querySelector("strong")?.textContent.trim() || "Setting";
+        showToast(`${label} ${toggle.checked ? "enabled" : "disabled"}.`, elements);
+      });
+    });
+
+    queryAll("[data-settings-action]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const action = button.dataset.settingsAction || "settings updated";
+        showToast(`${action.charAt(0).toUpperCase()}${action.slice(1)}.`, elements);
+      });
+    });
+  }
+
   function init() {
     const elements = getElements();
 
@@ -1245,6 +1274,7 @@
     bindQuickAdd(elements);
     bindNavigation(elements);
     bindKeyboardShortcuts(elements);
+    bindSettingsPage(elements);
     activateView(getInitialViewName(), elements);
     bindDataTables(elements);
   }
