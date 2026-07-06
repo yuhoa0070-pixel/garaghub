@@ -6424,6 +6424,7 @@ td {
   gap: var(--section-gap);
 }
 
+.metric-grid,
 .customer-stats,
 .vehicle-stats,
 .repair-stats,
@@ -6487,7 +6488,7 @@ td {
 }
 
 .metric-card {
-  min-height: 154px;
+  min-height: 128px;
   padding: var(--card-pad);
   border-radius: var(--radius-card);
 }
@@ -6508,9 +6509,11 @@ td {
 .inventory-stat,
 .staff-stat,
 .reminder-stat,
-.settings-stat {
+.settings-stat,
+.metric-card {
   display: grid;
   grid-template-columns: var(--size-stat-icon) minmax(0, 1fr);
+  grid-template-rows: auto auto auto;
   align-items: start;
   gap: var(--space-4);
   min-height: 128px;
@@ -6524,8 +6527,13 @@ td {
 .inventory-stat > div,
 .staff-stat > div,
 .reminder-stat > div,
-.settings-stat > div {
+.settings-stat > div,
+.metric-heading {
   min-width: 0;
+}
+
+.metric-heading {
+  display: contents;
 }
 
 .customer-stat .metric-icon,
@@ -6535,10 +6543,13 @@ td {
 .inventory-stat .metric-icon,
 .staff-stat .metric-icon,
 .reminder-stat .metric-icon,
-.settings-stat .metric-icon {
+.settings-stat .metric-icon,
+.metric-heading .metric-icon {
   width: var(--size-stat-icon);
   height: var(--size-stat-icon);
   flex: 0 0 var(--size-stat-icon);
+  grid-column: 1;
+  grid-row: 1 / 4;
   align-self: start;
 }
 
@@ -6550,11 +6561,13 @@ td {
 .staff-stat p,
 .reminder-stat p,
 .settings-stat p,
-.settings-stat small {
+.settings-stat small,
+.metric-heading h2 {
   margin: 0 0 4px;
   color: var(--text-muted-strong);
   font-size: var(--text-sm);
   font-weight: 560;
+  line-height: 1.25;
 }
 
 .customer-stat strong,
@@ -6564,7 +6577,8 @@ td {
 .inventory-stat strong,
 .staff-stat strong,
 .reminder-stat strong,
-.settings-stat strong {
+.settings-stat strong,
+.metric-card > strong {
   display: block;
   overflow: hidden;
   color: var(--text-strong);
@@ -6576,12 +6590,36 @@ td {
   white-space: nowrap;
 }
 
+.metric-heading h2,
+.metric-card > strong,
+.metric-card .trend,
+.metric-card a {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.metric-heading h2 {
+  grid-row: 1;
+}
+
+.metric-card > strong {
+  grid-row: 2;
+  margin: 0;
+}
+
+.metric-card .trend,
+.metric-card a {
+  grid-row: 3;
+  margin-top: 6px;
+}
+
 .vehicle-trend,
 .repair-trend,
 .invoice-trend,
 .inventory-trend,
 .staff-trend,
-.reminder-trend {
+.reminder-trend,
+.metric-card .trend {
   max-width: 100%;
   line-height: 1.3;
 }
@@ -6701,6 +6739,6 @@ td {
   }
 
   .metric-card {
-    min-height: 148px;
+    min-height: 128px;
   }
 }
