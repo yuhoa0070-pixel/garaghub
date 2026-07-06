@@ -60,7 +60,7 @@ a {
 }
 
 svg,
-iconify-icon {
+.ti {
   width: 20px;
   height: 20px;
   color: currentColor;
@@ -74,9 +74,12 @@ svg {
   stroke-width: 1.5;
 }
 
-iconify-icon {
-  display: inline-block;
+.ti {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
+  font-size: 20px;
   line-height: 1;
 }
 
@@ -167,7 +170,7 @@ iconify-icon {
   transform: translateY(-50%);
 }
 
-.nav-item :is(svg, iconify-icon) {
+.nav-item :is(svg, .ti) {
   flex: 0 0 auto;
 }
 
@@ -192,9 +195,10 @@ iconify-icon {
   box-shadow: var(--shadow-soft);
 }
 
-.help-card :is(svg, iconify-icon) {
+.help-card :is(svg, .ti) {
   width: 32px;
   height: 32px;
+  font-size: 32px;
   color: var(--blue);
 }
 
@@ -216,10 +220,11 @@ iconify-icon {
   text-align: left;
 }
 
-.profile-button > :is(svg, iconify-icon) {
+.profile-button > :is(svg, .ti) {
   margin-left: auto;
   width: 16px;
   height: 16px;
+  font-size: 16px;
 }
 
 .avatar {
@@ -400,9 +405,10 @@ input:focus-visible,
   background: #ebf3ff;
 }
 
-.shop-switcher > :is(svg, iconify-icon) {
+.shop-switcher > :is(svg, .ti) {
   width: 16px;
   height: 16px;
+  font-size: 16px;
 }
 
 .welcome-row {
@@ -430,11 +436,12 @@ input:focus-visible,
   padding: 0 18px;
 }
 
-.date-button :is(svg, iconify-icon):last-child,
-.ghost-button :is(svg, iconify-icon),
-.quick-add :is(svg, iconify-icon):last-child {
+.date-button :is(svg, .ti):last-child,
+.ghost-button :is(svg, .ti),
+.quick-add :is(svg, .ti):last-child {
   width: 16px;
   height: 16px;
+  font-size: 16px;
 }
 
 .view {
@@ -755,9 +762,10 @@ input:focus-visible,
   font-weight: 760;
 }
 
-.filter-button :is(svg, iconify-icon) {
+.filter-button :is(svg, .ti) {
   width: 18px;
   height: 18px;
+  font-size: 18px;
 }
 
 .customers-table-wrap {
@@ -1232,9 +1240,10 @@ input:focus-visible,
   border-radius: 50%;
 }
 
-.metric-icon :is(svg, iconify-icon) {
+.metric-icon :is(svg, .ti) {
   width: 22px;
   height: 22px;
+  font-size: 22px;
 }
 
 .metric-icon.green,
@@ -1950,9 +1959,10 @@ td {
   height: 40px;
 }
 
-.metric-icon :is(svg, iconify-icon) {
+.metric-icon :is(svg, .ti) {
   width: 20px;
   height: 20px;
+  font-size: 20px;
 }
 
 .metric-icon.green,
@@ -2368,10 +2378,11 @@ td {
   background: transparent;
 }
 
-.invoice-actions :is(svg, iconify-icon),
-.outline-action :is(svg, iconify-icon) {
+.invoice-actions :is(svg, .ti),
+.outline-action :is(svg, .ti) {
   width: 17px;
   height: 17px;
+  font-size: 17px;
 }
 
 .invoice-preview {
@@ -3275,9 +3286,10 @@ td {
   border-radius: 50%;
 }
 
-.movement-icon :is(svg, iconify-icon) {
+.movement-icon :is(svg, .ti) {
   width: 16px;
   height: 16px;
+  font-size: 16px;
 }
 
 .movement-icon.up {
@@ -3654,9 +3666,10 @@ td {
   font-weight: 680;
 }
 
-.staff-contact-list :is(svg, iconify-icon) {
+.staff-contact-list :is(svg, .ti) {
   width: 18px;
   height: 18px;
+  font-size: 18px;
   color: #475569;
 }
 
@@ -3945,7 +3958,7 @@ td {
   text-align: left;
 }
 
-.quick-actions :is(svg, iconify-icon) {
+.quick-actions :is(svg, .ti) {
   color: var(--blue);
 }
 
@@ -4261,7 +4274,7 @@ td {
     padding: 0 12px;
   }
 
-  .quick-add :is(svg, iconify-icon) {
+  .quick-add :is(svg, .ti) {
     margin: 0;
   }
 
@@ -4568,9 +4581,10 @@ td {
   line-height: 0;
 }
 
-.app-shell.sidebar-collapsed .nav-item :is(svg, iconify-icon) {
+.app-shell.sidebar-collapsed .nav-item :is(svg, .ti) {
   width: 21px;
   height: 21px;
+  font-size: 21px;
   margin: 0;
 }
 
@@ -4598,14 +4612,15 @@ td {
   gap: 0;
 }
 
-.app-shell.sidebar-collapsed .help-card :is(svg, iconify-icon) {
+.app-shell.sidebar-collapsed .help-card :is(svg, .ti) {
   width: 24px;
   height: 24px;
+  font-size: 24px;
 }
 
 .app-shell.sidebar-collapsed .help-card div,
 .app-shell.sidebar-collapsed .profile-button span:nth-child(2),
-.app-shell.sidebar-collapsed .profile-button > :is(svg, iconify-icon) {
+.app-shell.sidebar-collapsed .profile-button > :is(svg, .ti) {
   display: none;
 }
 
