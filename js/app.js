@@ -66,9 +66,355 @@
       role: "all",
       status: "all",
     },
+    tableStates: {},
     toolbarMenu: undefined,
     toastTimer: undefined,
   };
+
+  const TABLE_CONFIGS = [
+    {
+      id: "customers",
+      panel: ".customers-panel",
+      table: ".customers-table",
+      toolbar: ".customer-toolbar",
+      label: "customers",
+      compactTargets: ".customer-avatar",
+      filters: [
+        { key: "status", label: "All Status", buttonIndex: 0 },
+        { key: "tag", label: "All Tags", buttonIndex: 1 },
+        {
+          key: "advanced",
+          label: "More Filters",
+          buttonIndex: 2,
+          icon: "filter",
+          options: [
+            { label: "All Customers", value: "all" },
+            { label: "Multiple Vehicles", value: "multiple" },
+            { label: "High Spenders", value: "high-spenders" },
+            { label: "Reset Filters", value: "reset" },
+          ],
+        },
+      ],
+      getRowData(row) {
+        return {
+          searchText: row.textContent.toLowerCase(),
+          status: query("td:nth-child(8) .tag", row)?.textContent.trim() || getCellText(row, 7),
+          tag: query(".customer-tag", row)?.textContent.trim() || "No Tag",
+          vehicles: Number(getCellText(row, 4)) || 0,
+          total: getMoneyValue(getCellText(row, 6)),
+        };
+      },
+      advancedMatch(value, rowData) {
+        if (value === "multiple") {
+          return rowData.vehicles > 1;
+        }
+
+        if (value === "high-spenders") {
+          return rowData.total >= 3000;
+        }
+
+        return true;
+      },
+    },
+    {
+      id: "vehicles",
+      panel: ".vehicles-panel",
+      table: ".vehicles-table",
+      toolbar: ".vehicle-toolbar",
+      label: "vehicles",
+      compactTargets: ".vehicle-thumb",
+      filters: [
+        { key: "make", label: "All Makes", buttonIndex: 0 },
+        { key: "model", label: "All Models", buttonIndex: 1 },
+        { key: "status", label: "All Status", buttonIndex: 2 },
+        {
+          key: "advanced",
+          label: "More Filters",
+          buttonIndex: 3,
+          icon: "filter",
+          options: [
+            { label: "All Vehicles", value: "all" },
+            { label: "Due Soon", value: "due-soon" },
+            { label: "Overdue", value: "overdue" },
+            { label: "High Mileage", value: "high-mileage" },
+            { label: "Reset Filters", value: "reset" },
+          ],
+        },
+      ],
+      getRowData(row) {
+        return {
+          searchText: row.textContent.toLowerCase(),
+          make: query("td:nth-child(5) strong", row)?.textContent.trim() || "",
+          model: query("td:nth-child(5) small", row)?.textContent.trim() || "",
+          status: query("td:nth-child(9) .tag", row)?.textContent.trim() || getCellText(row, 8),
+          mileage: Number(getCellText(row, 6).replace(/[^0-9]/g, "")) || 0,
+        };
+      },
+      advancedMatch(value, rowData) {
+        if (value === "due-soon") {
+          return rowData.status === "Due Soon";
+        }
+
+        if (value === "overdue") {
+          return rowData.status === "Overdue";
+        }
+
+        if (value === "high-mileage") {
+          return rowData.mileage >= 50000;
+        }
+
+        return true;
+      },
+    },
+    {
+      id: "repair-orders",
+      panel: ".repair-orders-panel",
+      table: ".repair-orders-table",
+      toolbar: ".repair-toolbar",
+      label: "repair orders",
+      compactTargets: ".vehicle-thumb",
+      filters: [
+        { key: "status", label: "All Status", buttonIndex: 0 },
+        { key: "mechanic", label: "All Mechanics", buttonIndex: 1 },
+        { key: "date", label: "May 1 - May 16, 2024", buttonIndex: 2, icon: "calendar" },
+        {
+          key: "advanced",
+          label: "Filters",
+          buttonIndex: 3,
+          icon: "filter",
+          options: [
+            { label: "All Orders", value: "all" },
+            { label: "Open Orders", value: "open" },
+            { label: "Completed Only", value: "completed" },
+            { label: "High Value ($1,000+)", value: "high-value" },
+            { label: "Reset Filters", value: "reset" },
+          ],
+        },
+      ],
+      getRowData(row) {
+        const mechanicCell = query(".mechanic-cell", row);
+        const dateText = query("td:nth-child(7) strong", row)?.textContent.trim() || getCellText(row, 6);
+
+        return {
+          amount: getMoneyValue(getCellText(row, 5)),
+          date: dateText,
+          dateKey: getDateKey(dateText),
+          mechanic: mechanicCell?.textContent.trim().replace(/^[A-Z]{2}/, "").trim() || getCellText(row, 3),
+          searchText: row.textContent.toLowerCase(),
+          status: query("td:nth-child(5) .tag", row)?.textContent.trim() || getCellText(row, 4),
+        };
+      },
+      optionsFor(config, filterKey, rows) {
+        if (filterKey !== "date") {
+          return undefined;
+        }
+
+        return [
+          { label: "May 1 - May 16, 2024", value: "range" },
+          { label: "All Dates", value: "all" },
+          ...rows
+            .map((row) => config.getRowData(row))
+            .filter((rowData) => rowData.dateKey)
+            .sort((a, b) => b.dateKey.localeCompare(a.dateKey))
+            .filter((rowData, index, allRows) => allRows.findIndex((item) => item.dateKey === rowData.dateKey) === index)
+            .map((rowData) => ({ label: rowData.date, value: rowData.dateKey })),
+        ];
+      },
+      filterMatch(filterKey, value, rowData) {
+        if (filterKey === "date") {
+          if (value === "range") {
+            return rowData.dateKey >= "2024-05-01" && rowData.dateKey <= "2024-05-16";
+          }
+
+          if (value === "all") {
+            return true;
+          }
+
+          return rowData.dateKey === value;
+        }
+
+        return rowData[filterKey] === value;
+      },
+      advancedMatch(value, rowData) {
+        if (value === "open") {
+          return !["Completed", "Cancelled"].includes(rowData.status);
+        }
+
+        if (value === "completed") {
+          return rowData.status === "Completed";
+        }
+
+        if (value === "high-value") {
+          return rowData.amount >= 1000;
+        }
+
+        return true;
+      },
+    },
+    {
+      id: "invoices",
+      panel: ".invoice-list-panel",
+      table: ".invoice-table",
+      toolbar: ".invoice-toolbar",
+      label: "invoices",
+      compactTargets: ".customer-avatar",
+      filters: [
+        { key: "status", label: "All Status", buttonIndex: 0 },
+        { key: "date", label: "May 1 - May 16, 2024", buttonIndex: 1, icon: "calendar" },
+        {
+          key: "advanced",
+          label: "Filters",
+          buttonIndex: 2,
+          icon: "filter",
+          options: [
+            { label: "All Invoices", value: "all" },
+            { label: "Needs Payment", value: "needs-payment" },
+            { label: "High Value ($1,000+)", value: "high-value" },
+            { label: "Reset Filters", value: "reset" },
+          ],
+        },
+      ],
+      getRowData(row) {
+        const dateText = getCellText(row, 4);
+
+        return {
+          amount: getMoneyValue(getCellText(row, 6)),
+          date: dateText,
+          dateKey: getDateKey(dateText),
+          searchText: row.textContent.toLowerCase(),
+          status: query("td:nth-child(8) .tag", row)?.textContent.trim() || getCellText(row, 7),
+        };
+      },
+      optionsFor(config, filterKey, rows) {
+        if (filterKey !== "date") {
+          return undefined;
+        }
+
+        return [
+          { label: "May 1 - May 16, 2024", value: "range" },
+          { label: "All Dates", value: "all" },
+          ...rows
+            .map((row) => config.getRowData(row))
+            .filter((rowData) => rowData.dateKey)
+            .sort((a, b) => b.dateKey.localeCompare(a.dateKey))
+            .filter((rowData, index, allRows) => allRows.findIndex((item) => item.dateKey === rowData.dateKey) === index)
+            .map((rowData) => ({ label: rowData.date, value: rowData.dateKey })),
+        ];
+      },
+      filterMatch(filterKey, value, rowData) {
+        if (filterKey === "date") {
+          if (value === "range") {
+            return rowData.dateKey >= "2024-05-01" && rowData.dateKey <= "2024-05-16";
+          }
+
+          if (value === "all") {
+            return true;
+          }
+
+          return rowData.dateKey === value;
+        }
+
+        return rowData[filterKey] === value;
+      },
+      advancedMatch(value, rowData) {
+        if (value === "needs-payment") {
+          return ["Pending", "Overdue"].includes(rowData.status);
+        }
+
+        if (value === "high-value") {
+          return rowData.amount >= 1000;
+        }
+
+        return true;
+      },
+    },
+    {
+      id: "inventory",
+      panel: ".inventory-list-panel",
+      table: ".inventory-table",
+      toolbar: ".inventory-toolbar",
+      label: "items",
+      compactTargets: ".part-thumb",
+      filters: [
+        { key: "category", label: "All Categories", buttonIndex: 0 },
+        { key: "brand", label: "All Brands", buttonIndex: 1 },
+        { key: "status", label: "All Status", buttonIndex: 2 },
+        {
+          key: "advanced",
+          label: "Filters",
+          buttonIndex: 3,
+          icon: "filter",
+          options: [
+            { label: "All Items", value: "all" },
+            { label: "Needs Restock", value: "needs-restock" },
+            { label: "Out of Stock", value: "out-of-stock" },
+            { label: "High Value ($400+)", value: "high-value" },
+            { label: "Reset Filters", value: "reset" },
+          ],
+        },
+      ],
+      getRowData(row) {
+        return {
+          brand: getCellText(row, 3),
+          category: getCellText(row, 2),
+          searchText: row.textContent.toLowerCase(),
+          status: query("td:nth-child(9) .tag", row)?.textContent.trim() || getCellText(row, 8),
+          total: getMoneyValue(getCellText(row, 7)),
+        };
+      },
+      advancedMatch(value, rowData) {
+        if (value === "needs-restock") {
+          return ["Low Stock", "Out of Stock"].includes(rowData.status);
+        }
+
+        if (value === "out-of-stock") {
+          return rowData.status === "Out of Stock";
+        }
+
+        if (value === "high-value") {
+          return rowData.total >= 400;
+        }
+
+        return true;
+      },
+    },
+    {
+      id: "staff",
+      panel: ".staff-list-panel",
+      table: ".staff-table",
+      toolbar: ".staff-toolbar",
+      label: "staff members",
+      compactTargets: ".staff-photo",
+      filters: [
+        { key: "role", label: "All Roles", buttonIndex: 0 },
+        { key: "status", label: "All Status", buttonIndex: 1 },
+        {
+          key: "advanced",
+          label: "Filters",
+          buttonIndex: 2,
+          icon: "filter",
+          options: [
+            { label: "All Staff", value: "all" },
+            { label: "Service Department", value: "Service" },
+            { label: "Workshop Department", value: "Workshop" },
+            { label: "Parts Department", value: "Parts" },
+            { label: "Reset Filters", value: "reset" },
+          ],
+        },
+      ],
+      getRowData(row) {
+        return {
+          department: getCellText(row, 3),
+          role: query("td:nth-child(3) .role-tag", row)?.textContent.trim() || getCellText(row, 2),
+          searchText: row.textContent.toLowerCase(),
+          status: query("td:nth-child(6) .tag", row)?.textContent.trim() || getCellText(row, 5),
+        };
+      },
+      advancedMatch(value, rowData) {
+        return rowData.department === value;
+      },
+    },
+  ];
 
   const query = (selector, scope = document) => scope.querySelector(selector);
   const queryAll = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -429,109 +775,321 @@
     return `${match[3]}-${months[match[1]]}-${match[2].padStart(2, "0")}`;
   }
 
-  function getRepairRowData(row) {
-    const mechanicCell = query(".mechanic-cell", row);
-    const mechanic = mechanicCell?.textContent.trim().replace(/^[A-Z]{2}/, "").trim() || getCellText(row, 3);
-    const dateText = query("td:nth-child(7) strong", row)?.textContent.trim() || getCellText(row, 6);
-    const amount = Number(getCellText(row, 5).replace(/[^0-9.]/g, "")) || 0;
-
-    return {
-      amount,
-      dateKey: getDateKey(dateText),
-      dateText,
-      mechanic,
-      searchText: row.textContent.toLowerCase(),
-      status: query("td:nth-child(5) .tag", row)?.textContent.trim() || getCellText(row, 4),
-    };
+  function getMoneyValue(value) {
+    return Number(String(value || "").replace(/[^0-9.]/g, "")) || 0;
   }
 
-  function getUniqueRepairValues(panel, key) {
-    return [...new Set(getRepairRows(panel).map((row) => getRepairRowData(row)[key]).filter(Boolean))];
+  function createIcon(iconName) {
+    const icon = document.createElement("i");
+    icon.className = `ti ti-${iconName}`;
+    icon.setAttribute("aria-hidden", "true");
+    return icon;
   }
 
-  function getRepairFilterOptions(panel, filterType) {
-    const filters = state.repairFilters;
-
-    if (filterType === "status") {
-      return [
-        { label: "All Status", value: "all", active: filters.status === "all" },
-        ...getUniqueRepairValues(panel, "status").map((status) => ({
-          label: status,
-          value: status,
-          active: filters.status === status,
-        })),
-      ];
+  function getTableState(config) {
+    if (state.tableStates[config.id]) {
+      return state.tableStates[config.id];
     }
 
-    if (filterType === "mechanic") {
-      return [
-        { label: "All Mechanics", value: "all", active: filters.mechanic === "all" },
-        ...getUniqueRepairValues(panel, "mechanic").map((mechanic) => ({
-          label: mechanic,
-          value: mechanic,
-          active: filters.mechanic === mechanic,
-        })),
-      ];
-    }
+    const filters = {};
+    config.filters.forEach((filter) => {
+      filters[filter.key] = filter.key === "date" ? "range" : "all";
+    });
 
-    if (filterType === "date") {
-      const dateOptions = getRepairRows(panel)
-        .map(getRepairRowData)
-        .filter((row) => row.dateKey)
-        .sort((a, b) => b.dateKey.localeCompare(a.dateKey))
-        .filter((row, index, rows) => rows.findIndex((item) => item.dateKey === row.dateKey) === index)
-        .map((row) => ({
-          label: row.dateText,
-          value: row.dateKey,
-          active: filters.date === row.dateKey,
-        }));
-
-      return [
-        { label: "May 1 - May 16, 2024", value: "range", active: filters.date === "range" },
-        { label: "All Dates", value: "all", active: filters.date === "all" },
-        ...dateOptions,
-      ];
-    }
-
-    return [
-      { label: "All Orders", value: "all", active: filters.advanced === "all" },
-      { label: "Open Orders", value: "open", active: filters.advanced === "open" },
-      { label: "Completed Only", value: "completed", active: filters.advanced === "completed" },
-      { label: "High Value ($1,000+)", value: "high-value", active: filters.advanced === "high-value" },
-      { label: "Reset Filters", value: "reset", active: false },
-    ];
-  }
-
-  function setRepairButtonLabel(button, label, isActive, selectedValue) {
-    const labelElement = query("[data-filter-label]", button);
-
-    if (labelElement) {
-      labelElement.textContent = label;
-    }
-
-    button.classList.toggle("active", isActive);
-
-    if (isActive) {
-      const tone = getFilterTone(button.dataset.filterControl, selectedValue);
-
-      if (tone) {
-        button.dataset.filterTone = tone;
-      } else {
-        delete button.dataset.filterTone;
-      }
-    } else {
-      delete button.dataset.filterTone;
-    }
-  }
-
-  function resetRepairFilters(panel) {
-    state.repairFilters = {
-      advanced: "all",
-      date: "range",
-      mechanic: "all",
+    state.tableStates[config.id] = {
+      compact: false,
+      filters,
+      page: 1,
+      pageSize: 10,
       query: "",
-      status: "all",
     };
+
+    return state.tableStates[config.id];
+  }
+
+  function getTableRows(config, panel) {
+    return queryAll(`${config.table} tbody tr`, panel);
+  }
+
+  function getFilterOptions(config, panel, filter) {
+    const rows = getTableRows(config, panel);
+    const tableState = getTableState(config);
+
+    if (filter.options) {
+      return filter.options.map((option) => ({
+        ...option,
+        active: tableState.filters[filter.key] === option.value,
+      }));
+    }
+
+    const customOptions = config.optionsFor?.(config, filter.key, rows);
+    const options = customOptions || [
+      { label: filter.label, value: "all" },
+      ...[...new Set(rows.map((row) => config.getRowData(row)[filter.key]).filter(Boolean))]
+        .map((value) => ({ label: value, value })),
+    ];
+
+    return options.map((option) => ({
+      ...option,
+      active: tableState.filters[filter.key] === option.value,
+    }));
+  }
+
+  function buildFilterButton(button, filter) {
+    if (!button) {
+      return;
+    }
+
+    button.dataset.filterControl = filter.key;
+    button.dataset.defaultLabel = filter.label;
+    button.setAttribute("aria-haspopup", "menu");
+    button.setAttribute("aria-expanded", "false");
+    button.textContent = "";
+
+    if (filter.icon) {
+      button.append(createIcon(filter.icon));
+    }
+
+    const label = document.createElement("span");
+    label.dataset.filterLabel = "";
+    label.textContent = filter.label;
+    button.append(label);
+
+    if (filter.key !== "advanced") {
+      button.append(createIcon("chevron-down"));
+    }
+  }
+
+  function prepareTableControls(config, panel) {
+    const toolbar = query(config.toolbar, panel);
+
+    if (!toolbar) {
+      return;
+    }
+
+    const searchInput = query(".customer-search input", toolbar);
+    if (searchInput) {
+      searchInput.dataset.tableSearch = "";
+    }
+
+    const filterButtons = queryAll(".filter-button", toolbar);
+    config.filters.forEach((filter) => buildFilterButton(filterButtons[filter.buttonIndex], filter));
+
+    const viewToggle = query(".icon-button", toolbar);
+    if (viewToggle) {
+      viewToggle.dataset.viewToggle = "";
+      viewToggle.setAttribute("aria-label", "Toggle compact table view");
+      viewToggle.setAttribute("aria-pressed", "false");
+    }
+  }
+
+  function updateGenericFilterButtons(config, panel) {
+    const tableState = getTableState(config);
+
+    queryAll("[data-filter-control]", panel).forEach((button) => {
+      const filter = config.filters.find((item) => item.key === button.dataset.filterControl);
+
+      if (!filter) {
+        return;
+      }
+
+      const selectedValue = tableState.filters[filter.key];
+      const option = getFilterOptions(config, panel, filter).find((item) => item.value === selectedValue);
+      const inactiveValues = filter.key === "date" ? ["all", "range"] : ["all"];
+      const isActive = Boolean(selectedValue && !inactiveValues.includes(selectedValue));
+      const label = filter.key === "advanced" && selectedValue === "all" ? filter.label : option?.label || filter.label;
+
+      setFilterButtonLabel(button, label, isActive, selectedValue);
+    });
+  }
+
+  function matchesTableFilter(config, filter, selectedValue, rowData) {
+    if (!selectedValue || selectedValue === "all") {
+      return true;
+    }
+
+    if (selectedValue === "reset") {
+      return true;
+    }
+
+    if (filter.key === "advanced") {
+      return config.advancedMatch?.(selectedValue, rowData) ?? true;
+    }
+
+    if (config.filterMatch) {
+      return config.filterMatch(filter.key, selectedValue, rowData);
+    }
+
+    return rowData[filter.key] === selectedValue;
+  }
+
+  function getFilteredRows(config, panel) {
+    const tableState = getTableState(config);
+
+    return getTableRows(config, panel).filter((row) => {
+      const rowData = config.getRowData(row);
+      const matchesSearch = !tableState.query || rowData.searchText.includes(tableState.query);
+      const matchesFilters = config.filters.every((filter) => matchesTableFilter(config, filter, tableState.filters[filter.key], rowData));
+
+      return matchesSearch && matchesFilters;
+    });
+  }
+
+  function getPageRows(filteredRows, tableState) {
+    if (tableState.pageSize === "all") {
+      return filteredRows;
+    }
+
+    const start = (tableState.page - 1) * tableState.pageSize;
+    return filteredRows.slice(start, start + tableState.pageSize);
+  }
+
+  function getPageCount(filteredRows, tableState) {
+    if (tableState.pageSize === "all") {
+      return 1;
+    }
+
+    return Math.max(1, Math.ceil(filteredRows.length / tableState.pageSize));
+  }
+
+  function createPaginationButton(label, options = {}) {
+    const button = document.createElement("button");
+    button.type = "button";
+
+    if (options.icon) {
+      button.append(createIcon(options.icon));
+    } else {
+      button.textContent = label;
+    }
+
+    if (options.active) {
+      button.classList.add("active");
+    }
+
+    if (options.disabled) {
+      button.disabled = true;
+    }
+
+    return button;
+  }
+
+  function renderPagination(config, panel, filteredRows) {
+    const tableState = getTableState(config);
+    const pagination = query(".customer-pagination", panel);
+
+    if (!pagination) {
+      return;
+    }
+
+    const pageCount = getPageCount(filteredRows, tableState);
+    tableState.page = Math.min(Math.max(1, tableState.page), pageCount);
+
+    const pageRows = getPageRows(filteredRows, tableState);
+    const summary = query(":scope > span", pagination);
+    const controls = query(":scope > div", pagination);
+    const start = filteredRows.length === 0 ? 0 : (tableState.page - 1) * (tableState.pageSize === "all" ? filteredRows.length : tableState.pageSize) + 1;
+    const end = filteredRows.length === 0 ? 0 : start + pageRows.length - 1;
+
+    if (summary) {
+      summary.textContent = `Showing ${start} to ${end} of ${filteredRows.length} ${config.label}`;
+    }
+
+    if (!controls) {
+      return;
+    }
+
+    controls.replaceChildren();
+
+    const previous = createPaginationButton("", {
+      disabled: tableState.page <= 1,
+      icon: "chevron-left",
+    });
+    previous.addEventListener("click", () => {
+      tableState.page -= 1;
+      applyTableState(config, panel, { announce: false });
+    });
+    controls.append(previous);
+
+    Array.from({ length: pageCount }, (_, index) => index + 1).forEach((page) => {
+      const pageButton = createPaginationButton(String(page), { active: tableState.page === page });
+      pageButton.addEventListener("click", () => {
+        tableState.page = page;
+        applyTableState(config, panel, { announce: false });
+      });
+      controls.append(pageButton);
+    });
+
+    const next = createPaginationButton("", {
+      disabled: tableState.page >= pageCount,
+      icon: "chevron-right",
+    });
+    next.addEventListener("click", () => {
+      tableState.page += 1;
+      applyTableState(config, panel, { announce: false });
+    });
+    controls.append(next);
+
+    const pageSizeButton = createPaginationButton(tableState.pageSize === "all" ? "All / page" : `${tableState.pageSize} / page`);
+    pageSizeButton.className = "per-page";
+    pageSizeButton.append(createIcon("chevron-down"));
+    pageSizeButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      openToolbarMenu(pageSizeButton, [
+        { label: "5 / page", value: 5, active: tableState.pageSize === 5 },
+        { label: "10 / page", value: 10, active: tableState.pageSize === 10 },
+        { label: "All rows", value: "all", active: tableState.pageSize === "all" },
+      ], (option) => {
+        tableState.pageSize = option.value;
+        tableState.page = 1;
+        applyTableState(config, panel);
+      });
+    });
+    controls.append(pageSizeButton);
+  }
+
+  function updateSelectionState(config, panel) {
+    const headerCheckbox = query(`${config.table} thead input[type="checkbox"]`, panel);
+    const visibleCheckboxes = getTableRows(config, panel)
+      .filter((row) => !row.classList.contains("is-hidden"))
+      .map((row) => query('input[type="checkbox"]', row))
+      .filter(Boolean);
+
+    if (!headerCheckbox) {
+      return;
+    }
+
+    const checkedCount = visibleCheckboxes.filter((checkbox) => checkbox.checked).length;
+    headerCheckbox.checked = visibleCheckboxes.length > 0 && checkedCount === visibleCheckboxes.length;
+    headerCheckbox.indeterminate = checkedCount > 0 && checkedCount < visibleCheckboxes.length;
+  }
+
+  function applyTableState(config, panel, options = {}) {
+    const tableState = getTableState(config);
+    const rows = getTableRows(config, panel);
+    const filteredRows = getFilteredRows(config, panel);
+    const pageCount = getPageCount(filteredRows, tableState);
+
+    tableState.page = Math.min(Math.max(1, tableState.page), pageCount);
+
+    const pageRows = new Set(getPageRows(filteredRows, tableState));
+    rows.forEach((row) => row.classList.toggle("is-hidden", !pageRows.has(row)));
+
+    updateGenericFilterButtons(config, panel);
+    renderPagination(config, panel, filteredRows);
+    updateSelectionState(config, panel);
+
+    if (options.announce !== false) {
+      showToast(`${filteredRows.length} ${config.label} visible.`, options.elements || getElements());
+    }
+  }
+
+  function resetTableFilters(config, panel) {
+    const tableState = getTableState(config);
+    tableState.query = "";
+    tableState.page = 1;
+    config.filters.forEach((filter) => {
+      tableState.filters[filter.key] = filter.key === "date" ? "range" : "all";
+    });
 
     const input = query("[data-table-search]", panel);
     if (input) {
@@ -539,294 +1097,93 @@
     }
   }
 
-  function updateRepairFilterButtons(panel) {
-    queryAll("[data-filter-control]", panel).forEach((button) => {
-      const type = button.dataset.filterControl;
-      const selectedValue = state.repairFilters[type];
-      const defaultLabel = button.dataset.defaultLabel || button.textContent.trim();
-      const option = getRepairFilterOptions(panel, type).find((item) => item.value === selectedValue);
-      const isActive = selectedValue && !["all", "range"].includes(selectedValue);
-      const label = type === "advanced" && selectedValue === "all" ? defaultLabel : option?.label || defaultLabel;
-
-      setRepairButtonLabel(button, label, Boolean(isActive), selectedValue);
-    });
-  }
-
-  function updateRepairPagination(panel, visibleCount) {
-    const pagination = query(".customer-pagination > span", panel);
-
-    if (!pagination) {
-      return;
-    }
-
-    pagination.textContent = visibleCount === getRepairRows(panel).length
-      ? "Showing 1 to 8 of 236 repair orders"
-      : `Showing ${visibleCount} of 8 repair orders`;
-  }
-
-  function rowMatchesAdvancedFilter(rowData) {
-    if (state.repairFilters.advanced === "open") {
-      return !["Completed", "Cancelled"].includes(rowData.status);
-    }
-
-    if (state.repairFilters.advanced === "completed") {
-      return rowData.status === "Completed";
-    }
-
-    if (state.repairFilters.advanced === "high-value") {
-      return rowData.amount >= 1000;
-    }
-
-    return true;
-  }
-
-  function rowMatchesDateFilter(rowData) {
-    const dateFilter = state.repairFilters.date;
-
-    if (dateFilter === "all") {
-      return true;
-    }
-
-    if (dateFilter === "range") {
-      return rowData.dateKey >= "2024-05-01" && rowData.dateKey <= "2024-05-16";
-    }
-
-    return rowData.dateKey === dateFilter;
-  }
-
-  function applyRepairFilters(panel, elements) {
-    const rows = getRepairRows(panel);
-    const filters = state.repairFilters;
-    let visibleCount = 0;
-
-    rows.forEach((row) => {
-      const rowData = getRepairRowData(row);
-      const isVisible =
-        (!filters.query || rowData.searchText.includes(filters.query)) &&
-        (filters.status === "all" || rowData.status === filters.status) &&
-        (filters.mechanic === "all" || rowData.mechanic === filters.mechanic) &&
-        rowMatchesDateFilter(rowData) &&
-        rowMatchesAdvancedFilter(rowData);
-
-      row.classList.toggle("is-hidden", !isVisible);
-      visibleCount += isVisible ? 1 : 0;
-    });
-
-    updateRepairPagination(panel, visibleCount);
-    updateRepairFilterButtons(panel);
-    showToast(`${visibleCount} repair orders visible.`, elements);
-  }
-
-  function bindRepairToolbar(elements) {
-    const panel = query(SELECTORS.repairOrdersPanel);
+  function bindTableController(config, elements) {
+    const panel = query(config.panel);
 
     if (!panel) {
       return;
     }
 
+    prepareTableControls(config, panel);
+
     query("[data-table-search]", panel)?.addEventListener("input", (event) => {
-      state.repairFilters.query = event.target.value.trim().toLowerCase();
-      applyRepairFilters(panel, elements);
+      const tableState = getTableState(config);
+      tableState.query = event.target.value.trim().toLowerCase();
+      tableState.page = 1;
+      applyTableState(config, panel, { elements });
     });
 
     queryAll("[data-filter-control]", panel).forEach((button) => {
       button.addEventListener("click", (event) => {
         event.stopPropagation();
-        const filterType = button.dataset.filterControl;
-        const options = getRepairFilterOptions(panel, filterType);
+        const filter = config.filters.find((item) => item.key === button.dataset.filterControl);
 
-        openToolbarMenu(button, options, (option) => {
+        if (!filter) {
+          return;
+        }
+
+        openToolbarMenu(button, getFilterOptions(config, panel, filter), (option) => {
           if (option.value === "reset") {
-            resetRepairFilters(panel);
+            resetTableFilters(config, panel);
           } else {
-            state.repairFilters[filterType] = option.value;
+            const tableState = getTableState(config);
+            tableState.filters[filter.key] = option.value;
+            tableState.page = 1;
           }
 
-          applyRepairFilters(panel, elements);
+          applyTableState(config, panel, { elements });
         });
       });
     });
 
     query("[data-view-toggle]", panel)?.addEventListener("click", (event) => {
+      const tableState = getTableState(config);
       const button = event.currentTarget;
-      const isCompact = !panel.classList.contains("is-compact");
-
-      panel.classList.toggle("is-compact", isCompact);
-      button.classList.toggle("active", isCompact);
-      button.setAttribute("aria-pressed", String(isCompact));
-      showToast(isCompact ? "Compact table view enabled." : "Comfortable table view enabled.", elements);
+      tableState.compact = !tableState.compact;
+      panel.classList.toggle("is-compact", tableState.compact);
+      button.classList.toggle("active", tableState.compact);
+      button.setAttribute("aria-pressed", String(tableState.compact));
+      showToast(tableState.compact ? "Compact table view enabled." : "Comfortable table view enabled.", elements);
     });
+
+    const headerCheckbox = query(`${config.table} thead input[type="checkbox"]`, panel);
+    headerCheckbox?.addEventListener("change", () => {
+      getTableRows(config, panel)
+        .filter((row) => !row.classList.contains("is-hidden"))
+        .forEach((row) => {
+          const checkbox = query('input[type="checkbox"]', row);
+          if (checkbox) {
+            checkbox.checked = headerCheckbox.checked;
+          }
+        });
+      updateSelectionState(config, panel);
+    });
+
+    getTableRows(config, panel).forEach((row) => {
+      query('input[type="checkbox"]', row)?.addEventListener("change", () => updateSelectionState(config, panel));
+    });
+
+    queryAll(".dots-button, .invoice-actions button", panel).forEach((button) => {
+      button.addEventListener("click", () => {
+        showToast(`${button.getAttribute("aria-label") || "Action"} opened.`, elements);
+      });
+    });
+
+    applyTableState(config, panel, { announce: false, elements });
+  }
+
+  function bindDataTables(elements) {
+    TABLE_CONFIGS.forEach((config) => bindTableController(config, elements));
 
     document.addEventListener("click", (event) => {
       if (!state.toolbarMenu || state.toolbarMenu.hidden) {
         return;
       }
 
-      if (!state.toolbarMenu.contains(event.target) && !event.target.closest("[data-filter-control]")) {
+      if (!state.toolbarMenu.contains(event.target) && !event.target.closest("[data-filter-control], .per-page")) {
         closeToolbarMenu();
       }
     });
-
-    updateRepairFilterButtons(panel);
-  }
-
-  function getStaffRows(panel) {
-    return queryAll(".staff-table tbody tr", panel);
-  }
-
-  function getStaffRowData(row) {
-    return {
-      department: getCellText(row, 3),
-      role: query("td:nth-child(3) .role-tag", row)?.textContent.trim() || getCellText(row, 2),
-      searchText: row.textContent.toLowerCase(),
-      status: query("td:nth-child(6) .tag", row)?.textContent.trim() || getCellText(row, 5),
-    };
-  }
-
-  function getUniqueStaffValues(panel, key) {
-    return [...new Set(getStaffRows(panel).map((row) => getStaffRowData(row)[key]).filter(Boolean))];
-  }
-
-  function getStaffFilterOptions(panel, filterType) {
-    const filters = state.staffFilters;
-
-    if (filterType === "role") {
-      return [
-        { label: "All Roles", value: "all", active: filters.role === "all" },
-        ...getUniqueStaffValues(panel, "role").map((role) => ({
-          label: role,
-          value: role,
-          active: filters.role === role,
-        })),
-      ];
-    }
-
-    if (filterType === "status") {
-      return [
-        { label: "All Status", value: "all", active: filters.status === "all" },
-        ...getUniqueStaffValues(panel, "status").map((status) => ({
-          label: status,
-          value: status,
-          active: filters.status === status,
-        })),
-      ];
-    }
-
-    return [
-      { label: "All Staff", value: "all", active: filters.advanced === "all" },
-      { label: "Service Department", value: "Service", active: filters.advanced === "Service" },
-      { label: "Workshop Department", value: "Workshop", active: filters.advanced === "Workshop" },
-      { label: "Parts Department", value: "Parts", active: filters.advanced === "Parts" },
-      { label: "Reset Filters", value: "reset", active: false },
-    ];
-  }
-
-  function resetStaffFilters(panel) {
-    state.staffFilters = {
-      advanced: "all",
-      query: "",
-      role: "all",
-      status: "all",
-    };
-
-    const input = query("[data-table-search]", panel);
-    if (input) {
-      input.value = "";
-    }
-  }
-
-  function updateStaffFilterButtons(panel) {
-    queryAll("[data-filter-control]", panel).forEach((button) => {
-      const type = button.dataset.filterControl;
-      const selectedValue = state.staffFilters[type];
-      const defaultLabel = button.dataset.defaultLabel || button.textContent.trim();
-      const option = getStaffFilterOptions(panel, type).find((item) => item.value === selectedValue);
-      const isActive = selectedValue && selectedValue !== "all";
-      const label = type === "advanced" && selectedValue === "all" ? defaultLabel : option?.label || defaultLabel;
-
-      setRepairButtonLabel(button, label, Boolean(isActive), selectedValue);
-    });
-  }
-
-  function updateStaffPagination(panel, visibleCount) {
-    const pagination = query(".customer-pagination > span", panel);
-
-    if (!pagination) {
-      return;
-    }
-
-    pagination.textContent = visibleCount === getStaffRows(panel).length
-      ? "Showing 1 to 10 of 18 staff members"
-      : `Showing ${visibleCount} of 10 staff members`;
-  }
-
-  function rowMatchesStaffAdvancedFilter(rowData) {
-    return state.staffFilters.advanced === "all" || rowData.department === state.staffFilters.advanced;
-  }
-
-  function applyStaffFilters(panel, elements) {
-    const rows = getStaffRows(panel);
-    const filters = state.staffFilters;
-    let visibleCount = 0;
-
-    rows.forEach((row) => {
-      const rowData = getStaffRowData(row);
-      const isVisible =
-        (!filters.query || rowData.searchText.includes(filters.query)) &&
-        (filters.role === "all" || rowData.role === filters.role) &&
-        (filters.status === "all" || rowData.status === filters.status) &&
-        rowMatchesStaffAdvancedFilter(rowData);
-
-      row.classList.toggle("is-hidden", !isVisible);
-      visibleCount += isVisible ? 1 : 0;
-    });
-
-    updateStaffPagination(panel, visibleCount);
-    updateStaffFilterButtons(panel);
-    showToast(`${visibleCount} staff members visible.`, elements);
-  }
-
-  function bindStaffToolbar(elements) {
-    const panel = query(SELECTORS.staffListPanel);
-
-    if (!panel) {
-      return;
-    }
-
-    query("[data-table-search]", panel)?.addEventListener("input", (event) => {
-      state.staffFilters.query = event.target.value.trim().toLowerCase();
-      applyStaffFilters(panel, elements);
-    });
-
-    queryAll("[data-filter-control]", panel).forEach((button) => {
-      button.addEventListener("click", (event) => {
-        event.stopPropagation();
-        const filterType = button.dataset.filterControl;
-        const options = getStaffFilterOptions(panel, filterType);
-
-        openToolbarMenu(button, options, (option) => {
-          if (option.value === "reset") {
-            resetStaffFilters(panel);
-          } else {
-            state.staffFilters[filterType] = option.value;
-          }
-
-          applyStaffFilters(panel, elements);
-        });
-      });
-    });
-
-    query("[data-view-toggle]", panel)?.addEventListener("click", (event) => {
-      const button = event.currentTarget;
-      const isCompact = !panel.classList.contains("is-compact");
-
-      panel.classList.toggle("is-compact", isCompact);
-      button.classList.toggle("active", isCompact);
-      button.setAttribute("aria-pressed", String(isCompact));
-      showToast(isCompact ? "Compact staff view enabled." : "Comfortable staff view enabled.", elements);
-    });
-
-    updateStaffFilterButtons(panel);
   }
 
   function bindNavigation(elements) {
@@ -873,8 +1230,7 @@
     bindSidebar(elements);
     bindSearch(elements);
     bindQuickAdd(elements);
-    bindRepairToolbar(elements);
-    bindStaffToolbar(elements);
+    bindDataTables(elements);
     bindNavigation(elements);
     bindKeyboardShortcuts(elements);
     activateView(getInitialViewName(), elements);

@@ -767,7 +767,11 @@ input:focus-visible,
 
 .filter-button.active,
 .repair-toolbar .icon-button.active,
-.staff-toolbar .icon-button.active {
+.staff-toolbar .icon-button.active,
+.customer-toolbar .icon-button.active,
+.vehicle-toolbar .icon-button.active,
+.invoice-toolbar .icon-button.active,
+.inventory-toolbar .icon-button.active {
   color: var(--blue-ink);
   border-color: rgba(23, 92, 255, .58);
   background: var(--blue-soft);
@@ -1048,6 +1052,37 @@ input:focus-visible,
 
 .repair-orders-panel.is-compact .vehicle-thumb {
   display: none;
+}
+
+.customers-panel.is-compact :is(.customers-table th, .customers-table td),
+.vehicles-panel.is-compact :is(.vehicles-table th, .vehicles-table td),
+.invoice-list-panel.is-compact :is(.invoice-table th, .invoice-table td),
+.inventory-list-panel.is-compact :is(.inventory-table th, .inventory-table td) {
+  height: 54px;
+  padding-inline: 12px;
+}
+
+.customers-panel.is-compact .customer-avatar,
+.vehicles-panel.is-compact .vehicle-thumb,
+.invoice-list-panel.is-compact .customer-avatar,
+.inventory-list-panel.is-compact .part-thumb {
+  display: none;
+}
+
+.customers-panel.is-compact .customers-table {
+  min-width: 980px;
+}
+
+.vehicles-panel.is-compact .vehicles-table {
+  min-width: 1200px;
+}
+
+.invoice-list-panel.is-compact .invoice-table {
+  min-width: 980px;
+}
+
+.inventory-list-panel.is-compact .inventory-table {
+  min-width: 1120px;
 }
 
 .vehicle-cell,
