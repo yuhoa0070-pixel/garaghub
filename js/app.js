@@ -1,182 +1,309 @@
-const searchInput = document.querySelector("#dashboardSearch");
-const searchableCards = [...document.querySelectorAll("[data-search]")];
-const quickAddButton = document.querySelector("#quickAddButton");
-const quickAddLabel = document.querySelector("#quickAddLabel");
-const quickAddModal = document.querySelector("#quickAddModal");
-const closeModalButton = document.querySelector("#closeModalButton");
-const toast = document.querySelector("#toast");
-const quickActions = [...document.querySelectorAll(".quick-actions button")];
-const navItems = [...document.querySelectorAll(".nav-item")];
-const views = [...document.querySelectorAll("[data-view-panel]")];
-const appShell = document.querySelector(".app-shell");
-const menuButton = document.querySelector(".menu-button");
-const sidebarCollapsedKey = "garagehubSidebarCollapsed";
-const viewChrome = {
-  dashboard: {
-    search: "Search customers, vehicles, repair orders...",
-    action: "Quick Add",
-  },
-  customers: {
-    search: "Search customers, vehicles, orders...",
-    action: "Quick Add",
-  },
-  vehicles: {
-    search: "Search customers, vehicles, orders...",
-    action: "Quick Add",
-  },
-  "repair-orders": {
-    search: "Search customers, vehicles, repair orders...",
-    action: "Quick Add",
-  },
-  invoices: {
-    search: "Search invoices, customers, vehicles...",
-    action: "Create Invoice",
-  },
-  inventory: {
-    search: "Search parts, categories, brands or SKU...",
-    action: "Add Stock",
-  },
-  staff: {
-    search: "Search customers, vehicles, repair orders...",
-    action: "Add Staff",
-  },
-};
+(() => {
+  const SELECTORS = Object.freeze({
+    appShell: ".app-shell",
+    closeModalButton: "#closeModalButton",
+    navItem: ".nav-item",
+    quickActions: ".quick-actions",
+    quickAddButton: "#quickAddButton",
+    quickAddLabel: "#quickAddLabel",
+    quickAddModal: "#quickAddModal",
+    searchInput: "#dashboardSearch",
+    searchable: "[data-search]",
+    toast: "#toast",
+    view: "[data-view-panel]",
+    visibleView: "[data-view-panel].active",
+    menuButton: ".menu-button",
+  });
 
-let toastTimer;
+  const STORAGE_KEYS = Object.freeze({
+    sidebarCollapsed: "garagehubSidebarCollapsed",
+  });
 
-function showToast(message) {
-  toast.textContent = message;
-  toast.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
-}
+  const VIEW_CHROME = Object.freeze({
+    dashboard: {
+      search: "Search customers, vehicles, repair orders...",
+      action: "Quick Add",
+    },
+    customers: {
+      search: "Search customers, vehicles, orders...",
+      action: "Quick Add",
+    },
+    vehicles: {
+      search: "Search customers, vehicles, orders...",
+      action: "Quick Add",
+    },
+    "repair-orders": {
+      search: "Search customers, vehicles, repair orders...",
+      action: "Quick Add",
+    },
+    invoices: {
+      search: "Search invoices, customers, vehicles...",
+      action: "Create Invoice",
+    },
+    inventory: {
+      search: "Search parts, categories, brands or SKU...",
+      action: "Add Stock",
+    },
+    staff: {
+      search: "Search staff by name, role, phone or Telegram...",
+      action: "Add Staff",
+    },
+  });
 
-function openQuickAdd() {
-  quickAddModal.classList.add("open");
-  quickAddModal.setAttribute("aria-hidden", "false");
-  closeModalButton.focus();
-}
+  const state = {
+    toastTimer: undefined,
+  };
 
-function closeQuickAdd() {
-  quickAddModal.classList.remove("open");
-  quickAddModal.setAttribute("aria-hidden", "true");
-  quickAddButton.focus();
-}
+  const query = (selector, scope = document) => scope.querySelector(selector);
+  const queryAll = (selector, scope = document) => [...scope.querySelectorAll(selector)];
 
-function updateViewChrome(viewName) {
-  const chrome = viewChrome[viewName] || viewChrome.dashboard;
-  searchInput.placeholder = chrome.search;
-  if (quickAddLabel) {
-    quickAddLabel.textContent = chrome.action;
+  const getElements = () => ({
+    appShell: query(SELECTORS.appShell),
+    closeModalButton: query(SELECTORS.closeModalButton),
+    menuButton: query(SELECTORS.menuButton),
+    quickActions: query(SELECTORS.quickActions),
+    quickAddButton: query(SELECTORS.quickAddButton),
+    quickAddLabel: query(SELECTORS.quickAddLabel),
+    quickAddModal: query(SELECTORS.quickAddModal),
+    searchInput: query(SELECTORS.searchInput),
+    toast: query(SELECTORS.toast),
+  });
+
+  const getNavItems = () => queryAll(SELECTORS.navItem);
+  const getSearchableCards = () => queryAll(SELECTORS.searchable);
+  const getViews = () => queryAll(SELECTORS.view);
+
+  function showToast(message, elements) {
+    if (!elements.toast) {
+      return;
+    }
+
+    elements.toast.textContent = message;
+    elements.toast.classList.add("show");
+    clearTimeout(state.toastTimer);
+    state.toastTimer = setTimeout(() => elements.toast.classList.remove("show"), 2200);
   }
-}
 
-function getSavedSidebarState() {
-  try {
-    return localStorage.getItem(sidebarCollapsedKey) === "true";
-  } catch {
-    return false;
+  function updateViewChrome(viewName, elements) {
+    const chrome = VIEW_CHROME[viewName] || VIEW_CHROME.dashboard;
+
+    if (elements.searchInput) {
+      elements.searchInput.placeholder = chrome.search;
+    }
+
+    if (elements.quickAddLabel) {
+      elements.quickAddLabel.textContent = chrome.action;
+    }
   }
-}
 
-function setSidebarCollapsed(isCollapsed, persist = true) {
-  appShell.classList.toggle("sidebar-collapsed", isCollapsed);
-  menuButton.setAttribute("aria-expanded", String(!isCollapsed));
-  menuButton.setAttribute("aria-label", isCollapsed ? "Expand menu" : "Collapse menu");
+  function clearSearchState(elements) {
+    if (elements.searchInput) {
+      elements.searchInput.value = "";
+    }
 
-  if (persist) {
+    getSearchableCards().forEach((card) => card.classList.remove("is-hidden"));
+  }
+
+  function openQuickAdd(elements) {
+    if (!elements.quickAddModal) {
+      return;
+    }
+
+    elements.quickAddModal.classList.add("open");
+    elements.quickAddModal.setAttribute("aria-hidden", "false");
+    elements.closeModalButton?.focus();
+  }
+
+  function closeQuickAdd(elements) {
+    if (!elements.quickAddModal) {
+      return;
+    }
+
+    elements.quickAddModal.classList.remove("open");
+    elements.quickAddModal.setAttribute("aria-hidden", "true");
+    elements.quickAddButton?.focus();
+  }
+
+  function getSavedSidebarState() {
     try {
-      localStorage.setItem(sidebarCollapsedKey, String(isCollapsed));
+      return localStorage.getItem(STORAGE_KEYS.sidebarCollapsed) === "true";
+    } catch {
+      return false;
+    }
+  }
+
+  function setSidebarCollapsed(isCollapsed, elements, persist = true) {
+    if (!elements.appShell || !elements.menuButton) {
+      return;
+    }
+
+    elements.appShell.classList.toggle("sidebar-collapsed", isCollapsed);
+    elements.menuButton.setAttribute("aria-expanded", String(!isCollapsed));
+    elements.menuButton.setAttribute("aria-label", isCollapsed ? "Expand menu" : "Collapse menu");
+
+    if (!persist) {
+      return;
+    }
+
+    try {
+      localStorage.setItem(STORAGE_KEYS.sidebarCollapsed, String(isCollapsed));
     } catch {
       // The toggle still works if browser storage is unavailable.
     }
   }
-}
 
-navItems.forEach((item) => {
-  if (!item.title) {
-    item.title = item.textContent.trim();
+  function getInitialViewName() {
+    const hashView = window.location.hash.replace("#", "");
+    const hasHashView = getViews().some((view) => view.dataset.viewPanel === hashView);
+
+    if (hasHashView) {
+      return hashView;
+    }
+
+    const activeNav = getNavItems().find((item) => item.classList.contains("active") && item.dataset.view);
+    return activeNav?.dataset.view || "dashboard";
   }
-});
 
-if (appShell && menuButton) {
-  setSidebarCollapsed(getSavedSidebarState(), false);
+  function activateView(viewName, elements) {
+    const targetView = getViews().find((view) => view.dataset.viewPanel === viewName);
+    const targetNav = getNavItems().find((item) => item.dataset.view === viewName);
 
-  menuButton.addEventListener("click", () => {
-    const shouldCollapse = !appShell.classList.contains("sidebar-collapsed");
-    setSidebarCollapsed(shouldCollapse);
-    showToast(shouldCollapse ? "Navigation collapsed." : "Navigation expanded.");
-  });
-}
+    if (!targetView || !targetNav) {
+      return false;
+    }
 
-const activeNav = navItems.find((item) => item.classList.contains("active") && item.dataset.view);
-updateViewChrome(activeNav ? activeNav.dataset.view : "dashboard");
+    getNavItems().forEach((navItem) => {
+      navItem.classList.toggle("active", navItem === targetNav);
 
-searchInput.addEventListener("input", (event) => {
-  const query = event.target.value.trim().toLowerCase();
-  const activeView = document.querySelector("[data-view-panel].active");
-  const activeCards = activeView
-    ? [...activeView.querySelectorAll("[data-search]")]
-    : searchableCards;
+      if (navItem === targetNav) {
+        navItem.setAttribute("aria-current", "page");
+      } else {
+        navItem.removeAttribute("aria-current");
+      }
+    });
 
-  searchableCards.forEach((card) => card.classList.remove("is-hidden"));
-
-  activeCards.forEach((card) => {
-    const text = `${card.dataset.search} ${card.textContent}`.toLowerCase();
-    card.classList.toggle("is-hidden", query.length > 0 && !text.includes(query));
-  });
-
-  if (query.length > 1) {
-    const visibleCount = activeCards.filter((card) => !card.classList.contains("is-hidden")).length;
-    showToast(`${visibleCount} sections match "${query}".`);
+    getViews().forEach((view) => view.classList.toggle("active", view === targetView));
+    updateViewChrome(viewName, elements);
+    clearSearchState(elements);
+    return true;
   }
-});
 
-quickAddButton.addEventListener("click", openQuickAdd);
-closeModalButton.addEventListener("click", closeQuickAdd);
+  function bindSidebar(elements) {
+    getNavItems().forEach((item) => {
+      if (!item.title) {
+        item.title = item.textContent.trim();
+      }
+    });
 
-quickAddModal.addEventListener("click", (event) => {
-  if (event.target === quickAddModal) {
-    closeQuickAdd();
-  }
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && quickAddModal.classList.contains("open")) {
-    closeQuickAdd();
-  }
-});
-
-quickActions.forEach((button) => {
-  button.addEventListener("click", () => {
-    closeQuickAdd();
-    showToast(`${button.textContent.trim()} started.`);
-  });
-});
-
-navItems.forEach((item) => {
-  item.addEventListener("click", (event) => {
-    event.preventDefault();
-    const viewName = item.dataset.view;
-    const targetView = views.find((view) => view.dataset.viewPanel === viewName);
-
-    if (!viewName || !targetView) {
-      showToast(`${item.textContent.trim()} is coming soon.`);
+    if (!elements.appShell || !elements.menuButton) {
       return;
     }
 
-    navItems.forEach((navItem) => {
-      navItem.classList.remove("active");
-      navItem.removeAttribute("aria-current");
+    setSidebarCollapsed(getSavedSidebarState(), elements, false);
+
+    elements.menuButton.addEventListener("click", () => {
+      const shouldCollapse = !elements.appShell.classList.contains("sidebar-collapsed");
+      setSidebarCollapsed(shouldCollapse, elements);
+      showToast(shouldCollapse ? "Navigation collapsed." : "Navigation expanded.", elements);
     });
-    item.classList.add("active");
-    item.setAttribute("aria-current", "page");
+  }
 
-    views.forEach((view) => view.classList.toggle("active", view === targetView));
-    updateViewChrome(viewName);
-    searchInput.value = "";
-    searchableCards.forEach((card) => card.classList.remove("is-hidden"));
+  function bindSearch(elements) {
+    if (!elements.searchInput) {
+      return;
+    }
 
-    showToast(`${item.textContent.trim()} selected.`);
-  });
-});
+    elements.searchInput.addEventListener("input", (event) => {
+      const queryText = event.target.value.trim().toLowerCase();
+      const activeView = query(SELECTORS.visibleView);
+      const allCards = getSearchableCards();
+      const activeCards = activeView ? queryAll(SELECTORS.searchable, activeView) : allCards;
+
+      allCards.forEach((card) => card.classList.remove("is-hidden"));
+
+      activeCards.forEach((card) => {
+        const searchText = `${card.dataset.search || ""} ${card.textContent}`.toLowerCase();
+        const shouldHide = queryText.length > 0 && !searchText.includes(queryText);
+        card.classList.toggle("is-hidden", shouldHide);
+      });
+
+      if (queryText.length > 1) {
+        const visibleCount = activeCards.filter((card) => !card.classList.contains("is-hidden")).length;
+        showToast(`${visibleCount} sections match "${queryText}".`, elements);
+      }
+    });
+  }
+
+  function bindQuickAdd(elements) {
+    elements.quickAddButton?.addEventListener("click", () => openQuickAdd(elements));
+    elements.closeModalButton?.addEventListener("click", () => closeQuickAdd(elements));
+
+    elements.quickAddModal?.addEventListener("click", (event) => {
+      if (event.target === elements.quickAddModal) {
+        closeQuickAdd(elements);
+      }
+    });
+
+    elements.quickActions?.addEventListener("click", (event) => {
+      const action = event.target.closest("button");
+
+      if (!action || !elements.quickActions.contains(action)) {
+        return;
+      }
+
+      closeQuickAdd(elements);
+      showToast(`${action.textContent.trim()} started.`, elements);
+    });
+  }
+
+  function bindNavigation(elements) {
+    const navList = query(".nav-list");
+
+    if (!navList) {
+      return;
+    }
+
+    navList.addEventListener("click", (event) => {
+      const item = event.target.closest(SELECTORS.navItem);
+
+      if (!item || !navList.contains(item)) {
+        return;
+      }
+
+      event.preventDefault();
+      const viewName = item.dataset.view;
+
+      if (!viewName || !activateView(viewName, elements)) {
+        showToast(`${item.textContent.trim()} is coming soon.`, elements);
+        return;
+      }
+
+      showToast(`${item.textContent.trim()} selected.`, elements);
+    });
+  }
+
+  function bindKeyboardShortcuts(elements) {
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && elements.quickAddModal?.classList.contains("open")) {
+        closeQuickAdd(elements);
+      }
+    });
+  }
+
+  function init() {
+    const elements = getElements();
+
+    bindSidebar(elements);
+    bindSearch(elements);
+    bindQuickAdd(elements);
+    bindNavigation(elements);
+    bindKeyboardShortcuts(elements);
+    activateView(getInitialViewName(), elements);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+})();
