@@ -667,7 +667,7 @@
     menu.style.top = `${Math.round(rect.bottom + 8)}px`;
   }
 
-  function openToolbarMenu(button, options, onSelect) {
+  function openToolbarMenu(button, options, onSelect, menuOptions = {}) {
     const menu = getToolbarMenu();
 
     closeToolbarMenu();
@@ -678,11 +678,22 @@
       const tone = getFilterTone(button.dataset.filterControl, option.value);
 
       item.type = "button";
-      item.setAttribute("role", "menuitemradio");
+      item.setAttribute("role", menuOptions.multiple ? "menuitemcheckbox" : "menuitemradio");
       item.setAttribute("aria-checked", String(option.active));
       item.className = option.active ? "active" : "";
+      item.classList.toggle("is-multi-option", Boolean(menuOptions.multiple));
       if (tone) {
         item.dataset.filterTone = tone;
+      }
+
+      if (menuOptions.multiple) {
+        const check = document.createElement("span");
+        check.className = "toolbar-menu-check";
+        check.setAttribute("aria-hidden", "true");
+        if (option.active) {
+          check.append(createIcon("check"));
+        }
+        item.append(check);
       }
 
       const label = document.createElement("span");
@@ -697,7 +708,11 @@
 
       item.addEventListener("click", () => {
         onSelect(option);
-        closeToolbarMenu();
+        if (menuOptions.multiple) {
+          openToolbarMenu(button, menuOptions.getOptions?.() || options, onSelect, menuOptions);
+        } else {
+          closeToolbarMenu();
+        }
       });
       menu.append(item);
     });
@@ -802,6 +817,30 @@
     return icon;
   }
 
+  function isMultiFilter(filter) {
+    return filter.multiple ?? !["advanced", "date"].includes(filter.key);
+  }
+
+  function getDefaultFilterValue(filter) {
+    if (isMultiFilter(filter)) {
+      return [];
+    }
+
+    return filter.key === "date" ? "range" : "all";
+  }
+
+  function getSelectedValues(value) {
+    if (Array.isArray(value)) {
+      return value;
+    }
+
+    if (!value || value === "all" || value === "range") {
+      return [];
+    }
+
+    return [value];
+  }
+
   function getTableState(config) {
     if (state.tableStates[config.id]) {
       return state.tableStates[config.id];
@@ -809,7 +848,7 @@
 
     const filters = {};
     config.filters.forEach((filter) => {
-      filters[filter.key] = filter.key === "date" ? "range" : "all";
+      filters[filter.key] = getDefaultFilterValue(filter);
     });
 
     state.tableStates[config.id] = {
@@ -830,11 +869,21 @@
   function getFilterOptions(config, panel, filter) {
     const rows = getTableRows(config, panel);
     const tableState = getTableState(config);
+    const currentValue = tableState.filters[filter.key];
+    const selectedValues = getSelectedValues(currentValue);
+    const isMultiple = isMultiFilter(filter);
+    const isActiveOption = (option) => {
+      if (!isMultiple) {
+        return currentValue === option.value;
+      }
+
+      return option.value === "all" ? selectedValues.length === 0 : selectedValues.includes(option.value);
+    };
 
     if (filter.options) {
       return filter.options.map((option) => ({
         ...option,
-        active: tableState.filters[filter.key] === option.value,
+        active: isActiveOption(option),
       }));
     }
 
@@ -847,7 +896,7 @@
 
     return options.map((option) => ({
       ...option,
-      active: tableState.filters[filter.key] === option.value,
+      active: isActiveOption(option),
     }));
   }
 
@@ -931,16 +980,31 @@
       }
 
       const selectedValue = tableState.filters[filter.key];
-      const option = getFilterOptions(config, panel, filter).find((item) => item.value === selectedValue);
+      const options = getFilterOptions(config, panel, filter);
+      const selectedValues = getSelectedValues(selectedValue);
+      const isMultiple = isMultiFilter(filter);
+      const option = options.find((item) => item.value === selectedValue);
       const inactiveValues = filter.key === "date" ? ["all", "range"] : ["all"];
-      const isActive = Boolean(selectedValue && !inactiveValues.includes(selectedValue));
-      const label = filter.key === "advanced" && selectedValue === "all" ? filter.label : option?.label || filter.label;
+      const isActive = isMultiple ? selectedValues.length > 0 : Boolean(selectedValue && !inactiveValues.includes(selectedValue));
+      const selectedLabels = options
+        .filter((item) => item.value !== "all" && selectedValues.includes(item.value))
+        .map((item) => item.label);
+      const label = isMultiple
+        ? selectedLabels.length > 2
+          ? `${selectedLabels.length} selected`
+          : selectedLabels.join(", ") || filter.label
+        : filter.key === "advanced" && selectedValue === "all" ? filter.label : option?.label || filter.label;
+      const toneValue = isMultiple && selectedValues.length === 1 ? selectedValues[0] : selectedValue;
 
-      setFilterButtonLabel(button, label, isActive, selectedValue);
+      setFilterButtonLabel(button, label, isActive, toneValue);
     });
   }
 
   function matchesTableFilter(config, filter, selectedValue, rowData) {
+    if (Array.isArray(selectedValue)) {
+      return selectedValue.length === 0 || selectedValue.includes(rowData[filter.key]);
+    }
+
     if (!selectedValue || selectedValue === "all") {
       return true;
     }
@@ -1125,7 +1189,7 @@
     tableState.query = "";
     tableState.page = 1;
     config.filters.forEach((filter) => {
-      tableState.filters[filter.key] = filter.key === "date" ? "range" : "all";
+      tableState.filters[filter.key] = getDefaultFilterValue(filter);
     });
 
     const input = query("[data-table-search]", panel);
@@ -1159,9 +1223,19 @@
           return;
         }
 
-        openToolbarMenu(button, getFilterOptions(config, panel, filter), (option) => {
+        const isMultiple = isMultiFilter(filter);
+        const handleSelect = (option) => {
           if (option.value === "reset") {
             resetTableFilters(config, panel);
+          } else if (isMultiple) {
+            const tableState = getTableState(config);
+            const selectedValues = getSelectedValues(tableState.filters[filter.key]);
+            tableState.filters[filter.key] = option.value === "all"
+              ? []
+              : selectedValues.includes(option.value)
+                ? selectedValues.filter((value) => value !== option.value)
+                : [...selectedValues, option.value];
+            tableState.page = 1;
           } else {
             const tableState = getTableState(config);
             tableState.filters[filter.key] = option.value;
@@ -1169,6 +1243,11 @@
           }
 
           applyTableState(config, panel, { elements });
+        };
+
+        openToolbarMenu(button, getFilterOptions(config, panel, filter), handleSelect, {
+          getOptions: () => getFilterOptions(config, panel, filter),
+          multiple: isMultiple,
         });
       });
     });

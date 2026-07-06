@@ -829,6 +829,13 @@ input:focus-visible,
   font-size: 18px;
 }
 
+.filter-button [data-filter-label] {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .toolbar-menu {
   position: fixed;
   z-index: 40;
@@ -860,6 +867,36 @@ input:focus-visible,
   background: transparent;
   cursor: pointer;
   font-weight: 620;
+}
+
+.toolbar-menu button.is-multi-option {
+  justify-content: flex-start;
+  gap: 10px;
+  padding-left: 12px;
+}
+
+.toolbar-menu-check {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  color: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.toolbar-menu-check :is(svg, .ti) {
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+}
+
+.toolbar-menu button.active .toolbar-menu-check {
+  color: #fff;
+  border-color: var(--blue);
+  background: var(--blue);
 }
 
 .toolbar-menu button em {
