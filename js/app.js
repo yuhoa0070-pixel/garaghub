@@ -526,8 +526,7 @@
       return hashView;
     }
 
-    const activeNav = getNavItems().find((item) => item.classList.contains("active") && item.dataset.view);
-    return activeNav?.dataset.view || "dashboard";
+    return "dashboard";
   }
 
   function activateView(viewName, elements) {
@@ -1177,7 +1176,13 @@
   }
 
   function bindDataTables(elements) {
-    TABLE_CONFIGS.forEach((config) => bindTableController(config, elements));
+    TABLE_CONFIGS.forEach((config) => {
+      try {
+        bindTableController(config, elements);
+      } catch (error) {
+        console.error(`GarageHub could not initialize ${config.id} controls.`, error);
+      }
+    });
 
     document.addEventListener("click", (event) => {
       if (!state.toolbarMenu || state.toolbarMenu.hidden) {
@@ -1238,10 +1243,10 @@
     bindSidebar(elements);
     bindSearch(elements);
     bindQuickAdd(elements);
-    bindDataTables(elements);
     bindNavigation(elements);
     bindKeyboardShortcuts(elements);
     activateView(getInitialViewName(), elements);
+    bindDataTables(elements);
   }
 
   if (document.readyState === "loading") {
