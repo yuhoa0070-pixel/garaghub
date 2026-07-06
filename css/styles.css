@@ -558,6 +558,16 @@ input:focus-visible,
   flex: 0 0 62px;
 }
 
+.customer-stat > div,
+.vehicle-stat > div,
+.repair-stat > div,
+.invoice-stat > div,
+.inventory-stat > div,
+.staff-stat > div,
+.settings-stat > div {
+  min-width: 0;
+}
+
 .vehicle-stat p {
   margin: 0 0 4px;
   color: #52617d;
@@ -2959,7 +2969,7 @@ td {
   display: block;
   overflow: hidden;
   color: #0f172a;
-  font-size: clamp(1.24rem, .48vw + 1rem, 1.55rem);
+  font-size: clamp(1.08rem, .42vw + .88rem, 1.46rem);
   font-variant-numeric: tabular-nums;
   font-weight: 850;
   line-height: 1.08;
