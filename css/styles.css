@@ -493,7 +493,7 @@ input:focus-visible,
   color: #fff;
   border: 0;
   border-radius: var(--radius);
-  background: linear-gradient(135deg, #355173 0%, #16233a 100%);
+  background: linear-gradient(135deg, #2f72e8 0%, #1d57c8 100%);
   box-shadow: none;
   cursor: pointer;
   font-weight: 820;
@@ -2219,7 +2219,7 @@ td {
 .primary-action {
   min-height: 52px;
   padding: 0 20px;
-  background: linear-gradient(135deg, #355173 0%, #16233a 100%);
+  background: linear-gradient(135deg, #2f72e8 0%, #1d57c8 100%);
   box-shadow: none;
 }
 
@@ -4542,8 +4542,9 @@ td {
 .topbar-actions .quick-add {
   min-width: 156px;
   padding: 0 18px;
-  color: var(--blue);
-  border-color: rgba(61, 86, 120, .38);
+  color: #1d57c8;
+  border-color: rgba(47, 114, 232, .38);
+  background: #f8fbff;
 }
 
 .topbar-actions .quick-add :is(svg, .ti):first-child,
