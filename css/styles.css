@@ -1523,7 +1523,7 @@ input:focus-visible,
 
 .metric-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
   gap: 16px;
   padding: 16px 32px 26px;
 }
@@ -1540,7 +1540,7 @@ input:focus-visible,
 
 .metric-card {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
+  grid-template-columns: 44px minmax(120px, 1fr);
   grid-template-rows: auto auto auto;
   align-items: center;
   column-gap: 16px;
@@ -1562,6 +1562,7 @@ input:focus-visible,
 .metric-heading h2 {
   grid-column: 2;
   grid-row: 1;
+  min-width: 0;
   margin: 0;
   color: #0f172a;
   font-size: 13px;
@@ -1657,6 +1658,7 @@ input:focus-visible,
   color: var(--muted);
   font-size: 12px;
   font-weight: 760;
+  line-height: 1.25;
 }
 
 .trend.up {
@@ -5134,7 +5136,7 @@ td {
 
 @media (max-width: 1500px) {
   .metric-grid {
-    grid-template-columns: repeat(6, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
   }
 
   .app-toolbar[data-toolbar-layout="customers"] {
@@ -5201,7 +5203,7 @@ td {
 
 @media (max-width: 1360px) {
   .metric-grid {
-    grid-template-columns: repeat(3, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
   }
 
   .invoice-layout {
