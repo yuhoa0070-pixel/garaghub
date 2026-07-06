@@ -659,7 +659,7 @@
 
   function positionToolbarMenu(menu, button, menuOptions = {}) {
     const rect = button.getBoundingClientRect();
-    const preferredWidth = menuOptions.multiple ? 320 : 280;
+    const preferredWidth = menuOptions.multiple ? 236 : 248;
     const menuWidth = Math.min(Math.max(rect.width, preferredWidth), window.innerWidth - 32);
     const left = Math.min(rect.left, window.innerWidth - menuWidth - 16);
 

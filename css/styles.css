@@ -5546,21 +5546,21 @@ td {
 }
 
 .toolbar-menu {
-  gap: 8px;
-  min-width: min(320px, calc(100vw - 32px));
-  padding: 14px;
+  gap: 4px;
+  min-width: min(236px, calc(100vw - 32px));
+  padding: 10px;
   overflow: hidden;
   background: #ffffff;
   border: 1px solid #dce6f2;
   border-top: 3px solid var(--select-line);
-  border-radius: 22px;
+  border-radius: 18px;
   box-shadow: var(--menu-shadow);
 }
 
 .toolbar-menu button {
-  min-height: 48px;
-  gap: 12px;
-  padding: 0 14px;
+  min-height: 38px;
+  gap: 10px;
+  padding: 0 12px;
   color: #1c2638;
   border-radius: 999px;
   font-weight: 600;
@@ -5568,8 +5568,8 @@ td {
 }
 
 .toolbar-menu button.is-multi-option {
-  gap: 12px;
-  padding-left: 12px;
+  gap: 10px;
+  padding-left: 10px;
 }
 
 .toolbar-menu button:hover {
@@ -5597,12 +5597,12 @@ td {
 }
 
 .toolbar-menu-check {
-  width: 26px;
-  height: 26px;
-  flex: 0 0 26px;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
   color: transparent;
   border-color: #bfd0e7;
-  border-radius: 9px;
+  border-radius: 7px;
   background: #ffffff;
 }
 
@@ -5615,9 +5615,9 @@ td {
 .toolbar-menu-radio-check {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
-  flex: 0 0 30px;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
   margin-left: auto;
   color: #ffffff;
   border-radius: 999px;
@@ -5627,9 +5627,9 @@ td {
 
 .toolbar-menu-check :is(svg, .ti),
 .toolbar-menu-radio-check :is(svg, .ti) {
-  width: 18px;
-  height: 18px;
-  font-size: 18px;
+  width: 15px;
+  height: 15px;
+  font-size: 15px;
   color: currentColor;
 }
 
@@ -5639,11 +5639,11 @@ td {
 
 @media (max-width: 580px) {
   .toolbar-menu {
-    border-radius: 18px;
-    padding: 10px;
+    border-radius: 16px;
+    padding: 8px;
   }
 
   .toolbar-menu button {
-    min-height: 44px;
+    min-height: 38px;
   }
 }
