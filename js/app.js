@@ -657,9 +657,10 @@
     queryAll("[data-filter-control]").forEach((button) => button.setAttribute("aria-expanded", "false"));
   }
 
-  function positionToolbarMenu(menu, button) {
+  function positionToolbarMenu(menu, button, menuOptions = {}) {
     const rect = button.getBoundingClientRect();
-    const menuWidth = Math.max(rect.width, 220);
+    const preferredWidth = menuOptions.multiple ? 320 : 280;
+    const menuWidth = Math.min(Math.max(rect.width, preferredWidth), window.innerWidth - 32);
     const left = Math.min(rect.left, window.innerWidth - menuWidth - 16);
 
     menu.style.minWidth = `${Math.round(menuWidth)}px`;
@@ -672,6 +673,7 @@
 
     closeToolbarMenu();
     menu.replaceChildren();
+    menu.classList.toggle("is-multi-menu", Boolean(menuOptions.multiple));
 
     options.forEach((option) => {
       const item = document.createElement("button");
@@ -697,13 +699,16 @@
       }
 
       const label = document.createElement("span");
+      label.className = "toolbar-menu-label";
       label.textContent = option.label;
       item.append(label);
 
-      if (option.active) {
-        const note = document.createElement("em");
-        note.textContent = "Selected";
-        item.append(note);
+      if (option.active && !menuOptions.multiple) {
+        const radioCheck = document.createElement("span");
+        radioCheck.className = "toolbar-menu-radio-check";
+        radioCheck.setAttribute("aria-hidden", "true");
+        radioCheck.append(createIcon("check"));
+        item.append(radioCheck);
       }
 
       item.addEventListener("click", () => {
@@ -717,7 +722,7 @@
       menu.append(item);
     });
 
-    positionToolbarMenu(menu, button);
+    positionToolbarMenu(menu, button, menuOptions);
     menu.hidden = false;
     button.setAttribute("aria-expanded", "true");
   }
