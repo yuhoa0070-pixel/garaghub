@@ -3920,6 +3920,99 @@ td {
   font-weight: 400;
 }
 
+/* Topbar action consistency */
+.topbar-actions {
+  gap: 12px;
+}
+
+.topbar-actions .icon-button,
+.topbar-actions .quick-add,
+.topbar-actions .shop-switcher {
+  min-height: 44px;
+  height: 44px;
+  border: 1px solid #d4deeb;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: none;
+}
+
+.topbar-actions .icon-button {
+  width: 44px;
+  color: #0d1830;
+}
+
+.topbar-actions .icon-button:hover,
+.topbar-actions .quick-add:hover,
+.topbar-actions .shop-switcher:hover {
+  border-color: rgba(29, 100, 242, .45);
+  background: #f8fbff;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, .06);
+  transform: translateY(-1px);
+}
+
+.topbar-actions .quick-add {
+  min-width: 156px;
+  padding: 0 18px;
+  color: var(--blue);
+  border-color: rgba(29, 100, 242, .55);
+}
+
+.topbar-actions .quick-add :is(svg, .ti):first-child,
+.topbar-actions .icon-button :is(svg, .ti) {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  stroke-width: 1.9;
+}
+
+.topbar-actions .quick-add :is(svg, .ti):last-child,
+.topbar-actions .shop-switcher > :is(svg, .ti) {
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+}
+
+.topbar-actions .top-profile {
+  min-width: 194px;
+  padding: 0 14px 0 12px;
+  gap: 12px;
+}
+
+.topbar-actions .top-profile .avatar {
+  width: 34px;
+  height: 34px;
+  flex-basis: 34px;
+  font-size: 13px;
+}
+
+.topbar-actions .top-profile span:nth-child(2) {
+  gap: 1px;
+}
+
+.topbar-actions .top-profile strong {
+  color: #101828;
+  font-size: 14px;
+  font-weight: 680;
+  line-height: 1.18;
+}
+
+.topbar-actions .top-profile small {
+  color: #66758c;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.topbar-actions .has-badge span {
+  top: -7px;
+  right: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  font-size: 10px;
+  font-weight: 700;
+  border-width: 2px;
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -4269,12 +4362,12 @@ td {
     margin-left: auto;
   }
 
-  .quick-add {
+  .topbar-actions .quick-add {
     min-width: 44px;
     padding: 0 12px;
   }
 
-  .quick-add :is(svg, .ti) {
+  .topbar-actions .quick-add :is(svg, .ti) {
     margin: 0;
   }
 
