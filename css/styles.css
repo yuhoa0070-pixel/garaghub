@@ -14,6 +14,10 @@
   --red: #e33a45;
   --purple: #7b4ce2;
   --telegram: #1d64f2;
+  --icon-primary: #111111;
+  --icon-secondary: #666666;
+  --icon-container: #f8f8f6;
+  --icon-container-border: #ededeb;
   --shadow: 0 20px 50px rgba(15, 23, 42, .08);
   --shadow-soft: 0 1px 2px rgba(15, 23, 42, .05), 0 12px 30px rgba(15, 23, 42, .04);
   --radius: 8px;
@@ -74,7 +78,7 @@ svg {
   stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.5;
+  stroke-width: 2;
 }
 
 .ti {
@@ -5375,4 +5379,140 @@ td {
     animation-duration: .001ms !important;
     animation-iteration-count: 1 !important;
   }
+}
+
+/* Minimal icon system */
+.nav-item :is(svg, .ti),
+.topbar-actions .icon-button :is(svg, .ti),
+.topbar-actions .quick-add :is(svg, .ti):first-child,
+.filter-button :is(svg, .ti),
+.customer-search :is(svg, .ti),
+.search-field :is(svg, .ti),
+.ghost-button :is(svg, .ti),
+.date-button :is(svg, .ti),
+.shop-switcher :is(svg, .ti),
+.quick-actions button :is(svg, .ti),
+.profile-button > :is(svg, .ti),
+.staff-contact-list :is(svg, .ti) {
+  color: var(--icon-secondary);
+  stroke-width: 2;
+}
+
+.nav-item :is(svg, .ti),
+.topbar-actions .icon-button :is(svg, .ti),
+.topbar-actions .quick-add :is(svg, .ti):first-child,
+.ghost-button :is(svg, .ti),
+.filter-button :is(svg, .ti),
+.customer-search :is(svg, .ti),
+.search-field :is(svg, .ti),
+.staff-contact-list :is(svg, .ti) {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+}
+
+.topbar-actions .quick-add :is(svg, .ti):last-child,
+.topbar-actions .shop-switcher > :is(svg, .ti),
+.profile-button > :is(svg, .ti),
+.date-button :is(svg, .ti):last-child,
+.toolbar-menu-check :is(svg, .ti) {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+}
+
+.nav-item:hover :is(svg, .ti),
+.nav-item.active :is(svg, .ti),
+.topbar-actions .quick-add :is(svg, .ti):first-child,
+.filter-button.active :is(svg, .ti),
+.ghost-button:hover :is(svg, .ti),
+.date-button:hover :is(svg, .ti),
+.quick-actions button:hover :is(svg, .ti) {
+  color: var(--icon-primary);
+}
+
+.metric-icon,
+.alert-icon,
+.movement-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  color: var(--icon-primary);
+  border: 1px solid var(--icon-container-border);
+  border-radius: 12px;
+  background: var(--icon-container);
+  box-shadow: none;
+}
+
+.metric-icon :is(svg, .ti),
+.alert-icon :is(svg, .ti),
+.movement-icon :is(svg, .ti) {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  color: currentColor;
+  stroke-width: 2;
+}
+
+.metric-icon:is(.green, .blue, .purple, .orange, .red),
+.alert-icon:is(.orange, .red),
+.movement-icon:is(.up, .down) {
+  color: var(--icon-primary);
+  background: var(--icon-container);
+}
+
+.topbar-actions .icon-button {
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  min-height: 36px;
+  color: var(--icon-primary);
+  border-color: transparent;
+  border-radius: 12px;
+  background: var(--icon-container);
+  box-shadow: none;
+}
+
+.topbar-actions .icon-button:hover {
+  color: var(--icon-primary);
+  border-color: var(--icon-container-border);
+  background: #ffffff;
+  box-shadow: none;
+  transform: none;
+}
+
+.help-card > :is(svg, .ti) {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  color: var(--icon-primary);
+  font-size: 20px;
+  border: 1px solid var(--icon-container-border);
+  border-radius: 12px;
+  background: var(--icon-container);
+  stroke-width: 2;
+}
+
+.toolbar-menu-check {
+  color: var(--icon-secondary);
+  border-color: #d7d7d2;
+  border-radius: 6px;
+  background: var(--icon-container);
+}
+
+.toolbar-menu button.active .toolbar-menu-check {
+  color: #ffffff;
+  border-color: var(--icon-primary);
+  background: var(--icon-primary);
+}
+
+.app-shell.sidebar-collapsed .nav-item :is(svg, .ti),
+.app-shell.sidebar-collapsed .help-card :is(svg, .ti) {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
 }
