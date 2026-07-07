@@ -1,7 +1,11 @@
 (() => {
   const SELECTORS = Object.freeze({
     appShell: ".app-shell",
+    addCustomerButton: "#addCustomerButton",
+    addCustomerForm: "#addCustomerForm",
+    addCustomerModal: "#addCustomerModal",
     closeModalButton: "#closeModalButton",
+    closeCustomerModalButton: "#closeCustomerModalButton",
     closeVehicleModalButton: "#closeVehicleModalButton",
     navItem: ".nav-item",
     quickActions: ".quick-actions",
@@ -569,6 +573,10 @@
     quickAddButton: query(SELECTORS.quickAddButton),
     quickAddLabel: query(SELECTORS.quickAddLabel),
     quickAddModal: query(SELECTORS.quickAddModal),
+    addCustomerButton: query(SELECTORS.addCustomerButton),
+    addCustomerForm: query(SELECTORS.addCustomerForm),
+    addCustomerModal: query(SELECTORS.addCustomerModal),
+    closeCustomerModalButton: query(SELECTORS.closeCustomerModalButton),
     addVehicleModal: query(SELECTORS.addVehicleModal),
     searchInput: query(SELECTORS.searchInput),
     addVehicleButton: query(SELECTORS.addVehicleButton),
@@ -629,6 +637,26 @@
     elements.quickAddModal.classList.remove("open");
     elements.quickAddModal.setAttribute("aria-hidden", "true");
     elements.quickAddButton?.focus();
+  }
+
+  function openAddCustomerModal(elements) {
+    if (!elements.addCustomerModal) {
+      return;
+    }
+
+    elements.addCustomerModal.classList.add("open");
+    elements.addCustomerModal.setAttribute("aria-hidden", "false");
+    elements.addCustomerForm?.querySelector("input, select")?.focus();
+  }
+
+  function closeAddCustomerModal(elements) {
+    if (!elements.addCustomerModal) {
+      return;
+    }
+
+    elements.addCustomerModal.classList.remove("open");
+    elements.addCustomerModal.setAttribute("aria-hidden", "true");
+    elements.addCustomerButton?.focus();
   }
 
   function openAddVehicleModal(elements) {
@@ -734,6 +762,11 @@
     return date.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
   }
 
+  function formatCurrency(value) {
+    const amount = Number(value) || 0;
+    return amount.toLocaleString("en-US", { style: "currency", currency: "USD" });
+  }
+
   function getTagClass(status) {
     const normalizedStatus = status.toLowerCase();
 
@@ -787,6 +820,106 @@
     `;
 
     return row;
+  }
+
+  function getCustomerTagClass(tag) {
+    return tag.toLowerCase().replace(/\s+/g, "-");
+  }
+
+  function formatTelegramHandle(value) {
+    const handle = String(value || "").trim();
+    return handle.startsWith("@") ? handle : `@${handle}`;
+  }
+
+  function createCustomerRow(formData) {
+    const name = String(formData.get("name") || "").trim();
+    const phone = String(formData.get("phone") || "").trim();
+    const telegram = formatTelegramHandle(formData.get("telegram"));
+    const vehicles = formData.get("vehicles");
+    const lastVisit = formatDate(formData.get("lastVisit"));
+    const totalSpent = formatCurrency(formData.get("totalSpent"));
+    const status = formData.get("status");
+    const tag = formData.get("tag");
+    const statusClass = status === "Active" ? "green" : "gray";
+    const tagMarkup = tag === "No Tag" ? "" : `<em class="customer-tag ${escapeHtml(getCustomerTagClass(tag))}">${escapeHtml(tag)}</em>`;
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td><input type="checkbox" aria-label="Select ${escapeHtml(name)}" /></td>
+      <td><div class="customer-cell"><span class="customer-avatar blue-soft">${escapeHtml(getInitials(name))}</span><strong>${escapeHtml(name)}</strong>${tagMarkup}</div></td>
+      <td>${escapeHtml(phone)} <span class="telegram-status">●</span></td>
+      <td><span class="telegram-handle">${escapeHtml(telegram)}</span></td>
+      <td>${escapeHtml(vehicles)}</td>
+      <td>${escapeHtml(lastVisit)}</td>
+      <td><strong>${escapeHtml(totalSpent)}</strong></td>
+      <td><span class="tag ${escapeHtml(statusClass)}">${escapeHtml(status)}</span></td>
+      <td><button class="dots-button" type="button" aria-label="Customer actions">⋮</button></td>
+    `;
+
+    return row;
+  }
+
+  function bindCustomerPage(elements) {
+    const openCustomerModal = () => {
+      closeQuickAdd(elements);
+      openAddCustomerModal(elements);
+    };
+
+    elements.addCustomerButton?.addEventListener("click", openCustomerModal);
+
+    queryAll(".quick-actions button").forEach((button) => {
+      if (button.textContent.trim().toLowerCase() === "new customer") {
+        button.addEventListener("click", openCustomerModal);
+      }
+    });
+
+    queryAll("[data-customer-cancel]").forEach((button) => {
+      button.addEventListener("click", () => closeAddCustomerModal(elements));
+    });
+
+    elements.closeCustomerModalButton?.addEventListener("click", () => closeAddCustomerModal(elements));
+
+    elements.addCustomerModal?.addEventListener("click", (event) => {
+      if (event.target === elements.addCustomerModal) {
+        closeAddCustomerModal(elements);
+      }
+    });
+
+    elements.addCustomerForm?.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (!elements.addCustomerForm.reportValidity()) {
+        return;
+      }
+
+      const formData = new FormData(elements.addCustomerForm);
+      const customerName = String(formData.get("name") || "").trim();
+      const tableBody = query(".customers-table tbody");
+      const customerConfig = TABLE_CONFIGS.find((config) => config.id === "customers");
+      const customerPanel = query(".customers-panel");
+      const tableState = customerConfig ? getTableState(customerConfig) : undefined;
+      const newRow = createCustomerRow(formData);
+
+      query('input[type="checkbox"]', newRow)?.addEventListener("change", () => {
+        if (customerConfig && customerPanel) {
+          updateSelectionState(customerConfig, customerPanel);
+        }
+      });
+      query(".dots-button", newRow)?.addEventListener("click", () => {
+        showToast("Customer actions opened.", elements);
+      });
+
+      tableBody?.prepend(newRow);
+      if (tableState) {
+        tableState.page = 1;
+      }
+      if (customerConfig && customerPanel) {
+        applyTableState(customerConfig, customerPanel, { elements, announce: false });
+      }
+      elements.addCustomerForm.reset();
+      closeAddCustomerModal(elements);
+      showToast(`${customerName} added to customers.`, elements);
+    });
   }
 
   function syncVehicleModelOptions(form, preferredModel) {
@@ -1711,6 +1844,10 @@
         closeQuickAdd(elements);
       }
 
+      if (event.key === "Escape" && elements.addCustomerModal?.classList.contains("open")) {
+        closeAddCustomerModal(elements);
+      }
+
       if (event.key === "Escape" && elements.addVehicleModal?.classList.contains("open")) {
         closeAddVehicleModal(elements);
       }
@@ -1750,6 +1887,7 @@
     bindSidebar(elements);
     bindSearch(elements);
     bindQuickAdd(elements);
+    bindCustomerPage(elements);
     bindVehiclePage(elements);
     bindNavigation(elements);
     bindKeyboardShortcuts(elements);

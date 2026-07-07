@@ -356,7 +356,7 @@
               <h1>Customers</h1>
               <p>Manage your customers, view their vehicles, repair history and total spending.</p>
             </div>
-            <button class="primary-action" type="button">
+            <button class="primary-action" id="addCustomerButton" type="button">
               <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
               New Customer
             </button>
@@ -2353,6 +2353,81 @@
               <button class="primary-action" type="submit">
                 <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
                 Save Vehicle
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <div class="modal-backdrop vehicle-modal-backdrop" id="addCustomerModal" aria-hidden="true">
+      <section class="vehicle-form-card vehicle-modal" role="dialog" aria-modal="true" aria-labelledby="addCustomerTitle">
+        <div class="panel-title-row">
+          <div class="vehicle-modal-title">
+            <h2 id="addCustomerTitle">New Customer</h2>
+            <p>Create a customer profile with contact, Telegram and workshop activity.</p>
+          </div>
+          <button class="icon-button" id="closeCustomerModalButton" type="button" aria-label="Close new customer">
+            <svg aria-hidden="true"><use href="#icon-x"></use></svg>
+          </button>
+        </div>
+        <form id="addCustomerForm">
+          <div class="vehicle-form-main">
+            <div class="vehicle-form-section">
+              <div class="vehicle-form-copy">
+                <span class="vehicle-form-section-icon"><svg aria-hidden="true"><use href="#icon-users"></use></svg></span>
+                <h2>Customer Details</h2>
+                <p>Core customer information used across repair orders, invoices and reminders.</p>
+              </div>
+              <div class="vehicle-form-grid">
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-users"></use></svg>Customer Name</span>
+                  <input name="name" type="text" placeholder="Rahul Sharma" required />
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-phone"></use></svg>Phone</span>
+                  <input name="phone" type="tel" placeholder="+1 (555) 123-4567" required />
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-message"></use></svg>Telegram</span>
+                  <input name="telegram" type="text" placeholder="@rahul.sharma" required />
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-car"></use></svg>Vehicles</span>
+                  <input name="vehicles" type="number" min="0" placeholder="1" required />
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-calendar"></use></svg>Last Visit</span>
+                  <input name="lastVisit" type="date" required />
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-receipt"></use></svg>Total Spent</span>
+                  <input name="totalSpent" type="number" min="0" step="0.01" placeholder="450.00" required />
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-check-circle"></use></svg>Status</span>
+                  <select name="status">
+                    <option>Active</option>
+                    <option>Inactive</option>
+                  </select>
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-filter"></use></svg>Tag</span>
+                  <select name="tag">
+                    <option value="No Tag">No Tag</option>
+                    <option value="VIP">VIP</option>
+                    <option value="Regular">Regular</option>
+                    <option value="New">New</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div class="vehicle-form-actions">
+              <button class="outline-action" data-customer-cancel type="button">Cancel</button>
+              <button class="primary-action" type="submit">
+                <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
+                Save Customer
               </button>
             </div>
           </div>
