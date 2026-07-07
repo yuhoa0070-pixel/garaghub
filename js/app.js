@@ -7,11 +7,16 @@
     closeModalButton: "#closeModalButton",
     closeCustomerModalButton: "#closeCustomerModalButton",
     closeVehicleModalButton: "#closeVehicleModalButton",
+    messagesButton: "#messagesButton",
+    messagesMenu: "#messagesMenu",
     navItem: ".nav-item",
+    notificationsButton: "#notificationsButton",
+    notificationsMenu: "#notificationsMenu",
     quickActions: ".quick-actions",
     quickAddButton: "#quickAddButton",
     quickAddLabel: "#quickAddLabel",
     quickAddModal: "#quickAddModal",
+    staffActionMenu: "#staffActionMenu",
     addVehicleModal: "#addVehicleModal",
     repairOrdersPanel: ".repair-orders-panel",
     searchInput: "#dashboardSearch",
@@ -136,6 +141,8 @@
     tableStates: {},
     toolbarMenu: undefined,
     toolbarMenuButton: undefined,
+    topbarMenu: undefined,
+    topbarMenuButton: undefined,
     toastTimer: undefined,
   };
 
@@ -589,9 +596,14 @@
     addCustomerModal: query(SELECTORS.addCustomerModal),
     closeCustomerModalButton: query(SELECTORS.closeCustomerModalButton),
     addVehicleModal: query(SELECTORS.addVehicleModal),
+    messagesButton: query(SELECTORS.messagesButton),
+    messagesMenu: query(SELECTORS.messagesMenu),
+    notificationsButton: query(SELECTORS.notificationsButton),
+    notificationsMenu: query(SELECTORS.notificationsMenu),
     searchInput: query(SELECTORS.searchInput),
     addVehicleButton: query(SELECTORS.addVehicleButton),
     addVehicleForm: query(SELECTORS.addVehicleForm),
+    staffActionMenu: query(SELECTORS.staffActionMenu),
     toast: query(SELECTORS.toast),
   });
 
@@ -648,6 +660,34 @@
     elements.quickAddModal.classList.remove("open");
     elements.quickAddModal.setAttribute("aria-hidden", "true");
     elements.quickAddButton?.focus();
+  }
+
+  function closeTopbarMenus() {
+    [query(SELECTORS.staffActionMenu), query(SELECTORS.notificationsMenu), query(SELECTORS.messagesMenu)].forEach((menu) => {
+      if (menu) {
+        menu.hidden = true;
+      }
+    });
+
+    [query(SELECTORS.quickAddButton), query(SELECTORS.notificationsButton), query(SELECTORS.messagesButton)].forEach((button) => {
+      button?.setAttribute("aria-expanded", "false");
+    });
+
+    state.topbarMenu = undefined;
+    state.topbarMenuButton = undefined;
+  }
+
+  function toggleTopbarMenu(menu, button) {
+    if (!menu || !button) {
+      return;
+    }
+
+    const shouldOpen = menu.hidden;
+    closeTopbarMenus();
+    menu.hidden = !shouldOpen;
+    button.setAttribute("aria-expanded", String(shouldOpen));
+    state.topbarMenu = shouldOpen ? menu : undefined;
+    state.topbarMenuButton = shouldOpen ? button : undefined;
   }
 
   function openAddCustomerModal(elements) {
@@ -1069,14 +1109,22 @@
   }
 
   function bindQuickAdd(elements) {
-    elements.quickAddButton?.addEventListener("click", () => {
+    elements.quickAddButton?.addEventListener("click", (event) => {
+      event.stopPropagation();
       const activeView = query(SELECTORS.visibleView)?.dataset.viewPanel;
 
       if (activeView === "settings") {
+        closeTopbarMenus();
         showToast("Settings saved.", elements);
         return;
       }
 
+      if (activeView === "staff") {
+        toggleTopbarMenu(elements.staffActionMenu, elements.quickAddButton);
+        return;
+      }
+
+      closeTopbarMenus();
       openQuickAdd(elements);
     });
     elements.closeModalButton?.addEventListener("click", () => closeQuickAdd(elements));
@@ -1096,6 +1144,71 @@
 
       closeQuickAdd(elements);
       showToast(`${action.textContent.trim()} started.`, elements);
+    });
+  }
+
+  function bindTopbarActions(elements) {
+    elements.notificationsButton?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      toggleTopbarMenu(elements.notificationsMenu, elements.notificationsButton);
+    });
+
+    elements.messagesButton?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      toggleTopbarMenu(elements.messagesMenu, elements.messagesButton);
+    });
+
+    elements.staffActionMenu?.addEventListener("click", (event) => {
+      const action = closestElement(event.target, "button");
+
+      if (!action || !elements.staffActionMenu.contains(action)) {
+        return;
+      }
+
+      const actionName = action.dataset.staffAction || "staff";
+      const actionTitle = query("strong", action)?.textContent.trim() || "Staff action";
+      closeTopbarMenus();
+      showToast(`${actionTitle} opened.`, elements);
+
+      if (actionName === "invite") {
+        query(".staff-layout")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+
+    elements.notificationsMenu?.addEventListener("click", (event) => {
+      const action = closestElement(event.target, "button");
+
+      if (!action || !elements.notificationsMenu.contains(action)) {
+        return;
+      }
+
+      closeTopbarMenus();
+      showToast(`${action.dataset.notificationAction || "Notification"} opened.`, elements);
+    });
+
+    elements.messagesMenu?.addEventListener("click", (event) => {
+      const action = closestElement(event.target, "button");
+
+      if (!action || !elements.messagesMenu.contains(action)) {
+        return;
+      }
+
+      closeTopbarMenus();
+      showToast(`Telegram chat ${action.dataset.messageAction || ""} opened.`, elements);
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!state.topbarMenu || state.topbarMenu.hidden) {
+        return;
+      }
+
+      if (!(event.target instanceof Node)) {
+        return;
+      }
+
+      if (!state.topbarMenu.contains(event.target) && !state.topbarMenuButton?.contains(event.target)) {
+        closeTopbarMenus();
+      }
     });
   }
 
@@ -1854,6 +1967,7 @@
   function bindKeyboardShortcuts(elements) {
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
+        closeTopbarMenus();
         closeToolbarMenu();
       }
 
@@ -1904,6 +2018,7 @@
     bindSidebar(elements);
     bindSearch(elements);
     bindQuickAdd(elements);
+    bindTopbarActions(elements);
     bindCustomerPage(elements);
     bindVehiclePage(elements);
     bindNavigation(elements);

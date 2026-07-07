@@ -5136,6 +5136,7 @@ td {
 
 /* Topbar action consistency */
 .topbar-actions {
+  position: relative;
   gap: 12px;
 }
 
@@ -5226,6 +5227,95 @@ td {
   font-size: 10px;
   font-weight: 700;
   border-width: 2px;
+}
+
+.topbar-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 40;
+  display: grid;
+  gap: 6px;
+  width: min(320px, calc(100vw - 32px));
+  padding: 8px;
+  border: 1px solid #d8e2ee;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: var(--menu-shadow);
+}
+
+.topbar-popover[hidden] {
+  display: none;
+}
+
+.topbar-popover > strong {
+  padding: 8px 10px 4px;
+  color: var(--text-strong);
+  font-size: 13px;
+  font-weight: 680;
+}
+
+.topbar-popover button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: 8px 10px;
+  color: var(--text-body);
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}
+
+.topbar-popover button:hover,
+.topbar-popover button:focus-visible {
+  background: #f7f9fb;
+  outline: 0;
+}
+
+.topbar-popover button :is(svg, .ti) {
+  width: 18px;
+  height: 18px;
+  color: var(--blue);
+  font-size: 18px;
+  flex: 0 0 auto;
+}
+
+.topbar-popover button > span:not(.customer-avatar) {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.topbar-popover b,
+.topbar-popover strong {
+  color: var(--text-strong);
+  font-size: 13px;
+  font-weight: 620;
+}
+
+.topbar-popover small {
+  color: var(--text-muted-strong);
+  font-size: 12px;
+  font-weight: 430;
+  line-height: 1.35;
+}
+
+.staff-action-menu {
+  right: 308px;
+  width: 270px;
+}
+
+.notifications-menu {
+  right: 248px;
+}
+
+.messages-menu {
+  right: 192px;
 }
 
 .modal-backdrop {

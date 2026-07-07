@@ -92,18 +92,35 @@
           </label>
 
           <div class="topbar-actions">
-            <button class="quick-add" id="quickAddButton" type="button">
+            <button class="quick-add" id="quickAddButton" type="button" aria-haspopup="menu" aria-expanded="false">
               <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
               <span id="quickAddLabel">Add Staff</span>
               <svg aria-hidden="true"><use href="#icon-chevron"></use></svg>
             </button>
-            <button class="icon-button has-badge" type="button" aria-label="Notifications">
+            <button class="icon-button has-badge" id="notificationsButton" type="button" aria-label="Notifications" aria-haspopup="menu" aria-expanded="false">
               <svg aria-hidden="true"><use href="#icon-bell"></use></svg>
               <span>5</span>
             </button>
-            <button class="icon-button" type="button" aria-label="Messages">
+            <button class="icon-button" id="messagesButton" type="button" aria-label="Messages" aria-haspopup="menu" aria-expanded="false">
               <svg aria-hidden="true"><use href="#icon-message"></use></svg>
             </button>
+            <div class="topbar-popover staff-action-menu" id="staffActionMenu" role="menu" hidden>
+              <button type="button" data-staff-action="invite"><svg aria-hidden="true"><use href="#icon-paper-plane"></use></svg><span><strong>Invite Staff</strong><small>Send a Telegram invite</small></span></button>
+              <button type="button" data-staff-action="mechanic"><svg aria-hidden="true"><use href="#icon-wrench"></use></svg><span><strong>Add Mechanic</strong><small>Create workshop member</small></span></button>
+              <button type="button" data-staff-action="manager"><svg aria-hidden="true"><use href="#icon-user-check"></use></svg><span><strong>Add Manager</strong><small>Assign admin access</small></span></button>
+            </div>
+            <div class="topbar-popover notifications-menu" id="notificationsMenu" role="menu" hidden>
+              <strong>Notifications</strong>
+              <button type="button" data-notification-action="Oil change reminder"><svg aria-hidden="true"><use href="#icon-bell"></use></svg><span><b>Oil change reminder</b><small>Toyota Camry today at 10:00 AM</small></span></button>
+              <button type="button" data-notification-action="Low stock alert"><svg aria-hidden="true"><use href="#icon-box"></use></svg><span><b>Low stock alert</b><small>Brake pads need reorder</small></span></button>
+              <button type="button" data-notification-action="Invoice paid"><svg aria-hidden="true"><use href="#icon-receipt"></use></svg><span><b>Invoice paid</b><small>INV-2024-099 received</small></span></button>
+            </div>
+            <div class="topbar-popover messages-menu" id="messagesMenu" role="menu" hidden>
+              <strong>Messages</strong>
+              <button type="button" data-message-action="@rahul.sharma"><span class="customer-avatar blue-soft">RS</span><span><b>Rahul Sharma</b><small>@rahul.sharma sent a service question</small></span></button>
+              <button type="button" data-message-action="@amit.verma"><span class="customer-avatar lavender">AV</span><span><b>Amit Verma</b><small>@amit.verma shared payment proof</small></span></button>
+              <button type="button" data-message-action="@pooja.jain"><span class="customer-avatar blue-soft">PJ</span><span><b>Pooja Jain</b><small>@pooja.jain asked about pickup time</small></span></button>
+            </div>
             <button class="shop-switcher top-profile" type="button">
               <span class="avatar">JS</span>
               <span>
