@@ -770,107 +770,6 @@
           </section>
         </section>
 
-        <section class="view add-vehicle-view" data-view-panel="add-vehicle">
-          <section class="page-heading">
-            <div>
-              <h1>Add Vehicle</h1>
-              <p>Create a vehicle profile, connect it to a customer and set the next service status.</p>
-            </div>
-            <button class="outline-action" data-vehicle-cancel type="button">
-              <svg aria-hidden="true"><use href="#icon-chevron-left"></use></svg>
-              Back to Vehicles
-            </button>
-          </section>
-
-          <section class="vehicle-form-shell">
-            <form class="vehicle-form-card" id="addVehicleForm">
-              <div class="vehicle-form-section">
-                <div>
-                  <h2>Vehicle Details</h2>
-                  <p>Basic vehicle information used across repair orders, invoices and reminders.</p>
-                </div>
-                <div class="vehicle-form-grid">
-                  <label>
-                    <span>Make</span>
-                    <input name="make" type="text" placeholder="Toyota" required />
-                  </label>
-                  <label>
-                    <span>Model</span>
-                    <input name="model" type="text" placeholder="Camry LE" required />
-                  </label>
-                  <label>
-                    <span>Year</span>
-                    <input name="year" type="number" min="1980" max="2026" placeholder="2024" required />
-                  </label>
-                  <label>
-                    <span>Plate Number</span>
-                    <input name="plate" type="text" placeholder="ABC-1234" required />
-                  </label>
-                  <label class="vehicle-form-wide">
-                    <span>VIN</span>
-                    <input name="vin" type="text" placeholder="Enter vehicle identification number" required />
-                  </label>
-                  <label>
-                    <span>Mileage</span>
-                    <input name="mileage" type="number" min="0" placeholder="24500" required />
-                  </label>
-                  <label>
-                    <span>Status</span>
-                    <select name="status">
-                      <option>Active</option>
-                      <option>Due Soon</option>
-                      <option>Overdue</option>
-                    </select>
-                  </label>
-                </div>
-              </div>
-
-              <div class="vehicle-form-section">
-                <div>
-                  <h2>Owner & Service</h2>
-                  <p>Assign the customer and capture the last known service activity.</p>
-                </div>
-                <div class="vehicle-form-grid">
-                  <label>
-                    <span>Customer Name</span>
-                    <input name="customer" type="text" placeholder="Rahul Sharma" required />
-                  </label>
-                  <label>
-                    <span>Phone</span>
-                    <input name="phone" type="tel" placeholder="+1 (555) 123-4567" required />
-                  </label>
-                  <label>
-                    <span>Last Service Date</span>
-                    <input name="lastServiceDate" type="date" required />
-                  </label>
-                  <label>
-                    <span>Last Service Type</span>
-                    <input name="lastServiceType" type="text" placeholder="General Service" required />
-                  </label>
-                  <label>
-                    <span>Vehicle Color</span>
-                    <select name="color">
-                      <option value="silver">Silver</option>
-                      <option value="pearl">Pearl</option>
-                      <option value="charcoal">Charcoal</option>
-                      <option value="cobalt">Blue</option>
-                      <option value="crimson">Red</option>
-                    </select>
-                  </label>
-                </div>
-              </div>
-
-              <div class="vehicle-form-actions">
-                <button class="outline-action" data-vehicle-cancel type="button">Cancel</button>
-                <button class="primary-action" type="submit">
-                  <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
-                  Save Vehicle
-                </button>
-              </div>
-            </form>
-          </section>
-        </section>
-
         <section class="view repair-orders-view" data-view-panel="repair-orders">
           <section class="page-heading">
             <div>
@@ -2312,6 +2211,105 @@
           <button type="button"><svg aria-hidden="true"><use href="#icon-receipt"></use></svg>Create invoice</button>
           <button type="button"><svg aria-hidden="true"><use href="#icon-box"></use></svg>Add stock item</button>
         </div>
+      </section>
+    </div>
+
+    <div class="modal-backdrop vehicle-modal-backdrop" id="addVehicleModal" aria-hidden="true">
+      <section class="vehicle-form-card vehicle-modal" role="dialog" aria-modal="true" aria-labelledby="addVehicleTitle">
+        <div class="panel-title-row">
+          <div>
+            <h2 id="addVehicleTitle">Add Vehicle</h2>
+            <p>Create a vehicle profile and connect it to a customer.</p>
+          </div>
+          <button class="icon-button" id="closeVehicleModalButton" type="button" aria-label="Close add vehicle">
+            <svg aria-hidden="true"><use href="#icon-x"></use></svg>
+          </button>
+        </div>
+        <form id="addVehicleForm">
+          <div class="vehicle-form-section">
+            <div>
+              <h2>Vehicle Details</h2>
+              <p>Basic vehicle information used across repair orders, invoices and reminders.</p>
+            </div>
+            <div class="vehicle-form-grid">
+              <label>
+                <span>Make</span>
+                <input name="make" type="text" placeholder="Toyota" required />
+              </label>
+              <label>
+                <span>Model</span>
+                <input name="model" type="text" placeholder="Camry LE" required />
+              </label>
+              <label>
+                <span>Year</span>
+                <input name="year" type="number" min="1980" max="2026" placeholder="2024" required />
+              </label>
+              <label>
+                <span>Plate Number</span>
+                <input name="plate" type="text" placeholder="ABC-1234" required />
+              </label>
+              <label class="vehicle-form-wide">
+                <span>VIN</span>
+                <input name="vin" type="text" placeholder="Enter vehicle identification number" required />
+              </label>
+              <label>
+                <span>Mileage</span>
+                <input name="mileage" type="number" min="0" placeholder="24500" required />
+              </label>
+              <label>
+                <span>Status</span>
+                <select name="status">
+                  <option>Active</option>
+                  <option>Due Soon</option>
+                  <option>Overdue</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="vehicle-form-section">
+            <div>
+              <h2>Owner & Service</h2>
+              <p>Assign the customer and capture the last known service activity.</p>
+            </div>
+            <div class="vehicle-form-grid">
+              <label>
+                <span>Customer Name</span>
+                <input name="customer" type="text" placeholder="Rahul Sharma" required />
+              </label>
+              <label>
+                <span>Phone</span>
+                <input name="phone" type="tel" placeholder="+1 (555) 123-4567" required />
+              </label>
+              <label>
+                <span>Last Service Date</span>
+                <input name="lastServiceDate" type="date" required />
+              </label>
+              <label>
+                <span>Last Service Type</span>
+                <input name="lastServiceType" type="text" placeholder="General Service" required />
+              </label>
+              <label>
+                <span>Vehicle Color</span>
+                <select name="color">
+                  <option value="silver">Silver</option>
+                  <option value="pearl">Pearl</option>
+                  <option value="charcoal">Charcoal</option>
+                  <option value="cobalt">Blue</option>
+                  <option value="crimson">Red</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="vehicle-form-actions">
+            <button class="outline-action" data-vehicle-cancel type="button">Cancel</button>
+            <button class="primary-action" type="submit">
+              <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
+              Save Vehicle
+            </button>
+          </div>
+        </form>
       </section>
     </div>
 

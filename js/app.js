@@ -2,11 +2,13 @@
   const SELECTORS = Object.freeze({
     appShell: ".app-shell",
     closeModalButton: "#closeModalButton",
+    closeVehicleModalButton: "#closeVehicleModalButton",
     navItem: ".nav-item",
     quickActions: ".quick-actions",
     quickAddButton: "#quickAddButton",
     quickAddLabel: "#quickAddLabel",
     quickAddModal: "#quickAddModal",
+    addVehicleModal: "#addVehicleModal",
     repairOrdersPanel: ".repair-orders-panel",
     searchInput: "#dashboardSearch",
     staffListPanel: ".staff-list-panel",
@@ -35,10 +37,6 @@
       action: "Quick Add",
     },
     vehicles: {
-      search: "Search customers, vehicles, orders...",
-      action: "Quick Add",
-    },
-    "add-vehicle": {
       search: "Search customers, vehicles, orders...",
       action: "Quick Add",
     },
@@ -527,11 +525,13 @@
   const getElements = () => ({
     appShell: query(SELECTORS.appShell),
     closeModalButton: query(SELECTORS.closeModalButton),
+    closeVehicleModalButton: query(SELECTORS.closeVehicleModalButton),
     menuButton: query(SELECTORS.menuButton),
     quickActions: query(SELECTORS.quickActions),
     quickAddButton: query(SELECTORS.quickAddButton),
     quickAddLabel: query(SELECTORS.quickAddLabel),
     quickAddModal: query(SELECTORS.quickAddModal),
+    addVehicleModal: query(SELECTORS.addVehicleModal),
     searchInput: query(SELECTORS.searchInput),
     addVehicleButton: query(SELECTORS.addVehicleButton),
     addVehicleForm: query(SELECTORS.addVehicleForm),
@@ -593,6 +593,26 @@
     elements.quickAddButton?.focus();
   }
 
+  function openAddVehicleModal(elements) {
+    if (!elements.addVehicleModal) {
+      return;
+    }
+
+    elements.addVehicleModal.classList.add("open");
+    elements.addVehicleModal.setAttribute("aria-hidden", "false");
+    elements.addVehicleForm?.querySelector("input")?.focus();
+  }
+
+  function closeAddVehicleModal(elements) {
+    if (!elements.addVehicleModal) {
+      return;
+    }
+
+    elements.addVehicleModal.classList.remove("open");
+    elements.addVehicleModal.setAttribute("aria-hidden", "true");
+    elements.addVehicleButton?.focus();
+  }
+
   function getSavedSidebarState() {
     try {
       return localStorage.getItem(STORAGE_KEYS.sidebarCollapsed) === "true";
@@ -634,8 +654,7 @@
 
   function activateView(viewName, elements) {
     const targetView = getViews().find((view) => view.dataset.viewPanel === viewName);
-    const targetNavName = viewName === "add-vehicle" ? "vehicles" : viewName;
-    const targetNav = getNavItems().find((item) => item.dataset.view === targetNavName);
+    const targetNav = getNavItems().find((item) => item.dataset.view === viewName);
 
     if (!targetView || !targetNav) {
       return false;
@@ -734,12 +753,19 @@
 
   function bindVehiclePage(elements) {
     elements.addVehicleButton?.addEventListener("click", () => {
-      activateView("add-vehicle", elements);
-      elements.addVehicleForm?.querySelector("input")?.focus();
+      openAddVehicleModal(elements);
     });
 
     queryAll("[data-vehicle-cancel]").forEach((button) => {
-      button.addEventListener("click", () => activateView("vehicles", elements));
+      button.addEventListener("click", () => closeAddVehicleModal(elements));
+    });
+
+    elements.closeVehicleModalButton?.addEventListener("click", () => closeAddVehicleModal(elements));
+
+    elements.addVehicleModal?.addEventListener("click", (event) => {
+      if (event.target === elements.addVehicleModal) {
+        closeAddVehicleModal(elements);
+      }
     });
 
     elements.addVehicleForm?.addEventListener("submit", (event) => {
@@ -774,7 +800,7 @@
         applyTableState(vehicleConfig, vehiclePanel, { elements, announce: false });
       }
       elements.addVehicleForm.reset();
-      activateView("vehicles", elements);
+      closeAddVehicleModal(elements);
       showToast(`${vehicleName} added to vehicles.`, elements);
     });
   }
@@ -1616,6 +1642,10 @@
 
       if (event.key === "Escape" && elements.quickAddModal?.classList.contains("open")) {
         closeQuickAdd(elements);
+      }
+
+      if (event.key === "Escape" && elements.addVehicleModal?.classList.contains("open")) {
+        closeAddVehicleModal(elements);
       }
     });
   }

@@ -4737,10 +4737,6 @@ td {
   grid-column: 1 / -1;
 }
 
-.vehicle-form-shell {
-  padding: 0 var(--page-pad) var(--space-8);
-}
-
 .vehicle-form-card {
   display: grid;
   gap: var(--content-gap);
@@ -4750,6 +4746,32 @@ td {
   border: 1px solid var(--panel-border);
   border-radius: var(--radius-card);
   box-shadow: var(--panel-shadow);
+}
+
+.vehicle-modal-backdrop {
+  align-items: start;
+  overflow-y: auto;
+}
+
+.vehicle-modal {
+  width: min(920px, 100%);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+.vehicle-modal .panel-title-row {
+  align-items: flex-start;
+}
+
+.vehicle-modal .panel-title-row p {
+  margin: 6px 0 0;
+  color: var(--text-muted-strong);
+  font-size: var(--text-sm);
+}
+
+.vehicle-modal form {
+  display: grid;
+  gap: var(--content-gap);
 }
 
 .vehicle-form-section {
