@@ -4796,16 +4796,17 @@ td {
 
 .vehicle-modal form {
   display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
-  gap: 22px;
+  grid-template-columns: 1fr;
+  gap: 18px;
 }
 
 .vehicle-modal-rail {
   display: grid;
-  align-content: start;
-  gap: 14px;
+  grid-template-columns: auto minmax(190px, 1fr) minmax(0, 1.35fr);
+  align-items: center;
+  gap: 16px;
   min-width: 0;
-  padding: 18px;
+  padding: 14px 16px;
   color: var(--text-muted-strong);
   border: 1px solid var(--line);
   border-radius: var(--radius-card);
@@ -4835,17 +4836,22 @@ td {
 }
 
 .vehicle-modal-rail p {
+  grid-column: 2;
   margin: 0;
   font-size: var(--text-sm);
-  line-height: 1.55;
+  line-height: 1.45;
 }
 
 .vehicle-modal-rail ul {
-  display: grid;
-  gap: 10px;
-  padding: 12px 0 0;
+  display: flex;
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0;
   margin: 0;
-  border-top: 1px solid var(--line);
+  border-top: 0;
   list-style: none;
 }
 
@@ -4854,9 +4860,13 @@ td {
   align-items: center;
   gap: 8px;
   min-width: 0;
+  padding: 8px 10px;
   color: var(--text-body);
   font-size: var(--text-sm);
   font-weight: 560;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: #ffffff;
 }
 
 .vehicle-modal-rail li :is(svg, .ti) {
@@ -5868,6 +5878,11 @@ td {
   .vehicle-modal-rail p,
   .vehicle-modal-rail ul {
     grid-column: 1 / -1;
+  }
+
+  .vehicle-modal-rail ul {
+    grid-row: auto;
+    justify-content: flex-start;
   }
 
   .settings-wide,
