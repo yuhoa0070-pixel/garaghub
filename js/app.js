@@ -88,6 +88,20 @@
     Suzuki: ["Jimny", "Vitara", "Ciaz", "Ertiga", "Carry", "Swift"],
     Tesla: ["Model 3", "Model Y", "Model S", "Model X", "Cybertruck"],
     Chevrolet: ["Colorado", "Trailblazer", "Cruze", "Captiva", "Malibu", "Tahoe"],
+    BYD: ["Atto 3", "Dolphin", "Seal", "Song Plus", "Tang", "Han"],
+    Geely: ["Coolray", "Azkarra", "Emgrand", "Okavango", "Geometry C", "Monjaro"],
+    Chery: ["Tiggo 2 Pro", "Tiggo 4 Pro", "Tiggo 7 Pro", "Tiggo 8 Pro", "Arrizo 5", "Omoda 5"],
+    GAC: ["GS3 Emzoom", "GS4", "GS8", "M8", "Aion Y", "Aion V"],
+    "Great Wall": ["Poer", "Wingle 7", "Ora Good Cat", "Tank 300", "Tank 500", "Cannon"],
+    Haval: ["H6", "Jolion", "H9", "Dargo", "Big Dog", "F7"],
+    Changan: ["CS35 Plus", "CS55 Plus", "CS75 Plus", "UNI-T", "UNI-K", "Hunter"],
+    MG: ["MG3", "MG5", "MG ZS", "MG HS", "MG4 EV", "Marvel R"],
+    Neta: ["Neta V", "Neta U", "Neta S", "Neta X", "Neta GT"],
+    Wuling: ["Air EV", "Bingo", "Hongguang Mini EV", "Almaz", "Confero", "Victory"],
+    Leapmotor: ["T03", "C01", "C10", "C11", "C16"],
+    XPeng: ["G3i", "G6", "G9", "P5", "P7", "X9"],
+    NIO: ["ET5", "ET7", "ES6", "ES7", "ES8", "EC6"],
+    "Li Auto": ["L6", "L7", "L8", "L9", "Mega"],
   });
 
   const state = {
