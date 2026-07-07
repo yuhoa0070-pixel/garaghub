@@ -1535,7 +1535,7 @@
               <h1>Staff</h1>
               <p>Manage your team members, roles, permissions and performance.</p>
             </div>
-            <button class="primary-action" type="button">
+            <button class="primary-action" id="inviteStaffButton" type="button">
               <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
               Invite Staff
             </button>
@@ -2445,6 +2445,74 @@
               <button class="primary-action" type="submit">
                 <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
                 Save Customer
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <div class="modal-backdrop vehicle-modal-backdrop" id="inviteStaffModal" aria-hidden="true">
+      <section class="vehicle-form-card vehicle-modal" role="dialog" aria-modal="true" aria-labelledby="inviteStaffTitle">
+        <div class="panel-title-row">
+          <div class="vehicle-modal-title">
+            <h2 id="inviteStaffTitle">Invite Staff</h2>
+            <p>Send a Telegram invite and assign the new team member role.</p>
+          </div>
+          <button class="icon-button" id="closeInviteStaffModalButton" type="button" aria-label="Close invite staff">
+            <svg aria-hidden="true"><use href="#icon-x"></use></svg>
+          </button>
+        </div>
+        <form id="inviteStaffForm">
+          <div class="vehicle-form-main">
+            <div class="vehicle-form-section">
+              <div class="vehicle-form-copy">
+                <span class="vehicle-form-section-icon"><svg aria-hidden="true"><use href="#icon-paper-plane"></use></svg></span>
+                <h2>Invite Details</h2>
+                <p>Invite links are sent through Telegram and expire after 48 hours.</p>
+              </div>
+              <div class="vehicle-form-grid">
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-users"></use></svg>Full Name</span>
+                  <input name="name" type="text" placeholder="Sok Mean" required />
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-telegram"></use></svg>Telegram</span>
+                  <input name="telegram" type="text" placeholder="@sokmean" required />
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-crown"></use></svg>Role</span>
+                  <select name="role">
+                    <option>Mechanic</option>
+                    <option>Service Advisor</option>
+                    <option>Parts Manager</option>
+                    <option>Store Keeper</option>
+                    <option>Accountant</option>
+                    <option>Service Manager</option>
+                  </select>
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-shop"></use></svg>Department</span>
+                  <select name="department">
+                    <option>Workshop</option>
+                    <option>Service</option>
+                    <option>Parts</option>
+                    <option>Accounts</option>
+                    <option>Maintenance</option>
+                  </select>
+                </label>
+                <label class="vehicle-form-wide">
+                  <span><svg aria-hidden="true"><use href="#icon-message"></use></svg>Message</span>
+                  <input name="message" type="text" placeholder="Welcome to GarageHub. Please accept your staff invite." />
+                </label>
+              </div>
+            </div>
+
+            <div class="vehicle-form-actions">
+              <button class="outline-action" data-invite-staff-cancel type="button">Cancel</button>
+              <button class="primary-action" type="submit">
+                <svg aria-hidden="true"><use href="#icon-paper-plane"></use></svg>
+                Send Invite
               </button>
             </div>
           </div>

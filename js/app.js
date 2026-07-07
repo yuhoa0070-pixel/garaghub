@@ -6,7 +6,11 @@
     addCustomerModal: "#addCustomerModal",
     closeModalButton: "#closeModalButton",
     closeCustomerModalButton: "#closeCustomerModalButton",
+    closeInviteStaffModalButton: "#closeInviteStaffModalButton",
     closeVehicleModalButton: "#closeVehicleModalButton",
+    inviteStaffButton: "#inviteStaffButton",
+    inviteStaffForm: "#inviteStaffForm",
+    inviteStaffModal: "#inviteStaffModal",
     messagesButton: "#messagesButton",
     messagesMenu: "#messagesMenu",
     navItem: ".nav-item",
@@ -595,7 +599,11 @@
     addCustomerForm: query(SELECTORS.addCustomerForm),
     addCustomerModal: query(SELECTORS.addCustomerModal),
     closeCustomerModalButton: query(SELECTORS.closeCustomerModalButton),
+    closeInviteStaffModalButton: query(SELECTORS.closeInviteStaffModalButton),
     addVehicleModal: query(SELECTORS.addVehicleModal),
+    inviteStaffButton: query(SELECTORS.inviteStaffButton),
+    inviteStaffForm: query(SELECTORS.inviteStaffForm),
+    inviteStaffModal: query(SELECTORS.inviteStaffModal),
     messagesButton: query(SELECTORS.messagesButton),
     messagesMenu: query(SELECTORS.messagesMenu),
     notificationsButton: query(SELECTORS.notificationsButton),
@@ -708,6 +716,26 @@
     elements.addCustomerModal.classList.remove("open");
     elements.addCustomerModal.setAttribute("aria-hidden", "true");
     elements.addCustomerButton?.focus();
+  }
+
+  function openInviteStaffModal(elements) {
+    if (!elements.inviteStaffModal) {
+      return;
+    }
+
+    elements.inviteStaffModal.classList.add("open");
+    elements.inviteStaffModal.setAttribute("aria-hidden", "false");
+    elements.inviteStaffForm?.querySelector("input, select")?.focus();
+  }
+
+  function closeInviteStaffModal(elements) {
+    if (!elements.inviteStaffModal) {
+      return;
+    }
+
+    elements.inviteStaffModal.classList.remove("open");
+    elements.inviteStaffModal.setAttribute("aria-hidden", "true");
+    elements.inviteStaffButton?.focus();
   }
 
   function openAddVehicleModal(elements) {
@@ -1209,6 +1237,38 @@
       if (!state.topbarMenu.contains(event.target) && !state.topbarMenuButton?.contains(event.target)) {
         closeTopbarMenus();
       }
+    });
+  }
+
+  function bindInviteStaff(elements) {
+    elements.inviteStaffButton?.addEventListener("click", () => openInviteStaffModal(elements));
+
+    queryAll("[data-invite-staff-cancel]").forEach((button) => {
+      button.addEventListener("click", () => closeInviteStaffModal(elements));
+    });
+
+    elements.closeInviteStaffModalButton?.addEventListener("click", () => closeInviteStaffModal(elements));
+
+    elements.inviteStaffModal?.addEventListener("click", (event) => {
+      if (event.target === elements.inviteStaffModal) {
+        closeInviteStaffModal(elements);
+      }
+    });
+
+    elements.inviteStaffForm?.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (!elements.inviteStaffForm.reportValidity()) {
+        return;
+      }
+
+      const formData = new FormData(elements.inviteStaffForm);
+      const name = String(formData.get("name") || "").trim();
+      const telegram = formatTelegramHandle(formData.get("telegram"));
+
+      elements.inviteStaffForm.reset();
+      closeInviteStaffModal(elements);
+      showToast(`Invite sent to ${name || telegram}.`, elements);
     });
   }
 
@@ -1979,6 +2039,10 @@
         closeAddCustomerModal(elements);
       }
 
+      if (event.key === "Escape" && elements.inviteStaffModal?.classList.contains("open")) {
+        closeInviteStaffModal(elements);
+      }
+
       if (event.key === "Escape" && elements.addVehicleModal?.classList.contains("open")) {
         closeAddVehicleModal(elements);
       }
@@ -2020,6 +2084,7 @@
     bindQuickAdd(elements);
     bindTopbarActions(elements);
     bindCustomerPage(elements);
+    bindInviteStaff(elements);
     bindVehiclePage(elements);
     bindNavigation(elements);
     bindKeyboardShortcuts(elements);
