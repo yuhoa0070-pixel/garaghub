@@ -4756,6 +4756,7 @@ td {
 .vehicle-modal {
   width: min(920px, 100%);
   max-height: calc(100vh - 40px);
+  min-width: 0;
   overflow-y: auto;
 }
 
@@ -4763,12 +4764,14 @@ td {
   align-items: flex-start;
   gap: 16px;
   padding-bottom: 8px;
+  min-width: 0;
 }
 
 .vehicle-modal .panel-title-row p {
   margin: 6px 0 0;
   color: var(--text-muted-strong);
   font-size: var(--text-sm);
+  overflow-wrap: anywhere;
 }
 
 .vehicle-modal-title {
@@ -4776,11 +4779,13 @@ td {
   grid-template-columns: 36px minmax(0, 1fr);
   align-items: center;
   gap: 12px;
+  min-width: 0;
 }
 
 .vehicle-modal-title h2,
 .vehicle-modal-title p {
   grid-column: 2;
+  min-width: 0;
 }
 
 .vehicle-modal-title-icon,
@@ -5901,6 +5906,19 @@ td {
     min-height: 154px;
   }
 
+  .vehicle-modal {
+    padding: 18px;
+  }
+
+  .vehicle-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .vehicle-form-actions .primary-action,
+  .vehicle-form-actions .outline-action {
+    width: 100%;
+  }
+
   .panel {
     padding: 18px;
   }
@@ -5908,6 +5926,20 @@ td {
   .panel-header,
   .panel-title-row {
     align-items: center;
+  }
+
+  .vehicle-modal .panel-title-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px;
+    align-items: start;
+  }
+
+  .vehicle-modal-title {
+    align-items: start;
+  }
+
+  .vehicle-modal-title p {
+    max-width: 100%;
   }
 
   .panel-header {
