@@ -1733,9 +1733,20 @@
     });
   }
 
+  function removeLegacyVehicleSummary() {
+    query(".vehicle-modal-rail")?.remove();
+
+    queryAll("#addVehicleForm > *").forEach((child) => {
+      if (child.textContent.includes("New vehicle record")) {
+        child.remove();
+      }
+    });
+  }
+
   function init() {
     const elements = getElements();
 
+    removeLegacyVehicleSummary();
     bindSidebar(elements);
     bindSearch(elements);
     bindQuickAdd(elements);
