@@ -14,6 +14,8 @@
     toast: "#toast",
     view: "[data-view-panel]",
     visibleView: "[data-view-panel].active",
+    addVehicleButton: "#addVehicleButton",
+    addVehicleForm: "#addVehicleForm",
     menuButton: ".menu-button",
   });
 
@@ -33,6 +35,10 @@
       action: "Quick Add",
     },
     vehicles: {
+      search: "Search customers, vehicles, orders...",
+      action: "Quick Add",
+    },
+    "add-vehicle": {
       search: "Search customers, vehicles, orders...",
       action: "Quick Add",
     },
@@ -527,6 +533,8 @@
     quickAddLabel: query(SELECTORS.quickAddLabel),
     quickAddModal: query(SELECTORS.quickAddModal),
     searchInput: query(SELECTORS.searchInput),
+    addVehicleButton: query(SELECTORS.addVehicleButton),
+    addVehicleForm: query(SELECTORS.addVehicleForm),
     toast: query(SELECTORS.toast),
   });
 
@@ -626,7 +634,8 @@
 
   function activateView(viewName, elements) {
     const targetView = getViews().find((view) => view.dataset.viewPanel === viewName);
-    const targetNav = getNavItems().find((item) => item.dataset.view === viewName);
+    const targetNavName = viewName === "add-vehicle" ? "vehicles" : viewName;
+    const targetNav = getNavItems().find((item) => item.dataset.view === targetNavName);
 
     if (!targetView || !targetNav) {
       return false;
@@ -646,6 +655,128 @@
     updateViewChrome(viewName, elements);
     clearSearchState(elements);
     return true;
+  }
+
+  function getInitials(name) {
+    return name
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase() || "GV";
+  }
+
+  function formatMileage(value) {
+    const mileage = Number(value) || 0;
+    return `${mileage.toLocaleString()} km`;
+  }
+
+  function formatDate(value) {
+    const date = value ? new Date(`${value}T00:00:00`) : new Date();
+    return date.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
+  }
+
+  function getTagClass(status) {
+    const normalizedStatus = status.toLowerCase();
+
+    if (normalizedStatus.includes("overdue")) {
+      return "red";
+    }
+
+    if (normalizedStatus.includes("due")) {
+      return "orange";
+    }
+
+    return "green";
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  function createVehicleRow(formData) {
+    const make = formData.get("make").trim();
+    const model = formData.get("model").trim();
+    const customer = formData.get("customer").trim();
+    const phone = formData.get("phone").trim();
+    const plate = formData.get("plate").trim().toUpperCase();
+    const vin = formData.get("vin").trim().toUpperCase();
+    const status = formData.get("status");
+    const color = formData.get("color");
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td><input type="checkbox" aria-label="Select ${escapeHtml(`${make} ${model}`)}" /></td>
+      <td>
+        <div class="vehicle-cell">
+          <span class="vehicle-thumb ${escapeHtml(color)}" aria-hidden="true"><span></span></span>
+          <div><strong>${escapeHtml(`${make} ${model}`)}</strong><small>VIN: ${escapeHtml(vin)}</small></div>
+        </div>
+      </td>
+      <td><span class="plate-badge">${escapeHtml(plate)}</span></td>
+      <td><div class="owner-cell"><span class="customer-avatar blue-soft">${escapeHtml(getInitials(customer))}</span><div><strong>${escapeHtml(customer)}</strong><small>${escapeHtml(phone)}</small></div></div></td>
+      <td><strong>${escapeHtml(make)}</strong><small>${escapeHtml(model)}</small></td>
+      <td>${escapeHtml(formData.get("year"))}</td>
+      <td>${escapeHtml(formatMileage(formData.get("mileage")))}</td>
+      <td><strong>${escapeHtml(formatDate(formData.get("lastServiceDate")))}</strong><a href="#">${escapeHtml(formData.get("lastServiceType").trim())}</a></td>
+      <td><span class="tag ${escapeHtml(getTagClass(status))}">${escapeHtml(status)}</span></td>
+      <td><button class="dots-button" type="button" aria-label="Vehicle actions">⋮</button></td>
+    `;
+
+    return row;
+  }
+
+  function bindVehiclePage(elements) {
+    elements.addVehicleButton?.addEventListener("click", () => {
+      activateView("add-vehicle", elements);
+      elements.addVehicleForm?.querySelector("input")?.focus();
+    });
+
+    queryAll("[data-vehicle-cancel]").forEach((button) => {
+      button.addEventListener("click", () => activateView("vehicles", elements));
+    });
+
+    elements.addVehicleForm?.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (!elements.addVehicleForm.reportValidity()) {
+        return;
+      }
+
+      const formData = new FormData(elements.addVehicleForm);
+      const vehicleName = `${formData.get("make").trim()} ${formData.get("model").trim()}`;
+      const tableBody = query(".vehicles-table tbody");
+      const vehicleConfig = TABLE_CONFIGS.find((config) => config.id === "vehicles");
+      const vehiclePanel = query(".vehicles-panel");
+      const tableState = vehicleConfig ? getTableState(vehicleConfig) : undefined;
+      const newRow = createVehicleRow(formData);
+
+      query('input[type="checkbox"]', newRow)?.addEventListener("change", () => {
+        if (vehicleConfig && vehiclePanel) {
+          updateSelectionState(vehicleConfig, vehiclePanel);
+        }
+      });
+      query(".dots-button", newRow)?.addEventListener("click", () => {
+        showToast("Vehicle actions opened.", elements);
+      });
+
+      tableBody?.prepend(newRow);
+      if (tableState) {
+        tableState.page = 1;
+      }
+      if (vehicleConfig && vehiclePanel) {
+        applyTableState(vehicleConfig, vehiclePanel, { elements, announce: false });
+      }
+      elements.addVehicleForm.reset();
+      activateView("vehicles", elements);
+      showToast(`${vehicleName} added to vehicles.`, elements);
+    });
   }
 
   function bindSidebar(elements) {
@@ -1511,6 +1642,7 @@
     bindSidebar(elements);
     bindSearch(elements);
     bindQuickAdd(elements);
+    bindVehiclePage(elements);
     bindNavigation(elements);
     bindKeyboardShortcuts(elements);
     bindSettingsPage(elements);
