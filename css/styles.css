@@ -1328,17 +1328,6 @@ input:focus-visible,
   font-style: normal;
 }
 
-.ro-number {
-  gap: 8px;
-}
-
-.ro-number .tag {
-  justify-self: start;
-  min-height: 26px;
-  padding: 0 10px;
-  font-size: 12px;
-}
-
 .mechanic-cell {
   display: flex;
   align-items: center;
