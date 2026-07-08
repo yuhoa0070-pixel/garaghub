@@ -2217,11 +2217,11 @@
       const selectedOptions = options.filter((item) => item.value !== "all" && selectedValues.includes(item.value));
       const filterChips = filter.key === "status" && selectedOptions.length > 1
         ? [
-            ...selectedOptions.slice(0, 2).map((item) => ({
+            ...selectedOptions.slice(0, 1).map((item) => ({
               label: item.label,
               tone: getFilterTone(filter.key, item.value),
             })),
-            ...(selectedOptions.length > 2 ? [{ label: `+${selectedOptions.length - 2}`, tone: "gray" }] : []),
+            ...(selectedOptions.length > 1 ? [{ label: `+${selectedOptions.length - 1}`, tone: "gray" }] : []),
           ]
         : [];
 
