@@ -1323,24 +1323,6 @@ input:focus-visible,
   min-width: 0;
 }
 
-.repair-vehicle-cell span:not(.vehicle-thumb) {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 4px;
-  color: #4a5877;
-  font-size: 13px;
-  font-weight: 650;
-}
-
-.repair-vehicle-cell .customer-avatar {
-  width: 20px;
-  height: 20px;
-  flex: 0 0 20px;
-  font-size: 9px;
-  font-style: normal;
-}
-
 .mechanic-cell {
   display: flex;
   align-items: center;
@@ -2403,8 +2385,7 @@ td {
 
 .vehicles-table td small,
 .vehicles-table td a,
-.repair-orders-table td small,
-.repair-vehicle-cell span:not(.vehicle-thumb) {
+.repair-orders-table td small {
   color: #52627a;
   font-size: 12px;
 }
@@ -7321,21 +7302,6 @@ td {
 .vehicle-cell > div > small {
   margin-top: 0;
   line-height: 1.25;
-}
-
-.repair-vehicle-cell span:not(.vehicle-thumb) {
-  gap: 6px;
-  margin-top: 2px;
-  color: #53637a;
-  font-size: 12px;
-  line-height: 1.2;
-}
-
-.repair-vehicle-cell .customer-avatar {
-  width: 18px;
-  height: 18px;
-  flex-basis: 18px;
-  font-size: 9px;
 }
 
 .primary-action,

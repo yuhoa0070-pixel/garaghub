@@ -1124,7 +1124,6 @@
   function createRepairOrderRow(formData) {
     const vehicle = String(formData.get("vehicle") || "").trim();
     const plate = String(formData.get("plate") || "").trim().toUpperCase();
-    const customer = String(formData.get("customer") || "").trim();
     const problem = String(formData.get("problem") || "").trim();
     const services = String(formData.get("services") || "").trim();
     const mechanic = String(formData.get("mechanic") || "").trim();
@@ -1139,7 +1138,7 @@
       <td>
         <div class="repair-vehicle-cell">
           <span class="vehicle-thumb" aria-hidden="true"><img src="${escapeHtml(photo)}" alt="" loading="lazy" /></span>
-          <div><strong>${escapeHtml(vehicle)}</strong><small>${escapeHtml(plate)}</small><span><em class="customer-avatar blue-soft">${escapeHtml(getInitials(customer))}</em> ${escapeHtml(customer)}</span></div>
+          <div><strong>${escapeHtml(vehicle)}</strong><small>${escapeHtml(plate)}</small></div>
         </div>
       </td>
       <td><strong>${escapeHtml(problem)}</strong><small>${escapeHtml(services)}</small></td>
