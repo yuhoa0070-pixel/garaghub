@@ -7458,22 +7458,6 @@ td {
   outline-offset: 2px;
 }
 
-.primary-action:is([data-with-arrow], .with-arrow)::after,
-.secondary-action:is([data-with-arrow], .with-arrow)::after {
-  content: "→";
-  display: inline-block;
-  margin-left: 2px;
-  font-size: 15px;
-  line-height: 1;
-  transform: translateX(0);
-  transition: transform .18s ease;
-}
-
-.primary-action:is([data-with-arrow], .with-arrow):hover::after,
-.secondary-action:is([data-with-arrow], .with-arrow):hover::after {
-  transform: translateX(3px);
-}
-
 .primary-action:is([data-disable-hover-pop], .disable-hover-pop):hover,
 .secondary-action:is([data-disable-hover-pop], .disable-hover-pop):hover,
 .outline-action:hover {
