@@ -2596,7 +2596,7 @@ td {
 
 .invoice-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(340px, 400px);
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
   gap: 22px;
   padding: 0 28px 34px;
@@ -2729,12 +2729,30 @@ td {
 }
 
 .invoice-preview {
-  position: sticky;
-  top: 104px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 24;
   display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
   gap: 16px;
-  min-width: 0;
+  width: min(420px, calc(100vw - 24px));
+  min-width: min(420px, calc(100vw - 24px));
+  max-height: 100vh;
   padding: 20px;
+  overflow-y: auto;
+  border-width: 0 0 0 1px;
+  border-radius: 0;
+  box-shadow: -24px 0 60px rgba(15, 23, 42, .14);
+  transform: translateX(104%);
+  visibility: hidden;
+  transition: transform .22s ease, visibility .22s ease;
+}
+
+.invoice-preview.open {
+  transform: translateX(0);
+  visibility: visible;
 }
 
 .invoice-preview-head {
@@ -7429,6 +7447,19 @@ td {
   height: 18px;
   flex: 0 0 auto;
   font-size: 18px;
+}
+
+.invoice-preview {
+  border-width: 0 0 0 1px;
+  border-radius: 0;
+  box-shadow: -24px 0 60px rgba(15, 23, 42, .14);
+}
+
+@media (max-width: 580px) {
+  .invoice-preview {
+    width: 100vw;
+    min-width: 0;
+  }
 }
 
 @media (max-width: 1120px) {

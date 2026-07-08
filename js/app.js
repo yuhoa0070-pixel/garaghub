@@ -10,6 +10,7 @@
     closeModalButton: "#closeModalButton",
     closeCustomerModalButton: "#closeCustomerModalButton",
     closeInventoryItemModalButton: "#closeInventoryItemModalButton",
+    closeInvoicePreviewButton: "#closeInvoicePreviewButton",
     closeInviteStaffModalButton: "#closeInviteStaffModalButton",
     closeRepairOrderModalButton: "#closeRepairOrderModalButton",
     closeVehicleModalButton: "#closeVehicleModalButton",
@@ -19,6 +20,7 @@
     inventoryExportButton: "#inventoryExportButton",
     inventoryImportButton: "#inventoryImportButton",
     inventoryImportInput: "#inventoryImportInput",
+    invoicePreview: "#invoicePreview",
     messagesButton: "#messagesButton",
     messagesMenu: "#messagesMenu",
     navItem: ".nav-item",
@@ -614,6 +616,7 @@
     addRepairOrderModal: query(SELECTORS.addRepairOrderModal),
     closeCustomerModalButton: query(SELECTORS.closeCustomerModalButton),
     closeInventoryItemModalButton: query(SELECTORS.closeInventoryItemModalButton),
+    closeInvoicePreviewButton: query(SELECTORS.closeInvoicePreviewButton),
     closeInviteStaffModalButton: query(SELECTORS.closeInviteStaffModalButton),
     closeRepairOrderModalButton: query(SELECTORS.closeRepairOrderModalButton),
     addInventoryItemButton: query(SELECTORS.addInventoryItemButton),
@@ -626,6 +629,7 @@
     inventoryExportButton: query(SELECTORS.inventoryExportButton),
     inventoryImportButton: query(SELECTORS.inventoryImportButton),
     inventoryImportInput: query(SELECTORS.inventoryImportInput),
+    invoicePreview: query(SELECTORS.invoicePreview),
     messagesButton: query(SELECTORS.messagesButton),
     messagesMenu: query(SELECTORS.messagesMenu),
     notificationsButton: query(SELECTORS.notificationsButton),
@@ -799,6 +803,25 @@
     elements.addInventoryItemModal.classList.remove("open");
     elements.addInventoryItemModal.setAttribute("aria-hidden", "true");
     elements.addInventoryItemButton?.focus();
+  }
+
+  function openInvoicePreview(elements) {
+    if (!elements.invoicePreview) {
+      return;
+    }
+
+    elements.invoicePreview.classList.add("open");
+    elements.invoicePreview.setAttribute("aria-hidden", "false");
+    elements.closeInvoicePreviewButton?.focus();
+  }
+
+  function closeInvoicePreview(elements) {
+    if (!elements.invoicePreview) {
+      return;
+    }
+
+    elements.invoicePreview.classList.remove("open");
+    elements.invoicePreview.setAttribute("aria-hidden", "true");
   }
 
   function openAddVehicleModal(elements) {
@@ -2494,6 +2517,11 @@
 
     queryAll(".dots-button, .invoice-actions button", panel).forEach((button) => {
       button.addEventListener("click", () => {
+        if (config.id === "invoices" && button.getAttribute("aria-label") === "Preview invoice") {
+          openInvoicePreview(elements);
+          return;
+        }
+
         showToast(`${button.getAttribute("aria-label") || "Action"} opened.`, elements);
       });
     });
@@ -2523,6 +2551,10 @@
         closeToolbarMenu();
       }
     });
+  }
+
+  function bindInvoicePreview(elements) {
+    elements.closeInvoicePreviewButton?.addEventListener("click", () => closeInvoicePreview(elements));
   }
 
   function bindNavigation(elements) {
@@ -2581,6 +2613,10 @@
       if (event.key === "Escape" && elements.addInventoryItemModal?.classList.contains("open")) {
         closeAddInventoryItemModal(elements);
       }
+
+      if (event.key === "Escape" && elements.invoicePreview?.classList.contains("open")) {
+        closeInvoicePreview(elements);
+      }
     });
   }
 
@@ -2623,6 +2659,7 @@
     bindVehiclePage(elements);
     bindRepairOrderPage(elements);
     bindInventoryPage(elements);
+    bindInvoicePreview(elements);
     bindNavigation(elements);
     bindKeyboardShortcuts(elements);
     bindSettingsPage(elements);
