@@ -1300,9 +1300,10 @@
               <p>Manage your stock, track parts and get low stock alerts.</p>
             </div>
             <div class="inventory-heading-actions">
-              <button class="outline-action" type="button"><svg aria-hidden="true"><use href="#icon-upload"></use></svg>Import</button>
-              <button class="outline-action" type="button"><svg aria-hidden="true"><use href="#icon-download"></use></svg>Export</button>
-              <button class="primary-action" type="button"><svg aria-hidden="true"><use href="#icon-plus"></use></svg>Add New Item</button>
+              <button class="outline-action" id="inventoryImportButton" type="button"><svg aria-hidden="true"><use href="#icon-upload"></use></svg>Import</button>
+              <button class="outline-action" id="inventoryExportButton" type="button"><svg aria-hidden="true"><use href="#icon-download"></use></svg>Export</button>
+              <button class="primary-action" id="addInventoryItemButton" type="button"><svg aria-hidden="true"><use href="#icon-plus"></use></svg>Add New Item</button>
+              <input id="inventoryImportInput" type="file" accept=".csv,text/csv" hidden />
             </div>
           </section>
 
@@ -2445,6 +2446,94 @@
               <button class="primary-action" type="submit">
                 <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
                 Save Customer
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <div class="modal-backdrop vehicle-modal-backdrop" id="addInventoryItemModal" aria-hidden="true">
+      <section class="vehicle-form-card vehicle-modal" role="dialog" aria-modal="true" aria-labelledby="addInventoryItemTitle">
+        <div class="panel-title-row">
+          <div class="vehicle-modal-title">
+            <h2 id="addInventoryItemTitle">Add Inventory Item</h2>
+            <p>Create a stock item with quantity, supplier brand and reorder status.</p>
+          </div>
+          <button class="icon-button" id="closeInventoryItemModalButton" type="button" aria-label="Close add inventory item">
+            <svg aria-hidden="true"><use href="#icon-x"></use></svg>
+          </button>
+        </div>
+        <form id="addInventoryItemForm">
+          <div class="vehicle-form-main">
+            <div class="vehicle-form-section">
+              <div class="vehicle-form-copy">
+                <span class="vehicle-form-section-icon"><svg aria-hidden="true"><use href="#icon-box"></use></svg></span>
+                <h2>Item Details</h2>
+                <p>Track item identity, category, cost and current warehouse availability.</p>
+              </div>
+              <div class="vehicle-form-grid">
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-box"></use></svg>Item Name</span>
+                  <input name="name" type="text" placeholder="Engine Oil 5W-30" required />
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-clipboard"></use></svg>Description</span>
+                  <input name="description" type="text" placeholder="Fully Synthetic" required />
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-filter"></use></svg>Category</span>
+                  <select name="category" required>
+                    <option>Lubricants</option>
+                    <option>Brakes</option>
+                    <option>Filters</option>
+                    <option>Engine</option>
+                    <option>Electrical</option>
+                    <option>Body Parts</option>
+                    <option>Fluids</option>
+                  </select>
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-shop"></use></svg>Brand</span>
+                  <input name="brand" type="text" placeholder="Mobil 1" required />
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-id-card"></use></svg>SKU / Part #</span>
+                  <input name="sku" type="text" placeholder="MOB-5W30-4L" required />
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-box"></use></svg>Unit</span>
+                  <select name="unit" required>
+                    <option>Pcs</option>
+                    <option>Sets</option>
+                    <option>L</option>
+                    <option>Box</option>
+                  </select>
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-gauge"></use></svg>In Stock</span>
+                  <input name="quantity" type="number" min="0" placeholder="24" required />
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-dollar"></use></svg>Unit Cost</span>
+                  <input name="unitCost" type="number" min="0" step="0.01" placeholder="12.00" required />
+                </label>
+                <label>
+                  <span><svg aria-hidden="true"><use href="#icon-check-circle"></use></svg>Status</span>
+                  <select name="status">
+                    <option>In Stock</option>
+                    <option>Low Stock</option>
+                    <option>Out of Stock</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div class="vehicle-form-actions">
+              <button class="outline-action" data-inventory-item-cancel type="button">Cancel</button>
+              <button class="primary-action" type="submit">
+                <svg aria-hidden="true"><use href="#icon-plus"></use></svg>
+                Save Item
               </button>
             </div>
           </div>

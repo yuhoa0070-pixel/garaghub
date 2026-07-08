@@ -6,11 +6,15 @@
     addCustomerModal: "#addCustomerModal",
     closeModalButton: "#closeModalButton",
     closeCustomerModalButton: "#closeCustomerModalButton",
+    closeInventoryItemModalButton: "#closeInventoryItemModalButton",
     closeInviteStaffModalButton: "#closeInviteStaffModalButton",
     closeVehicleModalButton: "#closeVehicleModalButton",
     inviteStaffButton: "#inviteStaffButton",
     inviteStaffForm: "#inviteStaffForm",
     inviteStaffModal: "#inviteStaffModal",
+    inventoryExportButton: "#inventoryExportButton",
+    inventoryImportButton: "#inventoryImportButton",
+    inventoryImportInput: "#inventoryImportInput",
     messagesButton: "#messagesButton",
     messagesMenu: "#messagesMenu",
     navItem: ".nav-item",
@@ -22,6 +26,9 @@
     quickAddModal: "#quickAddModal",
     staffActionMenu: "#staffActionMenu",
     addVehicleModal: "#addVehicleModal",
+    addInventoryItemButton: "#addInventoryItemButton",
+    addInventoryItemForm: "#addInventoryItemForm",
+    addInventoryItemModal: "#addInventoryItemModal",
     repairOrdersPanel: ".repair-orders-panel",
     searchInput: "#dashboardSearch",
     staffListPanel: ".staff-list-panel",
@@ -599,11 +606,18 @@
     addCustomerForm: query(SELECTORS.addCustomerForm),
     addCustomerModal: query(SELECTORS.addCustomerModal),
     closeCustomerModalButton: query(SELECTORS.closeCustomerModalButton),
+    closeInventoryItemModalButton: query(SELECTORS.closeInventoryItemModalButton),
     closeInviteStaffModalButton: query(SELECTORS.closeInviteStaffModalButton),
+    addInventoryItemButton: query(SELECTORS.addInventoryItemButton),
+    addInventoryItemForm: query(SELECTORS.addInventoryItemForm),
+    addInventoryItemModal: query(SELECTORS.addInventoryItemModal),
     addVehicleModal: query(SELECTORS.addVehicleModal),
     inviteStaffButton: query(SELECTORS.inviteStaffButton),
     inviteStaffForm: query(SELECTORS.inviteStaffForm),
     inviteStaffModal: query(SELECTORS.inviteStaffModal),
+    inventoryExportButton: query(SELECTORS.inventoryExportButton),
+    inventoryImportButton: query(SELECTORS.inventoryImportButton),
+    inventoryImportInput: query(SELECTORS.inventoryImportInput),
     messagesButton: query(SELECTORS.messagesButton),
     messagesMenu: query(SELECTORS.messagesMenu),
     notificationsButton: query(SELECTORS.notificationsButton),
@@ -738,6 +752,26 @@
     elements.inviteStaffButton?.focus();
   }
 
+  function openAddInventoryItemModal(elements) {
+    if (!elements.addInventoryItemModal) {
+      return;
+    }
+
+    elements.addInventoryItemModal.classList.add("open");
+    elements.addInventoryItemModal.setAttribute("aria-hidden", "false");
+    elements.addInventoryItemForm?.querySelector("input, select")?.focus();
+  }
+
+  function closeAddInventoryItemModal(elements) {
+    if (!elements.addInventoryItemModal) {
+      return;
+    }
+
+    elements.addInventoryItemModal.classList.remove("open");
+    elements.addInventoryItemModal.setAttribute("aria-hidden", "true");
+    elements.addInventoryItemButton?.focus();
+  }
+
   function openAddVehicleModal(elements) {
     if (!elements.addVehicleModal) {
       return;
@@ -846,6 +880,11 @@
     return amount.toLocaleString("en-US", { style: "currency", currency: "USD" });
   }
 
+  function formatMoney(value) {
+    const amount = Number(value) || 0;
+    return `$${amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  }
+
   function getVehiclePhoto(make, model) {
     const key = `${make} ${model}`;
     const hash = [...key].reduce((total, character) => total + character.charCodeAt(0), 0);
@@ -864,6 +903,32 @@
     }
 
     return "green";
+  }
+
+  function getInventoryStatusClass(status) {
+    if (status === "Out of Stock") {
+      return "red";
+    }
+
+    if (status === "Low Stock") {
+      return "orange";
+    }
+
+    return "green";
+  }
+
+  function getPartThumbClass(category) {
+    const categoryMap = {
+      Brakes: "pads",
+      Electrical: "battery",
+      Engine: "plug",
+      Filters: "filter",
+      Fluids: "coolant",
+      Lubricants: "oil",
+      "Body Parts": "wiper",
+    };
+
+    return categoryMap[category] || "filter";
   }
 
   function escapeHtml(value) {
@@ -942,6 +1007,86 @@
     `;
 
     return row;
+  }
+
+  function createInventoryRow(item) {
+    const quantity = Number(item.quantity) || 0;
+    const unitCost = Number(item.unitCost) || 0;
+    const totalValue = quantity * unitCost;
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td><input type="checkbox" aria-label="Select ${escapeHtml(item.name)}" /></td>
+      <td><div class="inventory-item-cell"><span class="part-thumb ${escapeHtml(getPartThumbClass(item.category))}" aria-hidden="true"><span></span></span><div><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.description)}</small></div></div></td>
+      <td>${escapeHtml(item.category)}</td>
+      <td>${escapeHtml(item.brand)}</td>
+      <td>${escapeHtml(item.sku)}</td>
+      <td><strong>${escapeHtml(quantity)}</strong><small>${escapeHtml(item.unit)}</small></td>
+      <td>${escapeHtml(formatMoney(unitCost))}</td>
+      <td>${escapeHtml(formatMoney(totalValue))}</td>
+      <td><span class="tag ${escapeHtml(getInventoryStatusClass(item.status))}">${escapeHtml(item.status)}</span></td>
+      <td><button class="dots-button" type="button" aria-label="Inventory item actions">⋮</button></td>
+    `;
+
+    return row;
+  }
+
+  function getInventoryItemFromForm(form) {
+    const formData = new FormData(form);
+
+    return {
+      brand: String(formData.get("brand") || "").trim(),
+      category: String(formData.get("category") || "").trim(),
+      description: String(formData.get("description") || "").trim(),
+      name: String(formData.get("name") || "").trim(),
+      quantity: String(formData.get("quantity") || "0").trim(),
+      sku: String(formData.get("sku") || "").trim().toUpperCase(),
+      status: String(formData.get("status") || "In Stock").trim(),
+      unit: String(formData.get("unit") || "Pcs").trim(),
+      unitCost: String(formData.get("unitCost") || "0").trim(),
+    };
+  }
+
+  function getInventoryConfigContext() {
+    const config = TABLE_CONFIGS.find((item) => item.id === "inventory");
+    const panel = query(".inventory-list-panel");
+    const tableBody = query(".inventory-table tbody");
+
+    return { config, panel, tableBody };
+  }
+
+  function addInventoryRows(items, elements) {
+    const { config, panel, tableBody } = getInventoryConfigContext();
+    const tableState = config ? getTableState(config) : undefined;
+
+    if (!tableBody) {
+      return 0;
+    }
+
+    items
+      .map(createInventoryRow)
+      .reverse()
+      .forEach((row) => {
+        query('input[type="checkbox"]', row)?.addEventListener("change", () => {
+          if (config && panel) {
+            updateSelectionState(config, panel);
+          }
+        });
+        query(".dots-button", row)?.addEventListener("click", () => {
+          showToast("Inventory item actions opened.", elements);
+        });
+        tableBody.prepend(row);
+      });
+
+    if (tableState) {
+      tableState.page = 1;
+    }
+
+    if (config && panel) {
+      applyTableState(config, panel, { elements, announce: false });
+    }
+
+    return items.length;
   }
 
   function bindCustomerPage(elements) {
@@ -1090,6 +1235,190 @@
     });
   }
 
+  function getInventoryCsvRows() {
+    const headers = ["Item", "Description", "Category", "Brand", "SKU", "In Stock", "Unit", "Unit Cost", "Total Value", "Status"];
+    const rows = queryAll(".inventory-table tbody tr").map((row) => {
+      const itemName = query(".inventory-item-cell strong", row)?.textContent.trim() || "";
+      const description = query(".inventory-item-cell small", row)?.textContent.trim() || "";
+      const quantityCell = query("td:nth-child(6)", row);
+
+      return [
+        itemName,
+        description,
+        getCellText(row, 2),
+        getCellText(row, 3),
+        getCellText(row, 4),
+        query("strong", quantityCell)?.textContent.trim() || "",
+        query("small", quantityCell)?.textContent.trim() || "",
+        getCellText(row, 6),
+        getCellText(row, 7),
+        query("td:nth-child(9) .tag", row)?.textContent.trim() || getCellText(row, 8),
+      ];
+    });
+
+    return [headers, ...rows];
+  }
+
+  function escapeCsvCell(value) {
+    const cell = String(value ?? "");
+    return /[",\n]/.test(cell) ? `"${cell.replaceAll('"', '""')}"` : cell;
+  }
+
+  function downloadInventoryCsv(elements) {
+    const csv = getInventoryCsvRows()
+      .map((row) => row.map(escapeCsvCell).join(","))
+      .join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const link = document.createElement("a");
+    const date = new Date().toISOString().slice(0, 10);
+
+    link.href = URL.createObjectURL(blob);
+    link.download = `garagehub-inventory-${date}.csv`;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(link.href);
+    showToast("Inventory CSV exported.", elements);
+  }
+
+  function parseCsv(text) {
+    const rows = [];
+    let cell = "";
+    let row = [];
+    let quoted = false;
+
+    for (let index = 0; index < text.length; index += 1) {
+      const character = text[index];
+      const nextCharacter = text[index + 1];
+
+      if (character === '"' && quoted && nextCharacter === '"') {
+        cell += '"';
+        index += 1;
+      } else if (character === '"') {
+        quoted = !quoted;
+      } else if (character === "," && !quoted) {
+        row.push(cell.trim());
+        cell = "";
+      } else if ((character === "\n" || character === "\r") && !quoted) {
+        if (character === "\r" && nextCharacter === "\n") {
+          index += 1;
+        }
+
+        row.push(cell.trim());
+        if (row.some(Boolean)) {
+          rows.push(row);
+        }
+        row = [];
+        cell = "";
+      } else {
+        cell += character;
+      }
+    }
+
+    row.push(cell.trim());
+    if (row.some(Boolean)) {
+      rows.push(row);
+    }
+
+    return rows;
+  }
+
+  function normalizeInventoryImport(csvRows) {
+    if (csvRows.length < 2) {
+      return [];
+    }
+
+    const headers = csvRows[0].map((header) => header.toLowerCase().replace(/[^a-z0-9]/g, ""));
+    const getValue = (row, names, fallbackIndex = -1) => {
+      const index = names
+        .map((name) => headers.indexOf(name))
+        .find((headerIndex) => headerIndex >= 0);
+
+      if (index >= 0) {
+        return row[index] || "";
+      }
+
+      return fallbackIndex >= 0 ? row[fallbackIndex] || "" : "";
+    };
+
+    return csvRows.slice(1).map((row) => {
+      const quantity = getValue(row, ["instock", "quantity", "qty"], 5).replace(/[^0-9.-]/g, "");
+      const unitCost = getValue(row, ["unitcost", "cost", "price"], 7).replace(/[^0-9.-]/g, "");
+      const status = getValue(row, ["status"], 9) || (Number(quantity) <= 0 ? "Out of Stock" : Number(quantity) <= 15 ? "Low Stock" : "In Stock");
+
+      return {
+        brand: getValue(row, ["brand"], 3) || "Generic",
+        category: getValue(row, ["category"], 2) || "Filters",
+        description: getValue(row, ["description", "type"], 1) || "Imported item",
+        name: getValue(row, ["item", "name", "part"], 0) || "Imported Item",
+        quantity: quantity || "0",
+        sku: getValue(row, ["sku", "part"], 4) || `IMP-${Date.now()}`,
+        status,
+        unit: getValue(row, ["unit"], 6) || "Pcs",
+        unitCost: unitCost || "0",
+      };
+    });
+  }
+
+  function bindInventoryPage(elements) {
+    elements.inventoryImportButton?.addEventListener("click", () => {
+      elements.inventoryImportInput?.click();
+    });
+
+    elements.inventoryExportButton?.addEventListener("click", () => {
+      downloadInventoryCsv(elements);
+    });
+
+    elements.addInventoryItemButton?.addEventListener("click", () => {
+      openAddInventoryItemModal(elements);
+    });
+
+    queryAll("[data-inventory-item-cancel]").forEach((button) => {
+      button.addEventListener("click", () => closeAddInventoryItemModal(elements));
+    });
+
+    elements.closeInventoryItemModalButton?.addEventListener("click", () => closeAddInventoryItemModal(elements));
+
+    elements.addInventoryItemModal?.addEventListener("click", (event) => {
+      if (event.target === elements.addInventoryItemModal) {
+        closeAddInventoryItemModal(elements);
+      }
+    });
+
+    elements.addInventoryItemForm?.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (!elements.addInventoryItemForm.reportValidity()) {
+        return;
+      }
+
+      const item = getInventoryItemFromForm(elements.addInventoryItemForm);
+      addInventoryRows([item], elements);
+      elements.addInventoryItemForm.reset();
+      closeAddInventoryItemModal(elements);
+      showToast(`${item.name} added to inventory.`, elements);
+    });
+
+    elements.inventoryImportInput?.addEventListener("change", async (event) => {
+      const file = event.target.files?.[0];
+
+      if (!file) {
+        return;
+      }
+
+      try {
+        const csvRows = parseCsv(await file.text());
+        const importedItems = normalizeInventoryImport(csvRows);
+        const importedCount = addInventoryRows(importedItems, elements);
+        showToast(`${importedCount} inventory items imported.`, elements);
+      } catch {
+        showToast("Inventory import failed. Check the CSV format.", elements);
+      } finally {
+        event.target.value = "";
+      }
+    });
+  }
+
   function bindSidebar(elements) {
     getNavItems().forEach((item) => {
       if (!item.title) {
@@ -1167,6 +1496,13 @@
       const action = closestElement(event.target, "button");
 
       if (!action || !elements.quickActions.contains(action)) {
+        return;
+      }
+
+      if (action.textContent.trim().toLowerCase() === "add stock item") {
+        activateView("inventory", elements);
+        closeQuickAdd(elements);
+        openAddInventoryItemModal(elements);
         return;
       }
 
@@ -2046,6 +2382,10 @@
       if (event.key === "Escape" && elements.addVehicleModal?.classList.contains("open")) {
         closeAddVehicleModal(elements);
       }
+
+      if (event.key === "Escape" && elements.addInventoryItemModal?.classList.contains("open")) {
+        closeAddInventoryItemModal(elements);
+      }
     });
   }
 
@@ -2086,6 +2426,7 @@
     bindCustomerPage(elements);
     bindInviteStaff(elements);
     bindVehiclePage(elements);
+    bindInventoryPage(elements);
     bindNavigation(elements);
     bindKeyboardShortcuts(elements);
     bindSettingsPage(elements);
