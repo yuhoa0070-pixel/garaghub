@@ -64,6 +64,16 @@
   --font-sans: "Plus Jakarta Sans", "SF Pro Text", "Segoe UI Variable", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-display: "Plus Jakarta Sans", "SF Pro Display", "Segoe UI Variable", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-data: "Plus Jakarta Sans", "SF Pro Text", "Segoe UI Variable", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --button-bg: #2563eb;
+  --button-bg-hover: #1d4ed8;
+  --button-fg: #ffffff;
+  --button-secondary-bg: #f4f7fb;
+  --button-secondary-bg-hover: #eaf0f7;
+  --button-secondary-fg: #14233a;
+  --button-outline-bg: #ffffff;
+  --button-outline-bg-hover: #f8fafc;
+  --button-outline-fg: #14233a;
+  --button-border: #d7e0ea;
   color-scheme: light;
 }
 
@@ -7308,6 +7318,117 @@ td {
   height: 18px;
   flex-basis: 18px;
   font-size: 9px;
+}
+
+.primary-action,
+.secondary-action,
+.outline-action,
+.quick-add {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: var(--radius-control);
+  box-shadow: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color .18s ease,
+    border-color .18s ease,
+    color .18s ease,
+    transform .18s ease;
+}
+
+.primary-action {
+  min-width: 0;
+  color: var(--button-fg);
+  border: 1px solid var(--button-bg);
+  background: var(--button-bg);
+}
+
+.primary-action:hover {
+  border-color: var(--button-bg-hover);
+  background: var(--button-bg-hover);
+  transform: translateY(-1px);
+}
+
+.secondary-action,
+.quick-add {
+  color: var(--button-secondary-fg);
+  border: 1px solid transparent;
+  background: var(--button-secondary-bg);
+}
+
+.secondary-action:hover,
+.quick-add:hover {
+  background: var(--button-secondary-bg-hover);
+  transform: translateY(-1px);
+}
+
+.outline-action {
+  min-width: 0;
+  color: var(--button-outline-fg);
+  border: 1px solid var(--button-border);
+  background: var(--button-outline-bg);
+}
+
+.outline-action:hover {
+  border-color: #c8d4e1;
+  background: var(--button-outline-bg-hover);
+}
+
+.primary-action:active,
+.secondary-action:active,
+.quick-add:active,
+.outline-action:active {
+  transform: translateY(0);
+}
+
+.primary-action:focus-visible,
+.secondary-action:focus-visible,
+.quick-add:focus-visible,
+.outline-action:focus-visible {
+  outline: 2px solid rgba(37, 99, 235, .36);
+  outline-offset: 2px;
+}
+
+.primary-action:is([data-with-arrow], .with-arrow)::after,
+.secondary-action:is([data-with-arrow], .with-arrow)::after {
+  content: "→";
+  display: inline-block;
+  margin-left: 2px;
+  font-size: 15px;
+  line-height: 1;
+  transform: translateX(0);
+  transition: transform .18s ease;
+}
+
+.primary-action:is([data-with-arrow], .with-arrow):hover::after,
+.secondary-action:is([data-with-arrow], .with-arrow):hover::after {
+  transform: translateX(3px);
+}
+
+.primary-action:is([data-disable-hover-pop], .disable-hover-pop):hover,
+.secondary-action:is([data-disable-hover-pop], .disable-hover-pop):hover,
+.outline-action:hover {
+  transform: none;
+}
+
+.primary-action :is(svg, .ti),
+.secondary-action :is(svg, .ti),
+.outline-action :is(svg, .ti),
+.quick-add :is(svg, .ti) {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  font-size: 18px;
 }
 
 @media (max-width: 1120px) {
