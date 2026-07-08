@@ -5228,6 +5228,7 @@ td {
   font-size: 10px;
   font-weight: 700;
   border-width: 2px;
+  background: var(--red);
 }
 
 .topbar-popover {
@@ -6246,16 +6247,16 @@ td {
   height: 36px;
   min-height: 36px;
   color: var(--icon-primary);
-  border-color: transparent;
+  border-color: var(--button-border);
   border-radius: 8px;
-  background: var(--icon-container);
+  background: #ffffff;
   box-shadow: none;
 }
 
 .topbar-actions .icon-button:hover {
   color: var(--icon-primary);
-  border-color: var(--icon-container-border);
-  background: #ffffff;
+  border-color: #c8d4e1;
+  background: var(--button-outline-bg-hover);
   box-shadow: none;
   transform: none;
 }
