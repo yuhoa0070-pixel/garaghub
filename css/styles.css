@@ -1323,6 +1323,12 @@ input:focus-visible,
   min-width: 0;
 }
 
+.ro-number strong {
+  font-family: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 13px;
+  letter-spacing: 0;
+}
+
 .mechanic-cell {
   display: flex;
   align-items: center;
@@ -2692,8 +2698,10 @@ td {
 }
 
 .invoice-actions button {
-  width: 34px;
-  min-height: 34px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
   padding: 0;
 }
 
@@ -7207,6 +7215,14 @@ td {
   border-radius: var(--radius-control);
 }
 
+.invoice-actions button {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: var(--radius-control);
+}
+
 .customer-pagination {
   min-height: 64px;
   color: var(--text-muted-strong);
@@ -7258,7 +7274,7 @@ td {
 
 .vehicles-table {
   table-layout: fixed;
-  min-width: 1560px;
+  min-width: 1490px;
 }
 
 .reminders-table {
@@ -7335,18 +7351,14 @@ td {
 }
 
 .vehicles-table :is(th, td):nth-child(8) {
-  width: 130px;
-}
-
-.vehicles-table :is(th, td):nth-child(9) {
   width: 170px;
 }
 
-.vehicles-table :is(th, td):nth-child(10) {
+.vehicles-table :is(th, td):nth-child(9) {
   width: 120px;
 }
 
-.vehicles-table :is(th, td):nth-child(11) {
+.vehicles-table :is(th, td):nth-child(10) {
   width: 90px;
 }
 

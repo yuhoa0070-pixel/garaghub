@@ -233,7 +233,6 @@
             { label: "All Vehicles", value: "all" },
             { label: "Due Soon", value: "due-soon" },
             { label: "Overdue", value: "overdue" },
-            { label: "High Mileage", value: "high-mileage" },
             { label: "Reset Filters", value: "reset" },
           ],
         },
@@ -244,8 +243,7 @@
           make: query("td:nth-child(6) strong", row)?.textContent.trim() || "",
           model: query("td:nth-child(6) small", row)?.textContent.trim() || "",
           priority: query("td:nth-child(2) .priority-pill", row)?.textContent.trim() || getCellText(row, 1),
-          status: query("td:nth-child(10) .tag", row)?.textContent.trim() || getCellText(row, 9),
-          mileage: Number(getCellText(row, 7).replace(/[^0-9]/g, "")) || 0,
+          status: query("td:nth-child(9) .tag", row)?.textContent.trim() || getCellText(row, 8),
         };
       },
       advancedMatch(value, rowData) {
@@ -255,10 +253,6 @@
 
         if (value === "overdue") {
           return rowData.status === "Overdue";
-        }
-
-        if (value === "high-mileage") {
-          return rowData.mileage >= 50000;
         }
 
         return true;
@@ -1123,11 +1117,6 @@
       .toUpperCase() || "GV";
   }
 
-  function formatMileage(value) {
-    const mileage = Number(value) || 0;
-    return `${mileage.toLocaleString()} km`;
-  }
-
   function formatDate(value) {
     const date = value ? new Date(`${value}T00:00:00`) : new Date();
     return date.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
@@ -1249,7 +1238,6 @@
       <td><div class="owner-cell"><span class="customer-avatar blue-soft">${escapeHtml(getInitials(customer))}</span><div><strong>${escapeHtml(customer)}</strong><small>${escapeHtml(phone)}</small></div></div></td>
       <td><strong>${escapeHtml(make)}</strong><small>${escapeHtml(model)}</small></td>
       <td>${escapeHtml(formData.get("year"))}</td>
-      <td>${escapeHtml(formatMileage(formData.get("mileage")))}</td>
       <td><strong>${escapeHtml(formatDate(formData.get("lastServiceDate")))}</strong><a href="#">${escapeHtml(formData.get("lastServiceType").trim())}</a></td>
       <td><span class="tag ${escapeHtml(getTagClass(status))}">${escapeHtml(status)}</span></td>
       <td><button class="dots-button" type="button" aria-label="Vehicle actions">⋮</button></td>
