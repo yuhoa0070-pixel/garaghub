@@ -7172,6 +7172,11 @@ td {
   min-width: 1180px;
 }
 
+.vehicles-table {
+  table-layout: fixed;
+  min-width: 1450px;
+}
+
 .customers-table :is(th, td):nth-child(1) {
   width: 52px;
 }
@@ -7205,6 +7210,46 @@ td {
 }
 
 .customers-table :is(th, td):nth-child(9) {
+  width: 90px;
+}
+
+.vehicles-table :is(th, td):nth-child(1) {
+  width: 52px;
+}
+
+.vehicles-table :is(th, td):nth-child(2) {
+  width: 310px;
+}
+
+.vehicles-table :is(th, td):nth-child(3) {
+  width: 150px;
+}
+
+.vehicles-table :is(th, td):nth-child(4) {
+  width: 230px;
+}
+
+.vehicles-table :is(th, td):nth-child(5) {
+  width: 170px;
+}
+
+.vehicles-table :is(th, td):nth-child(6) {
+  width: 80px;
+}
+
+.vehicles-table :is(th, td):nth-child(7) {
+  width: 130px;
+}
+
+.vehicles-table :is(th, td):nth-child(8) {
+  width: 170px;
+}
+
+.vehicles-table :is(th, td):nth-child(9) {
+  width: 120px;
+}
+
+.vehicles-table :is(th, td):nth-child(10) {
   width: 90px;
 }
 
@@ -7471,14 +7516,20 @@ td {
 
 .repair-vehicle-cell > div > strong,
 .vehicle-cell > div > strong {
+  overflow: hidden;
   font-size: 14px;
   line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .repair-vehicle-cell > div > small,
 .vehicle-cell > div > small {
+  overflow: hidden;
   margin-top: 0;
   line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .primary-action,
