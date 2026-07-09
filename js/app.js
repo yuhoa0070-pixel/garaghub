@@ -193,7 +193,7 @@
       getRowData(row) {
         return {
           searchText: row.textContent.toLowerCase(),
-          priority: query("td:nth-child(2) .priority-pill", row)?.textContent.trim() || getCellText(row, 1),
+          priority: query("td:nth-child(4) .priority-pill", row)?.textContent.trim() || getCellText(row, 3),
           status: query("td:nth-child(9) .tag", row)?.textContent.trim() || getCellText(row, 8),
           tag: query(".customer-tag", row)?.textContent.trim() || "No Tag",
           vehicles: Number(getCellText(row, 5)) || 0,
@@ -1282,9 +1282,9 @@
 
     row.innerHTML = `
       <td><input type="checkbox" aria-label="Select ${escapeHtml(name)}" /></td>
-      <td><span class="priority-pill medium">Medium</span></td>
       <td><div class="customer-cell"><span class="customer-avatar blue-soft">${escapeHtml(getInitials(name))}</span><strong>${escapeHtml(name)}</strong>${tagMarkup}</div></td>
       <td>${escapeHtml(phone)} <span class="telegram-status">●</span></td>
+      <td><span class="priority-pill medium">Medium</span></td>
       <td><span class="telegram-handle">${escapeHtml(telegram)}</span></td>
       <td>${escapeHtml(vehicles)}</td>
       <td>${escapeHtml(lastVisit)}</td>
@@ -2186,25 +2186,35 @@
     return PRIORITY_ORDER[priority] ?? PRIORITY_ORDER.Low;
   }
 
-  function moveColumnAfterFirst(table, columnIndex) {
+  function moveColumnAfter(table, columnIndex, targetIndex) {
     const rows = queryAll("tr", table);
 
     rows.forEach((row) => {
       const cell = row.children[columnIndex];
-      const firstCell = row.children[0];
+      const targetCell = row.children[targetIndex];
 
-      if (cell && firstCell && cell !== row.children[1]) {
-        firstCell.after(cell);
+      if (cell && targetCell && cell !== targetCell.nextElementSibling) {
+        targetCell.after(cell);
       }
     });
   }
 
   function normalizePriorityColumns() {
-    queryAll(".customers-table, .vehicles-table, .reminders-table").forEach((table) => {
+    queryAll(".customers-table").forEach((table) => {
+      const headers = queryAll("thead th", table);
+      const priorityHeader = headers.findIndex((cell) => cell.textContent.trim() === "Priority");
+      const phoneHeader = headers.findIndex((cell) => cell.textContent.trim() === "Phone");
+
+      if (priorityHeader > -1 && phoneHeader > -1 && priorityHeader !== phoneHeader + 1) {
+        moveColumnAfter(table, priorityHeader, phoneHeader);
+      }
+    });
+
+    queryAll(".vehicles-table, .reminders-table").forEach((table) => {
       const priorityHeader = queryAll("thead th", table).findIndex((cell) => cell.textContent.trim() === "Priority");
 
       if (priorityHeader > 1) {
-        moveColumnAfterFirst(table, priorityHeader);
+        moveColumnAfter(table, priorityHeader, 0);
       }
     });
   }
