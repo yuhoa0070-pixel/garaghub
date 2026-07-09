@@ -158,6 +158,8 @@
     tableStates: {},
     toolbarMenu: undefined,
     toolbarMenuButton: undefined,
+    rowActionMenu: undefined,
+    rowActionMenuButton: undefined,
     topbarMenu: undefined,
     topbarMenuButton: undefined,
     toastTimer: undefined,
@@ -711,6 +713,170 @@
     state.topbarMenuButton = undefined;
   }
 
+  function getRowActionMenu() {
+    if (state.rowActionMenu) {
+      return state.rowActionMenu;
+    }
+
+    const menu = document.createElement("div");
+    menu.className = "row-action-menu";
+    menu.setAttribute("role", "menu");
+    menu.hidden = true;
+    document.body.append(menu);
+    state.rowActionMenu = menu;
+    return menu;
+  }
+
+  function closeRowActionMenu() {
+    if (!state.rowActionMenu) {
+      return;
+    }
+
+    state.rowActionMenu.hidden = true;
+    state.rowActionMenuButton?.setAttribute("aria-expanded", "false");
+    state.rowActionMenuButton = undefined;
+  }
+
+  function getRowActionType(button) {
+    return String(button.getAttribute("aria-label") || "Row actions")
+      .replace(/\s+actions$/i, "")
+      .trim()
+      .toLowerCase() || "row";
+  }
+
+  function getRowActionTitle(button) {
+    const row = closestElement(button, "tr");
+    const selectors = [
+      ".customer-cell strong",
+      ".vehicle-cell strong",
+      ".repair-vehicle-cell strong",
+      ".inventory-item-cell strong",
+      ".staff-member strong",
+      ".reminder-title strong",
+      ".ro-number strong",
+      "strong",
+    ];
+
+    for (const selector of selectors) {
+      const value = query(selector, row)?.textContent?.trim();
+
+      if (value) {
+        return value;
+      }
+    }
+
+    return getRowActionType(button);
+  }
+
+  function getRowActionOptions(type) {
+    const common = [
+      { label: "View details", icon: "eye" },
+      { label: "Edit", icon: "pencil" },
+      { label: "Delete", icon: "trash", danger: true },
+    ];
+    const options = {
+      customer: [
+        { label: "View profile", icon: "user" },
+        { label: "Edit customer", icon: "pencil" },
+        { label: "Message on Telegram", icon: "message" },
+        { label: "Delete customer", icon: "trash", danger: true },
+      ],
+      vehicle: [
+        { label: "View vehicle", icon: "car" },
+        { label: "Create repair order", icon: "tools" },
+        { label: "Edit vehicle", icon: "pencil" },
+        { label: "Delete vehicle", icon: "trash", danger: true },
+      ],
+      "repair order": [
+        { label: "View order", icon: "eye" },
+        { label: "Update status", icon: "circle-check" },
+        { label: "Create invoice", icon: "receipt" },
+        { label: "Delete order", icon: "trash", danger: true },
+      ],
+      invoice: [
+        { label: "Send invoice", icon: "send" },
+        { label: "Record payment", icon: "coin" },
+        { label: "Download PDF", icon: "download" },
+        { label: "Delete invoice", icon: "trash", danger: true },
+      ],
+      "inventory item": [
+        { label: "Edit item", icon: "pencil" },
+        { label: "Add stock", icon: "plus" },
+        { label: "View movements", icon: "list-details" },
+        { label: "Delete item", icon: "trash", danger: true },
+      ],
+      staff: [
+        { label: "Message staff", icon: "message" },
+        { label: "Edit profile", icon: "pencil" },
+        { label: "Manage permissions", icon: "shield-check" },
+        { label: "Deactivate staff", icon: "user-off", danger: true },
+      ],
+      reminder: [
+        { label: "Mark complete", icon: "circle-check" },
+        { label: "Snooze reminder", icon: "clock" },
+        { label: "Edit reminder", icon: "pencil" },
+        { label: "Delete reminder", icon: "trash", danger: true },
+      ],
+    };
+
+    return options[type] || common;
+  }
+
+  function positionRowActionMenu(menu, button) {
+    const rect = button.getBoundingClientRect();
+    const menuWidth = Math.min(220, window.innerWidth - 32);
+    const left = Math.min(rect.right - menuWidth, window.innerWidth - menuWidth - 16);
+    const top = rect.bottom + menu.offsetHeight + 8 > window.innerHeight
+      ? rect.top - menu.offsetHeight - 8
+      : rect.bottom + 8;
+
+    menu.style.width = `${menuWidth}px`;
+    menu.style.left = `${Math.max(16, Math.round(left))}px`;
+    menu.style.top = `${Math.max(16, Math.round(top))}px`;
+  }
+
+  function openRowActionMenu(button, elements) {
+    const menu = getRowActionMenu();
+    const type = getRowActionType(button);
+    const title = getRowActionTitle(button);
+
+    closeToolbarMenu();
+    closeTopbarMenus();
+    closeRowActionMenu();
+    button.setAttribute("aria-haspopup", "menu");
+    button.setAttribute("aria-expanded", "true");
+    menu.replaceChildren();
+
+    getRowActionOptions(type).forEach((option) => {
+      const item = document.createElement("button");
+      const label = document.createElement("span");
+
+      item.type = "button";
+      item.setAttribute("role", "menuitem");
+      item.classList.toggle("danger", Boolean(option.danger));
+      item.append(createIcon(option.icon));
+      label.textContent = option.label;
+      item.append(label);
+      item.addEventListener("click", () => {
+        const row = closestElement(button, "tr");
+
+        closeRowActionMenu();
+        if (option.danger && row) {
+          row.remove();
+          showToast(`${title} removed.`, elements);
+          return;
+        }
+
+        showToast(`${option.label} opened for ${title}.`, elements);
+      });
+      menu.append(item);
+    });
+
+    menu.hidden = false;
+    positionRowActionMenu(menu, button);
+    state.rowActionMenuButton = button;
+  }
+
   function toggleTopbarMenu(menu, button) {
     if (!menu || !button) {
       return;
@@ -1163,10 +1329,6 @@
       return "";
     }
 
-    query(".dots-button", row)?.addEventListener("click", () => {
-      showToast("Repair order actions opened.", elements);
-    });
-
     tableBody.prepend(row);
 
     if (tableState) {
@@ -1309,9 +1471,6 @@
           updateSelectionState(customerConfig, customerPanel);
         }
       });
-      query(".dots-button", newRow)?.addEventListener("click", () => {
-        showToast("Customer actions opened.", elements);
-      });
 
       tableBody?.prepend(newRow);
       if (tableState) {
@@ -1390,9 +1549,6 @@
         if (vehicleConfig && vehiclePanel) {
           updateSelectionState(vehicleConfig, vehiclePanel);
         }
-      });
-      query(".dots-button", newRow)?.addEventListener("click", () => {
-        showToast("Vehicle actions opened.", elements);
       });
 
       tableBody?.prepend(newRow);
@@ -2514,7 +2670,7 @@
       query('input[type="checkbox"]', row)?.addEventListener("change", () => updateSelectionState(config, panel));
     });
 
-    queryAll(".dots-button, .invoice-actions button", panel).forEach((button) => {
+    queryAll(".invoice-actions button:not(.dots-button)", panel).forEach((button) => {
       button.addEventListener("click", () => {
         if (config.id === "invoices" && button.getAttribute("aria-label") === "Preview invoice") {
           openInvoicePreview(elements);
@@ -2538,6 +2694,23 @@
     });
 
     document.addEventListener("click", (event) => {
+      const actionButton = closestElement(event.target, ".dots-button");
+
+      if (actionButton) {
+        event.stopPropagation();
+        if (state.rowActionMenuButton === actionButton && state.rowActionMenu && !state.rowActionMenu.hidden) {
+          closeRowActionMenu();
+          return;
+        }
+
+        openRowActionMenu(actionButton, elements);
+        return;
+      }
+
+      if (state.rowActionMenu && !state.rowActionMenu.hidden && event.target instanceof Node && !state.rowActionMenu.contains(event.target)) {
+        closeRowActionMenu();
+      }
+
       if (!state.toolbarMenu || state.toolbarMenu.hidden) {
         return;
       }
@@ -2587,6 +2760,7 @@
       if (event.key === "Escape") {
         closeTopbarMenus();
         closeToolbarMenu();
+        closeRowActionMenu();
       }
 
       if (event.key === "Escape" && elements.quickAddModal?.classList.contains("open")) {

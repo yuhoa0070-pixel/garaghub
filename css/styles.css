@@ -7312,6 +7312,63 @@ td {
   background: #f5f5f5;
 }
 
+.row-action-menu {
+  position: fixed;
+  z-index: 60;
+  display: grid;
+  gap: 4px;
+  padding: 6px;
+  border: 1px solid #d9e4f1;
+  border-radius: var(--radius-control);
+  background: #ffffff;
+  box-shadow: var(--menu-shadow);
+}
+
+.row-action-menu[hidden] {
+  display: none;
+}
+
+.row-action-menu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  padding: 0 10px;
+  color: #243246;
+  text-align: left;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 560;
+}
+
+.row-action-menu button:hover,
+.row-action-menu button:focus-visible {
+  color: #111111;
+  background: #f7f9fc;
+  outline: 0;
+}
+
+.row-action-menu button.danger {
+  color: #b42332;
+}
+
+.row-action-menu button.danger:hover,
+.row-action-menu button.danger:focus-visible {
+  background: #fff1f3;
+}
+
+.row-action-menu :is(svg, .ti) {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  font-size: 18px;
+  color: currentColor;
+  stroke-width: 2;
+}
+
 .customer-pagination {
   min-height: 56px;
   padding: 12px 16px;
