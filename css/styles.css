@@ -7167,6 +7167,47 @@ td {
   border-spacing: 0;
 }
 
+.customers-table {
+  table-layout: fixed;
+  min-width: 1180px;
+}
+
+.customers-table :is(th, td):nth-child(1) {
+  width: 52px;
+}
+
+.customers-table :is(th, td):nth-child(2) {
+  width: 250px;
+}
+
+.customers-table :is(th, td):nth-child(3) {
+  width: 210px;
+}
+
+.customers-table :is(th, td):nth-child(4) {
+  width: 190px;
+}
+
+.customers-table :is(th, td):nth-child(5) {
+  width: 110px;
+}
+
+.customers-table :is(th, td):nth-child(6) {
+  width: 160px;
+}
+
+.customers-table :is(th, td):nth-child(7) {
+  width: 160px;
+}
+
+.customers-table :is(th, td):nth-child(8) {
+  width: 130px;
+}
+
+.customers-table :is(th, td):nth-child(9) {
+  width: 90px;
+}
+
 .customers-table th,
 .vehicles-table th,
 .repair-orders-table th,
@@ -7179,6 +7220,9 @@ td {
   color: #111111;
   font-size: 13px;
   font-weight: 520;
+  line-height: 1;
+  text-align: left;
+  vertical-align: middle;
   background: var(--table-head-bg);
   border-bottom: 1px solid var(--table-border);
 }
@@ -7195,6 +7239,7 @@ td {
   color: #111111;
   font-size: 14px;
   font-weight: 430;
+  vertical-align: middle;
   border-bottom: 1px solid var(--table-border);
 }
 
