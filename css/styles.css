@@ -4,33 +4,50 @@
   --brand-pressed: #1e40af;
   --brand-soft: #eff6ff;
   --brand-border: #bfdbfe;
-  --focus-ring: rgba(37, 99, 235, .24);
-  --bg: #fcfcfc;
+  --focus-ring: rgba(39, 39, 42, .16);
+  --bg: #fbfbfb;
   --surface: #ffffff;
   --surface-soft: #f7f7f7;
   --ink: #1c1c1c;
-  --muted: #737373;
-  --line: #e8e8e8;
+  --muted: #6b7280;
+  --line: #e5e7eb;
   --blue: var(--brand);
   --blue-deep: #1d4ed8;
   --blue-ink: #1e3a8a;
   --blue-soft: var(--brand-soft);
-  --select-soft: var(--brand-soft);
-  --select-line: #93c5fd;
-  --menu-shadow: 0 12px 32px rgba(28, 28, 28, .08), 0 2px 8px rgba(28, 28, 28, .04);
-  --green: #20a66a;
-  --orange: #f08a24;
-  --red: #e33a45;
-  --purple: #7b4ce2;
+  --select-soft: #f4f4f5;
+  --select-line: #a1a1aa;
+  --menu-shadow: 0 12px 28px rgba(24, 24, 27, .08), 0 2px 6px rgba(24, 24, 27, .04);
+  --green: #1f9d68;
+  --orange: #c47a12;
+  --red: #d14343;
+  --purple: #71717a;
+  --positive-fg: #147552;
+  --positive-bg: #f0faf5;
+  --positive-border: #bfe8d3;
+  --warning-fg: #925b12;
+  --warning-bg: #fff8ed;
+  --warning-border: #efd7ad;
+  --negative-fg: #b4232d;
+  --negative-bg: #fff5f5;
+  --negative-border: #efc7cb;
+  --neutral-fg: #52525b;
+  --neutral-bg: #f4f4f5;
+  --neutral-border: #d4d4d8;
+  --chart-positive: #1f9d68;
+  --chart-warning: #c47a12;
+  --chart-negative: #d14343;
+  --chart-neutral: #71717a;
+  --chart-neutral-soft: #a1a1aa;
   --telegram: #3d5678;
   --icon-primary: #2d2d2d;
   --icon-secondary: #737373;
-  --icon-container: #fafafa;
-  --icon-container-border: #e8e8e8;
+  --icon-container: #f8f8f8;
+  --icon-container-border: #e5e7eb;
   --shadow: none;
   --shadow-soft: none;
   --radius: 6px;
-  --radius-card: 6px;
+  --radius-card: 12px;
   --radius-control: 6px;
   --radius-pill: 999px;
   --page-pad: 32px;
@@ -42,19 +59,21 @@
   --control-h: 40px;
   --table-head-h: 42px;
   --table-row-h: 60px;
-  --table-border: #e8e8e8;
-  --table-head-bg: #fafafa;
-  --table-hover: #fafdfb;
+  --table-border: #e5e7eb;
+  --table-head-bg: #f8f8f8;
+  --table-hover: #fafafa;
   --panel-bg: #ffffff;
   --panel-border: var(--line);
   --panel-shadow: var(--shadow-soft);
   --text-strong: #1c1c1c;
   --text-body: #333333;
   --text-muted-strong: #555555;
-  --text-muted-soft: #7a7a7a;
-  --surface-subtle: #fafafa;
+  --text-muted-soft: #71717a;
+  --surface-subtle: #f8f8f8;
   --surface-toolbar: #ffffff;
-  --surface-hover: #fafdfb;
+  --surface-hover: #fafafa;
+  --dot-pattern: radial-gradient(circle at 1px 1px, rgba(113, 113, 122, .16) .7px, transparent .8px);
+  --dot-size: 16px 16px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
@@ -8846,7 +8865,7 @@ body {
   letter-spacing: normal;
 }
 
-:where(h1, h2, h3, h4, h5, h6, p, a, button, input, select, textarea, label, li, th, td, strong, b, small, span, code, pre, kbd, samp) {
+:where(h1, h2, h3, h4, h5, h6, p, a, button, input, select, option, textarea, label, legend, summary, li, th, td, dt, dd, strong, b, em, small, span, time, code, pre, kbd, samp, .toast) {
   font-family: var(--type-family, var(--font-sans)) !important;
   font-size: var(--type-size, var(--type-body-size)) !important;
   font-weight: var(--type-weight, var(--type-weight-regular)) !important;
@@ -8916,7 +8935,12 @@ input,
 select,
 textarea,
 label,
+legend,
+summary,
+dt,
+dd,
 small,
+.toast,
 .page-heading p,
 .welcome-row p,
 .panel p,
@@ -9023,6 +9047,13 @@ small,
   --type-tracking: normal;
 }
 
+time {
+  --type-size: var(--type-meta-size);
+  --type-line: var(--type-meta-line);
+  --type-weight: var(--type-weight-regular);
+  --type-tracking: normal;
+}
+
 code,
 pre,
 kbd,
@@ -9042,4 +9073,495 @@ samp,
 .app-shell.sidebar-collapsed .nav-item {
   font-size: 0 !important;
   line-height: 0 !important;
+}
+
+/* GarageHub visual system: Supabase-inspired, border-led surfaces */
+.main-area {
+  background-color: var(--bg);
+  background-image: var(--dot-pattern);
+  background-position: 0 0;
+  background-size: var(--dot-size);
+}
+
+.view {
+  background: transparent;
+}
+
+.topbar,
+.sidebar,
+.app-toolbar,
+.customers-table-wrap,
+.vehicles-table-wrap,
+.repair-orders-table-wrap,
+.invoice-table-wrap,
+.inventory-table-wrap,
+.staff-table-wrap,
+.reminders-table-wrap {
+  background: var(--surface);
+}
+
+.metric-card,
+.panel,
+.customers-panel,
+.vehicles-panel,
+.repair-orders-panel,
+.invoice-list-panel,
+.invoice-preview,
+.invoice-sheet,
+.inventory-side-card,
+.staff-list-panel,
+.staff-profile-card,
+.staff-side-card,
+.reminders-list-panel,
+.reminder-side-card,
+.settings-card,
+.settings-side-card,
+.settings-stat,
+.customer-stat,
+.vehicle-stat,
+.repair-stat,
+.invoice-stat,
+.inventory-stat,
+.staff-stat,
+.reminder-stat,
+.help-card,
+.profile-button,
+.quick-modal,
+.vehicle-form-card,
+.vehicle-modal {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.panel:hover,
+.metric-card:hover,
+.customer-stat:hover,
+.vehicle-stat:hover,
+.repair-stat:hover,
+.invoice-stat:hover,
+.inventory-stat:hover,
+.staff-stat:hover,
+.reminder-stat:hover,
+.settings-stat:hover {
+  border-color: #d4d4d8;
+  box-shadow: none;
+  transform: none;
+}
+
+.toolbar-menu,
+.topbar-popover,
+.row-action-menu {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: var(--menu-shadow);
+}
+
+.invoice-preview {
+  border-width: 0 0 0 1px;
+  border-radius: 0;
+  box-shadow: -8px 0 24px rgba(24, 24, 27, .06);
+}
+
+.quick-modal,
+.vehicle-form-card,
+.vehicle-modal {
+  box-shadow: 0 20px 48px rgba(24, 24, 27, .12);
+}
+
+.page-heading h1,
+.welcome-row h1 {
+  color: var(--ink);
+  --type-weight: var(--type-weight-regular);
+}
+
+.customer-stat p,
+.vehicle-stat p,
+.repair-stat p,
+.invoice-stat p,
+.inventory-stat p,
+.staff-stat p,
+.reminder-stat p,
+.settings-stat p,
+.settings-stat small,
+.metric-heading h2 {
+  --type-family: var(--font-data);
+  --type-size: var(--type-meta-size);
+  --type-line: var(--type-meta-line);
+  --type-weight: var(--type-weight-regular);
+  --type-tracking: var(--type-meta-tracking);
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+a:not(.nav-item):not(.brand),
+.panel-title-row a,
+.telegram-handle {
+  color: var(--brand);
+}
+
+.brand {
+  color: var(--ink);
+}
+
+.nav-item {
+  color: #3f3f46;
+  background: transparent;
+}
+
+.nav-item:hover {
+  color: var(--ink);
+  background: #f4f4f5;
+}
+
+.nav-item.active {
+  color: var(--brand-hover);
+  border-color: var(--brand-border);
+  background: var(--brand-soft);
+}
+
+.nav-item.active :is(svg, .ti) {
+  color: var(--brand-hover);
+}
+
+.primary-action,
+.topbar-actions .quick-add {
+  color: #ffffff;
+  border-color: var(--brand);
+  background: var(--brand);
+}
+
+.primary-action:hover,
+.topbar-actions .quick-add:hover {
+  color: #ffffff;
+  border-color: var(--brand-hover);
+  background: var(--brand-hover);
+}
+
+.primary-action:active,
+.topbar-actions .quick-add:active {
+  color: #ffffff;
+  border-color: var(--brand-pressed);
+  background: var(--brand-pressed);
+}
+
+.filter-button.active,
+.filter-button[aria-expanded="true"],
+.app-toolbar .icon-button.active,
+.toolbar-menu button.active,
+.toolbar-menu button.active[data-filter-tone],
+.topbar-actions .icon-button[aria-expanded="true"] {
+  color: var(--ink);
+  border-color: var(--neutral-border);
+  background: var(--neutral-bg);
+}
+
+.toolbar-menu button.active .toolbar-menu-check,
+.toolbar-menu button.active .toolbar-menu-radio-check {
+  color: #ffffff;
+  border-color: #3f3f46;
+  background: #3f3f46;
+}
+
+.topbar-actions .icon-button:hover,
+.outline-action:hover,
+.ghost-button:hover,
+.date-button:hover {
+  color: var(--ink);
+  border-color: var(--neutral-border);
+  background: var(--neutral-bg);
+}
+
+.customer-pagination button.active,
+.calendar-grid .active {
+  color: #ffffff;
+  border-color: #27272a;
+  background: #27272a;
+}
+
+.calendar-grid .selected {
+  color: var(--ink);
+  border-color: var(--neutral-border);
+}
+
+.customers-table th,
+.vehicles-table th,
+.repair-orders-table th,
+.invoice-table th,
+.inventory-table th,
+.staff-table th,
+.reminders-table th,
+.invoice-items th {
+  color: var(--text-muted-soft);
+  border-color: var(--table-border);
+  background: var(--table-head-bg);
+}
+
+.customers-table td,
+.vehicles-table td,
+.repair-orders-table td,
+.invoice-table td,
+.inventory-table td,
+.staff-table td,
+.reminders-table td,
+.invoice-items td {
+  color: var(--text-body);
+  border-color: var(--table-border);
+  background: transparent;
+}
+
+.customers-table tbody tr:hover,
+.vehicles-table tbody tr:hover,
+.repair-orders-table tbody tr:hover,
+.invoice-table tbody tr:hover,
+.inventory-table tbody tr:hover,
+.staff-table tbody tr:hover,
+.reminders-table tbody tr:hover {
+  background: var(--table-hover);
+}
+
+.customers-table input[type="checkbox"],
+.vehicles-table input[type="checkbox"],
+.repair-orders-table input[type="checkbox"],
+.invoice-table input[type="checkbox"],
+.inventory-table input[type="checkbox"],
+.staff-table input[type="checkbox"],
+.reminders-table input[type="checkbox"] {
+  accent-color: #3f3f46;
+}
+
+.tag,
+.customer-tag,
+.role-tag,
+.reminder-type,
+.priority-pill,
+.invoice-pill {
+  color: var(--neutral-fg);
+  border: 1px solid var(--neutral-border);
+  background: var(--neutral-bg);
+}
+
+.tag.green,
+.customer-tag.vip {
+  color: var(--positive-fg);
+  border-color: var(--positive-border);
+  background: var(--positive-bg);
+}
+
+.tag.orange,
+.priority-pill.medium,
+.customer-tag.new {
+  color: var(--warning-fg);
+  border-color: var(--warning-border);
+  background: var(--warning-bg);
+}
+
+.tag.red,
+.priority-pill.high {
+  color: var(--negative-fg);
+  border-color: var(--negative-border);
+  background: var(--negative-bg);
+}
+
+.tag.blue,
+.tag.gray,
+.priority-pill.low,
+.customer-tag.regular,
+.role-tag,
+.role-tag.service,
+.role-tag.senior,
+.role-tag.mechanic,
+.role-tag.technician,
+.role-tag.parts,
+.role-tag.advisor,
+.role-tag.store,
+.role-tag.junior,
+.role-tag.cleaner,
+.role-tag.accountant,
+.reminder-type,
+.reminder-type.blue,
+.reminder-type.green,
+.reminder-type.orange,
+.reminder-type.purple,
+.reminder-type.red {
+  color: var(--neutral-fg);
+  border-color: var(--neutral-border);
+  background: var(--neutral-bg);
+}
+
+.metric-icon,
+.customer-stat .metric-icon,
+.vehicle-stat .metric-icon,
+.repair-stat .metric-icon,
+.invoice-stat .metric-icon,
+.inventory-stat .metric-icon,
+.staff-stat .metric-icon,
+.reminder-stat .metric-icon,
+.settings-stat .metric-icon {
+  color: var(--neutral-fg);
+  border-color: var(--neutral-border);
+  border-radius: 8px;
+  background: var(--neutral-bg);
+  box-shadow: none;
+}
+
+.metric-icon.green,
+.reminder-icon.green {
+  color: var(--positive-fg);
+  border-color: var(--positive-border);
+  background: var(--positive-bg);
+}
+
+.metric-icon.orange,
+.reminder-icon.orange {
+  color: var(--warning-fg);
+  border-color: var(--warning-border);
+  background: var(--warning-bg);
+}
+
+.metric-icon.red,
+.reminder-icon.red {
+  color: var(--negative-fg);
+  border-color: var(--negative-border);
+  background: var(--negative-bg);
+}
+
+.metric-icon.blue,
+.metric-icon.purple,
+.reminder-icon.blue,
+.reminder-icon.purple {
+  color: var(--neutral-fg);
+  border-color: var(--neutral-border);
+  background: var(--neutral-bg);
+}
+
+.customer-avatar.gold {
+  color: var(--warning-fg);
+  background: var(--warning-bg);
+}
+
+.customer-avatar.mint {
+  color: var(--positive-fg);
+  background: var(--positive-bg);
+}
+
+.customer-avatar.peach {
+  color: var(--negative-fg);
+  background: var(--negative-bg);
+}
+
+.customer-avatar.lavender,
+.customer-avatar.blue-soft {
+  color: var(--neutral-fg);
+  background: var(--neutral-bg);
+}
+
+.green-line,
+.blue-line,
+.main-line {
+  stroke: var(--chart-positive);
+}
+
+.orange-line {
+  stroke: var(--chart-warning);
+}
+
+.red-line {
+  stroke: var(--chart-negative);
+}
+
+.purple-line {
+  stroke: var(--chart-neutral);
+}
+
+.chart-points circle {
+  fill: var(--chart-positive);
+}
+
+.donut {
+  background:
+    radial-gradient(circle, #ffffff 0 42%, transparent 43%),
+    conic-gradient(
+      var(--chart-neutral) 0 37.5%,
+      var(--chart-warning) 37.5% 59.4%,
+      var(--chart-positive) 59.4% 87.5%,
+      var(--chart-neutral-soft) 87.5% 96.9%,
+      var(--chart-negative) 96.9% 100%
+    );
+}
+
+.blue-bg {
+  background: var(--chart-neutral);
+}
+
+.orange-bg,
+.stock-dot.orange {
+  background: var(--chart-warning);
+}
+
+.green-bg,
+.stock-dot.green {
+  background: var(--chart-positive);
+}
+
+.purple-bg,
+.stock-dot.gray {
+  background: var(--chart-neutral-soft);
+}
+
+.red-bg,
+.stock-dot.red {
+  background: var(--chart-negative);
+}
+
+.icon-button,
+.dots-button,
+.invoice-actions button,
+.quick-actions :is(svg, .ti),
+.topbar-popover button :is(svg, .ti) {
+  color: var(--neutral-fg);
+}
+
+.plate-badge {
+  color: var(--neutral-fg);
+  border-color: var(--neutral-border);
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.purple-text,
+.due-label.blue {
+  color: var(--neutral-fg);
+}
+
+.due-label.orange {
+  color: var(--warning-fg);
+}
+
+.due-label.red {
+  color: var(--negative-fg);
+}
+
+.calendar-grid .has-dot.blue::after {
+  background: var(--chart-neutral);
+}
+
+.reminder-icon {
+  border: 1px solid var(--neutral-border);
+  background: var(--neutral-bg);
+}
+
+.settings-toggle-row input:checked {
+  border-color: var(--positive-fg);
+  background: var(--chart-positive);
+}
+
+.settings-toggle-row input:focus-visible {
+  outline-color: var(--focus-ring);
+}
+
+.backup-meter span {
+  background: var(--chart-positive);
 }
