@@ -8989,11 +8989,16 @@ small,
 .staff-stat > strong,
 .reminder-stat > strong,
 .settings-stat > strong,
-.customer-stat > strong {
-  --type-size: var(--type-subheading-size);
-  --type-line: var(--type-subheading-line);
+.customer-stat > strong,
+.stat-total,
+.invoice-total-row dd,
+.stock-count,
+.donut-total strong,
+.repair-count strong {
+  --type-size: var(--type-section-size);
+  --type-line: var(--type-section-line);
   --type-weight: var(--type-weight-regular);
-  --type-tracking: -.16px;
+  --type-tracking: normal;
 }
 
 .panel-header strong,
