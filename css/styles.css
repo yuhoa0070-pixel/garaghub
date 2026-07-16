@@ -63,13 +63,36 @@
   --size-stat-icon: 44px;
   --size-control-icon: 18px;
   --size-pill-h: 36px;
-  --text-xs: 11px;
-  --text-sm: 13px;
-  --text-md: 14px;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-md: 16px;
   --radius-sm: 4px;
-  --font-sans: "Geist", "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-display: "Geist", "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-data: "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: var(--font-sans);
+  --font-data: "Source Code Pro", "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  --type-hero-size: 72px;
+  --type-hero-line: 72px;
+  --type-section-size: 36px;
+  --type-section-line: 43.2px;
+  --type-subheading-size: 24px;
+  --type-subheading-line: 32px;
+  --type-large-size: 18px;
+  --type-large-line: 28px;
+  --type-body-size: 16px;
+  --type-body-line: 24px;
+  --type-small-size: 14px;
+  --type-small-line: 20px;
+  --type-meta-size: 12px;
+  --type-meta-line: 16px;
+  --type-weight-regular: 400;
+  --type-weight-medium: 500;
+  --type-meta-tracking: .6px;
+  --type-code-tracking: 1.2px;
+  --type-family: var(--font-sans);
+  --type-size: var(--type-body-size);
+  --type-line: var(--type-body-line);
+  --type-weight: var(--type-weight-regular);
+  --type-tracking: normal;
   --button-bg: var(--brand);
   --button-bg-hover: var(--brand-hover);
   --button-fg: #ffffff;
@@ -8805,4 +8828,218 @@ svg,
 .primary-action:focus-visible {
   outline: 0;
   box-shadow: 0 0 0 2px var(--focus-ring);
+}
+
+/* Supabase-inspired typography system */
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-sans);
+}
+
+body {
+  font-size: var(--type-body-size);
+  font-weight: var(--type-weight-regular);
+  line-height: var(--type-body-line);
+  letter-spacing: normal;
+}
+
+:where(h1, h2, h3, h4, h5, h6, p, a, button, input, select, textarea, label, li, th, td, strong, b, small, span, code, pre, kbd, samp) {
+  font-family: var(--type-family, var(--font-sans)) !important;
+  font-size: var(--type-size, var(--type-body-size)) !important;
+  font-weight: var(--type-weight, var(--type-weight-regular)) !important;
+  line-height: var(--type-line, var(--type-body-line)) !important;
+  letter-spacing: var(--type-tracking, normal) !important;
+}
+
+.hero-title {
+  --type-size: var(--type-hero-size);
+  --type-line: var(--type-hero-line);
+}
+
+h1,
+.page-heading h1,
+.welcome-row h1 {
+  --type-size: var(--type-section-size);
+  --type-line: var(--type-section-line);
+}
+
+h2,
+.vehicle-modal-title h2,
+.quick-modal h2 {
+  --type-size: var(--type-subheading-size);
+  --type-line: var(--type-subheading-line);
+  --type-tracking: -.16px;
+}
+
+h3,
+h4,
+.panel h2,
+.side-card-title,
+.topbar-popover > strong,
+.modal-section h2,
+.modal-section h3 {
+  --type-size: var(--type-large-size);
+  --type-line: var(--type-large-line);
+  --type-tracking: normal;
+}
+
+.brand {
+  --type-size: var(--type-subheading-size);
+  --type-line: var(--type-subheading-line);
+  --type-tracking: -.16px;
+}
+
+.brand-mark,
+.nav-item,
+button,
+.button,
+.primary-action,
+.secondary-action,
+.outline-action,
+.quick-add,
+.filter-button,
+.date-button,
+.ghost-button,
+.profile-button,
+.customer-pagination button,
+.customer-pagination .per-page {
+  --type-size: var(--type-small-size);
+  --type-line: var(--type-small-line);
+  --type-weight: var(--type-weight-medium);
+  --type-tracking: normal;
+}
+
+input,
+select,
+textarea,
+label,
+small,
+.page-heading p,
+.welcome-row p,
+.panel p,
+.modal-section p,
+.help-card span,
+.profile-button small,
+.customers-table td,
+.vehicles-table td,
+.repair-orders-table td,
+.invoice-table td,
+.inventory-table td,
+.staff-table td,
+.reminders-table td,
+.reminder-list li,
+.alert-list li,
+.status-list li,
+.staff-contact-list li,
+.settings-list li,
+.invoice-items td {
+  --type-size: var(--type-small-size);
+  --type-line: var(--type-small-line);
+  --type-weight: var(--type-weight-regular);
+  --type-tracking: normal;
+}
+
+.metric-heading h2,
+.vehicle-stat p,
+.repair-stat p,
+.invoice-stat p,
+.inventory-stat p,
+.staff-stat p,
+.reminder-stat p,
+.settings-stat p,
+.customer-stat p {
+  --type-size: var(--type-small-size);
+  --type-line: var(--type-small-line);
+  --type-weight: var(--type-weight-regular);
+  --type-tracking: normal;
+}
+
+.metric-card > strong,
+.vehicle-stat > strong,
+.repair-stat > strong,
+.invoice-stat > strong,
+.inventory-stat > strong,
+.staff-stat > strong,
+.reminder-stat > strong,
+.settings-stat > strong,
+.customer-stat > strong {
+  --type-size: var(--type-subheading-size);
+  --type-line: var(--type-subheading-line);
+  --type-weight: var(--type-weight-regular);
+  --type-tracking: -.16px;
+}
+
+.panel-header strong,
+.donut strong,
+.stock-donut strong {
+  --type-size: var(--type-section-size);
+  --type-line: var(--type-section-line);
+  --type-weight: var(--type-weight-regular);
+  --type-tracking: normal;
+}
+
+.customers-table th,
+.vehicles-table th,
+.repair-orders-table th,
+.invoice-table th,
+.inventory-table th,
+.staff-table th,
+.reminders-table th,
+.invoice-items th,
+.tag,
+.customer-tag,
+.role-tag,
+.reminder-type,
+.priority-pill,
+.invoice-pill,
+.trend,
+.vehicle-trend,
+.repair-trend,
+.invoice-trend,
+.inventory-trend,
+.staff-trend,
+.reminder-trend,
+.nav-badge,
+.due-label {
+  --type-family: var(--font-data);
+  --type-size: var(--type-meta-size);
+  --type-line: var(--type-meta-line);
+  --type-weight: var(--type-weight-regular);
+  --type-tracking: var(--type-meta-tracking);
+  text-transform: uppercase;
+}
+
+.x-labels span,
+.y-labels span,
+.calendar-grid span,
+.pagination-summary,
+.customer-pagination > span {
+  --type-size: var(--type-meta-size);
+  --type-line: var(--type-meta-line);
+  --type-weight: var(--type-weight-regular);
+  --type-tracking: normal;
+}
+
+code,
+pre,
+kbd,
+samp,
+.ro-number,
+.plate-badge,
+.invoice-pill,
+.status-list strong {
+  --type-family: var(--font-data);
+  --type-size: var(--type-meta-size);
+  --type-line: normal;
+  --type-weight: var(--type-weight-regular);
+  --type-tracking: var(--type-code-tracking);
+}
+
+/* Preserve the icon-only collapsed navigation state. */
+.app-shell.sidebar-collapsed .nav-item {
+  font-size: 0 !important;
+  line-height: 0 !important;
 }
