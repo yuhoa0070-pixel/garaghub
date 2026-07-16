@@ -8677,3 +8677,81 @@ svg,
   border-color: #b9e7cf;
   background: #effaf4;
 }
+
+/* Unified topbar action controls */
+.topbar-actions {
+  gap: 8px;
+}
+
+.topbar-actions .quick-add,
+.topbar-actions .icon-button {
+  height: var(--control-h);
+  min-height: var(--control-h);
+  border-radius: var(--radius-control);
+  box-shadow: none;
+  transform: none;
+}
+
+.topbar-actions .quick-add {
+  min-width: 0;
+  padding: 0 14px;
+  color: #ffffff;
+  border: 1px solid var(--brand);
+  background: var(--brand);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.topbar-actions .quick-add:hover {
+  color: #ffffff;
+  border-color: var(--brand-hover);
+  background: var(--brand-hover);
+  box-shadow: none;
+  transform: none;
+}
+
+.topbar-actions .quick-add:active {
+  color: #ffffff;
+  border-color: var(--brand-pressed);
+  background: var(--brand-pressed);
+}
+
+.topbar-actions .quick-add:focus-visible {
+  color: #ffffff;
+  border-color: var(--brand);
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.topbar-actions .icon-button {
+  width: var(--control-h);
+  min-width: var(--control-h);
+  padding: 0;
+  color: #454545;
+  border: 1px solid var(--button-border);
+  background: #ffffff;
+}
+
+.topbar-actions .icon-button:hover,
+.topbar-actions .icon-button[aria-expanded="true"] {
+  color: var(--blue-deep);
+  border-color: var(--brand-border);
+  background: var(--brand-soft);
+  box-shadow: none;
+  transform: none;
+}
+
+.topbar-actions .icon-button:focus-visible {
+  border-color: var(--brand);
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.topbar-actions .quick-add :is(svg, .ti),
+.topbar-actions .icon-button :is(svg, .ti) {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  color: currentColor;
+  font-size: 18px;
+}
