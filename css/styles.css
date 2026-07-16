@@ -72,8 +72,6 @@
   --surface-subtle: #f8f8f8;
   --surface-toolbar: #ffffff;
   --surface-hover: #fafafa;
-  --dot-pattern: radial-gradient(circle at 1px 1px, rgba(113, 113, 122, .16) .7px, transparent .8px);
-  --dot-size: 16px 16px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
@@ -9082,10 +9080,7 @@ samp,
 
 /* GarageHub visual system: Supabase-inspired, border-led surfaces */
 .main-area {
-  background-color: var(--bg);
-  background-image: var(--dot-pattern);
-  background-position: 0 0;
-  background-size: var(--dot-size);
+  background: var(--bg);
 }
 
 .view {
