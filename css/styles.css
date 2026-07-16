@@ -1,85 +1,87 @@
 :root {
   --brand: #3ecf8e;
   --brand-hover: #34b27b;
-  --brand-pressed: #2b9f6e;
-  --brand-soft: #eafbf3;
-  --brand-border: #bcebd6;
+  --brand-pressed: #259d68;
+  --brand-soft: #f0fbf6;
+  --brand-border: #b8e8d1;
   --focus-ring: rgba(62, 207, 142, .3);
-  --bg: #f8f9fa;
+  --bg: #fcfcfc;
   --surface: #ffffff;
-  --surface-soft: #f4f5f6;
-  --ink: #18181b;
-  --muted: #71717a;
-  --line: #e5e7eb;
+  --surface-soft: #f7f7f7;
+  --ink: #1c1c1c;
+  --muted: #737373;
+  --line: #e8e8e8;
   --blue: var(--brand);
   --blue-deep: #177a55;
   --blue-ink: #115c40;
   --blue-soft: var(--brand-soft);
   --select-soft: var(--brand-soft);
   --select-line: #73d9ad;
-  --menu-shadow: 0 12px 32px rgba(24, 24, 27, .09), 0 2px 8px rgba(24, 24, 27, .05);
+  --menu-shadow: 0 12px 32px rgba(28, 28, 28, .08), 0 2px 8px rgba(28, 28, 28, .04);
   --green: #20a66a;
   --orange: #f08a24;
   --red: #e33a45;
   --purple: #7b4ce2;
   --telegram: #3d5678;
-  --icon-primary: #27272a;
-  --icon-secondary: #71717a;
-  --icon-container: #f7f7f8;
-  --icon-container-border: #e5e7eb;
-  --shadow: 0 8px 24px rgba(24, 24, 27, .06);
-  --shadow-soft: 0 1px 2px rgba(24, 24, 27, .04);
-  --radius: 8px;
-  --radius-card: 8px;
-  --radius-control: 8px;
+  --icon-primary: #2d2d2d;
+  --icon-secondary: #737373;
+  --icon-container: #fafafa;
+  --icon-container-border: #e8e8e8;
+  --shadow: none;
+  --shadow-soft: none;
+  --radius: 6px;
+  --radius-card: 6px;
+  --radius-control: 6px;
   --radius-pill: 999px;
+  --dot-pattern: radial-gradient(circle at 1px 1px, rgba(82, 82, 82, .2) .7px, transparent .85px);
+  --dot-size: 14px 14px;
   --page-pad: 32px;
   --section-gap: 16px;
   --content-gap: 24px;
-  --panel-pad: 24px;
+  --panel-pad: 20px;
   --card-pad: 16px;
   --toolbar-pad: 16px;
-  --control-h: 44px;
-  --table-head-h: 48px;
-  --table-row-h: 68px;
-  --table-border: #e5e7eb;
-  --table-head-bg: #f8f9fa;
-  --table-hover: #f7faf8;
+  --control-h: 40px;
+  --table-head-h: 42px;
+  --table-row-h: 60px;
+  --table-border: #e8e8e8;
+  --table-head-bg: #fafafa;
+  --table-hover: #fafdfb;
   --panel-bg: #ffffff;
   --panel-border: var(--line);
   --panel-shadow: var(--shadow-soft);
-  --text-strong: #18181b;
-  --text-body: #27272a;
-  --text-muted-strong: #52525b;
-  --text-muted-soft: #71717a;
-  --surface-subtle: #f8f9fa;
+  --text-strong: #1c1c1c;
+  --text-body: #333333;
+  --text-muted-strong: #555555;
+  --text-muted-soft: #7a7a7a;
+  --surface-subtle: #fafafa;
   --surface-toolbar: #ffffff;
-  --surface-hover: #f7faf8;
+  --surface-hover: #fafdfb;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
   --space-6: 24px;
   --space-8: 32px;
-  --size-stat-icon: 48px;
-  --size-control-icon: 20px;
-  --size-pill-h: 40px;
-  --text-xs: 12px;
+  --size-stat-icon: 44px;
+  --size-control-icon: 18px;
+  --size-pill-h: 36px;
+  --text-xs: 11px;
   --text-sm: 13px;
-  --text-md: 15px;
-  --radius-sm: 8px;
+  --text-md: 14px;
+  --radius-sm: 4px;
   --font-sans: "Geist", "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-display: "Geist", "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-data: "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   --button-bg: var(--brand);
   --button-bg-hover: var(--brand-hover);
   --button-fg: #052e20;
-  --button-secondary-bg: #f4f5f6;
-  --button-secondary-bg-hover: #eceeef;
+  --button-secondary-bg: #f7f7f7;
+  --button-secondary-bg-hover: #efefef;
   --button-secondary-fg: #27272a;
   --button-outline-bg: #ffffff;
-  --button-outline-bg-hover: #f4f5f6;
+  --button-outline-bg-hover: #f7f7f7;
   --button-outline-fg: #27272a;
-  --button-border: #d4d4d8;
+  --button-border: #dedede;
   color-scheme: light;
 }
 
@@ -8314,5 +8316,278 @@ a {
 
   .nav-item.active {
     box-shadow: inset 0 0 0 1px var(--brand-border);
+  }
+}
+
+/* Screenshot-calibrated Supabase visual language */
+body {
+  font-size: 14px;
+}
+
+svg {
+  stroke-width: 1.75;
+}
+
+svg,
+.ti {
+  width: 18px;
+  height: 18px;
+}
+
+.sidebar {
+  background: #ffffff;
+}
+
+.brand {
+  font-size: 21px;
+  font-weight: 550;
+}
+
+.nav-item {
+  color: #555555;
+  font-weight: 450;
+}
+
+.nav-item:hover {
+  background: #f7f7f7;
+}
+
+.nav-item.active {
+  color: #116149;
+  background: var(--brand-soft);
+}
+
+.help-card,
+.profile-button,
+.topbar {
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.page-heading h1,
+.welcome-row h1 {
+  font-size: clamp(24px, 1.2vw + 16px, 28px);
+  font-weight: 550;
+  letter-spacing: -.01em;
+}
+
+.page-heading p,
+.welcome-row p {
+  font-size: 14px;
+}
+
+.panel h2,
+.side-card-title strong,
+.settings-card-head h2,
+.settings-card-head strong {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 520;
+  letter-spacing: 0;
+}
+
+.metric-card,
+.panel,
+.customers-panel,
+.vehicles-panel,
+.repair-orders-panel,
+.invoice-list-panel,
+.invoice-preview,
+.invoice-sheet,
+.inventory-side-card,
+.staff-list-panel,
+.staff-profile-card,
+.staff-side-card,
+.reminders-list-panel,
+.reminder-side-card,
+.settings-card,
+.settings-side-card,
+.settings-stat,
+.customer-stat,
+.vehicle-stat,
+.repair-stat,
+.invoice-stat,
+.inventory-stat,
+.staff-stat,
+.reminder-stat {
+  border-color: var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.metric-card,
+.customer-stat,
+.vehicle-stat,
+.repair-stat,
+.invoice-stat,
+.inventory-stat,
+.staff-stat,
+.reminder-stat,
+.settings-stat {
+  grid-template-columns: var(--size-stat-icon) minmax(0, 1fr);
+  gap: 12px;
+  min-height: 116px;
+  padding: 16px;
+}
+
+.metric-icon,
+.customer-stat .metric-icon,
+.vehicle-stat .metric-icon,
+.repair-stat .metric-icon,
+.invoice-stat .metric-icon,
+.inventory-stat .metric-icon,
+.staff-stat .metric-icon,
+.reminder-stat .metric-icon,
+.settings-stat .metric-icon {
+  width: var(--size-stat-icon);
+  height: var(--size-stat-icon);
+  border-radius: var(--radius-card);
+  background: #fafafa;
+}
+
+.metric-icon :is(svg, .ti),
+.customer-stat .metric-icon :is(svg, .ti),
+.vehicle-stat .metric-icon :is(svg, .ti),
+.repair-stat .metric-icon :is(svg, .ti),
+.invoice-stat .metric-icon :is(svg, .ti),
+.inventory-stat .metric-icon :is(svg, .ti),
+.staff-stat .metric-icon :is(svg, .ti),
+.reminder-stat .metric-icon :is(svg, .ti),
+.settings-stat .metric-icon :is(svg, .ti) {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+}
+
+.customer-stat p,
+.vehicle-stat p,
+.repair-stat p,
+.invoice-stat p,
+.inventory-stat p,
+.staff-stat p,
+.reminder-stat p,
+.settings-stat p,
+.settings-stat small,
+.metric-heading h2 {
+  color: #656565;
+  font-size: 10px;
+  font-weight: 550;
+  line-height: 1.3;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.customer-stat strong,
+.vehicle-stat strong,
+.repair-stat strong,
+.invoice-stat strong,
+.inventory-stat strong,
+.staff-stat strong,
+.reminder-stat strong,
+.settings-stat strong,
+.metric-card > strong {
+  font-size: clamp(1.22rem, .4vw + 1rem, 1.5rem);
+  font-weight: 520;
+}
+
+.vehicle-trend,
+.repair-trend,
+.invoice-trend,
+.inventory-trend,
+.staff-trend,
+.reminder-trend,
+.metric-card .trend {
+  font-size: 11px;
+  font-weight: 450;
+}
+
+.primary-action,
+.secondary-action,
+.outline-action,
+.quick-add {
+  min-height: var(--control-h);
+  padding-right: 14px;
+  padding-left: 14px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.app-toolbar {
+  gap: 12px;
+}
+
+.customers-table th,
+.vehicles-table th,
+.repair-orders-table th,
+.invoice-table th,
+.inventory-table th,
+.staff-table th,
+.reminders-table th {
+  color: #737373;
+  font-size: 10px;
+  font-weight: 550;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.customers-table td,
+.vehicles-table td,
+.repair-orders-table td,
+.invoice-table td,
+.inventory-table td,
+.staff-table td,
+.reminders-table td {
+  color: #333333;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.line-chart,
+.status-content,
+.stock-overview-content {
+  background-color: #fdfdfd;
+  background-image: var(--dot-pattern);
+  background-position: 0 0;
+  background-size: var(--dot-size);
+}
+
+.main-line {
+  stroke-width: 2;
+}
+
+.grid-lines line {
+  stroke: var(--line);
+}
+
+.donut {
+  box-shadow: none;
+}
+
+.tag,
+.customer-tag,
+.role-tag,
+.reminder-type,
+.priority-pill,
+.invoice-pill {
+  font-size: 11px;
+  font-weight: 450;
+}
+
+.modal-backdrop {
+  background: rgba(28, 28, 28, .42);
+  backdrop-filter: blur(2px);
+}
+
+.quick-modal,
+.vehicle-form-card,
+.vehicle-modal {
+  border-color: var(--line);
+  box-shadow: 0 24px 64px rgba(28, 28, 28, .14);
+}
+
+@media (max-width: 1120px) {
+  .sidebar {
+    background: #ffffff;
   }
 }
