@@ -8720,7 +8720,7 @@ svg,
   color: #ffffff;
   border-color: var(--brand);
   outline: 0;
-  box-shadow: 0 0 0 3px var(--focus-ring);
+  box-shadow: 0 0 0 2px var(--focus-ring);
 }
 
 .topbar-actions .icon-button {
@@ -8744,7 +8744,7 @@ svg,
 .topbar-actions .icon-button:focus-visible {
   border-color: var(--brand);
   outline: 0;
-  box-shadow: 0 0 0 3px var(--focus-ring);
+  box-shadow: 0 0 0 2px var(--focus-ring);
 }
 
 .topbar-actions .quick-add :is(svg, .ti),
@@ -8754,4 +8754,9 @@ svg,
   flex: 0 0 18px;
   color: currentColor;
   font-size: 18px;
+}
+
+.primary-action:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 2px var(--focus-ring);
 }
