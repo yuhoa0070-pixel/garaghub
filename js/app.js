@@ -223,11 +223,10 @@
         { key: "make", label: "All Makes", buttonIndex: 0 },
         { key: "model", label: "All Models", buttonIndex: 1 },
         { key: "status", label: "All Status", buttonIndex: 2 },
-        { key: "priority", label: "All Priority", buttonIndex: 3 },
         {
           key: "advanced",
           label: "More Filters",
-          buttonIndex: 4,
+          buttonIndex: 3,
           icon: "filter",
           options: [
             { label: "All Vehicles", value: "all" },
@@ -240,10 +239,9 @@
       getRowData(row) {
         return {
           searchText: row.textContent.toLowerCase(),
-          make: query("td:nth-child(6) strong", row)?.textContent.trim() || "",
-          model: query("td:nth-child(6) small", row)?.textContent.trim() || "",
-          priority: query("td:nth-child(2) .priority-pill", row)?.textContent.trim() || getCellText(row, 1),
-          status: query("td:nth-child(9) .tag", row)?.textContent.trim() || getCellText(row, 8),
+          make: query("td:nth-child(5) strong", row)?.textContent.trim() || "",
+          model: query("td:nth-child(5) small", row)?.textContent.trim() || "",
+          status: query("td:nth-child(8) .tag", row)?.textContent.trim() || getCellText(row, 7),
         };
       },
       advancedMatch(value, rowData) {
@@ -786,9 +784,6 @@
         { label: "Delete customer", icon: "trash", danger: true },
       ],
       vehicle: [
-        { label: "Set High Priority", icon: "flag", priority: "High" },
-        { label: "Set Medium Priority", icon: "flag", priority: "Medium" },
-        { label: "Set Low Priority", icon: "flag", priority: "Low" },
         { label: "View vehicle", icon: "car" },
         { label: "Create repair order", icon: "tools" },
         { label: "Edit vehicle", icon: "pencil" },
@@ -1227,7 +1222,6 @@
 
     row.innerHTML = `
       <td><input type="checkbox" aria-label="Select ${escapeHtml(`${make} ${model}`)}" /></td>
-      <td><span class="priority-pill medium">Medium</span></td>
       <td>
         <div class="vehicle-cell">
           <span class="vehicle-thumb" aria-hidden="true"><img src="${escapeHtml(photo)}" alt="" loading="lazy" /></span>
@@ -2198,7 +2192,7 @@
       }
     });
 
-    queryAll(".vehicles-table, .reminders-table").forEach((table) => {
+    queryAll(".reminders-table").forEach((table) => {
       const priorityHeader = queryAll("thead th", table).findIndex((cell) => cell.textContent.trim() === "Priority");
 
       if (priorityHeader > 1) {
@@ -2208,7 +2202,7 @@
   }
 
   function sortRowsByPriority(config, panel) {
-    if (!["customers", "vehicles", "reminders"].includes(config.id)) {
+    if (!["customers", "reminders"].includes(config.id)) {
       return;
     }
 
