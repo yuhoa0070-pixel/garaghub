@@ -1176,7 +1176,7 @@ input:focus-visible,
 .vehicles-table input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: var(--blue);
+  accent-color: var(--button-bg);
 }
 
 .vehicles-table tbody tr:hover {
@@ -2643,7 +2643,7 @@ td {
 .invoice-table input[type="checkbox"] {
   width: 17px;
   height: 17px;
-  accent-color: var(--blue);
+  accent-color: var(--button-bg);
 }
 
 .invoice-table td > a {
@@ -3148,7 +3148,7 @@ td {
 .inventory-table input[type="checkbox"] {
   width: 17px;
   height: 17px;
-  accent-color: var(--blue);
+  accent-color: var(--button-bg);
 }
 
 .inventory-table td small {
@@ -3802,7 +3802,7 @@ td {
 .staff-table input[type="checkbox"] {
   width: 17px;
   height: 17px;
-  accent-color: var(--blue);
+  accent-color: var(--button-bg);
 }
 
 .staff-member-cell {
@@ -4255,7 +4255,7 @@ td {
 .reminders-table input[type="checkbox"] {
   width: 17px;
   height: 17px;
-  accent-color: var(--blue);
+  accent-color: var(--button-bg);
 }
 
 .reminder-cell,
@@ -7486,7 +7486,7 @@ td {
   width: 16px;
   height: 16px;
   margin: 0;
-  accent-color: var(--blue);
+  accent-color: var(--button-bg);
 }
 
 .tag,
