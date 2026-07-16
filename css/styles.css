@@ -1,10 +1,10 @@
 :root {
-  --brand: #3ecf8e;
-  --brand-hover: #34b27b;
-  --brand-pressed: #259d68;
-  --brand-soft: #f0fbf6;
-  --brand-border: #b8e8d1;
-  --focus-ring: rgba(62, 207, 142, .3);
+  --brand: #2563eb;
+  --brand-hover: #1d4ed8;
+  --brand-pressed: #1e40af;
+  --brand-soft: #eff6ff;
+  --brand-border: #bfdbfe;
+  --focus-ring: rgba(37, 99, 235, .24);
   --bg: #fcfcfc;
   --surface: #ffffff;
   --surface-soft: #f7f7f7;
@@ -12,11 +12,11 @@
   --muted: #737373;
   --line: #e8e8e8;
   --blue: var(--brand);
-  --blue-deep: #177a55;
-  --blue-ink: #115c40;
+  --blue-deep: #1d4ed8;
+  --blue-ink: #1e3a8a;
   --blue-soft: var(--brand-soft);
   --select-soft: var(--brand-soft);
-  --select-line: #73d9ad;
+  --select-line: #93c5fd;
   --menu-shadow: 0 12px 32px rgba(28, 28, 28, .08), 0 2px 8px rgba(28, 28, 28, .04);
   --green: #20a66a;
   --orange: #f08a24;
@@ -74,7 +74,7 @@
   --font-data: "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   --button-bg: var(--brand);
   --button-bg-hover: var(--brand-hover);
-  --button-fg: #052e20;
+  --button-fg: #ffffff;
   --button-secondary-bg: #f7f7f7;
   --button-secondary-bg-hover: #efefef;
   --button-secondary-fg: #27272a;
@@ -8590,4 +8590,90 @@ svg,
   .sidebar {
     background: #ffffff;
   }
+}
+
+/* GarageHub blue brand accent */
+.brand-mark {
+  color: #ffffff;
+  border-color: var(--brand-hover);
+  background: var(--brand);
+}
+
+.nav-item.active,
+.nav-item.active .nav-badge,
+.filter-button.active,
+.filter-button[aria-expanded="true"],
+.app-toolbar .icon-button.active,
+.toolbar-menu button.active,
+.toolbar-menu button.active[data-filter-tone] {
+  color: var(--blue-deep);
+}
+
+.nav-item.active,
+.filter-button.active,
+.filter-button[aria-expanded="true"],
+.app-toolbar .icon-button.active,
+.toolbar-menu button.active,
+.toolbar-menu button.active[data-filter-tone] {
+  border-color: var(--brand-border);
+  background: var(--brand-soft);
+}
+
+.nav-item.active :is(svg, .ti) {
+  color: var(--brand-hover);
+}
+
+.primary-action {
+  color: #ffffff;
+  border-color: var(--brand);
+  background: var(--brand);
+}
+
+.primary-action:hover {
+  color: #ffffff;
+  border-color: var(--brand-hover);
+  background: var(--brand-hover);
+}
+
+.primary-action:active {
+  color: #ffffff;
+  border-color: var(--brand-pressed);
+  background: var(--brand-pressed);
+}
+
+.toolbar-menu button.active .toolbar-menu-check,
+.toolbar-menu button.active .toolbar-menu-radio-check {
+  color: #ffffff;
+  border-color: var(--brand-hover);
+  background: var(--brand);
+}
+
+.metric-icon.blue {
+  color: var(--brand-hover);
+  border-color: var(--brand-border);
+  background: var(--brand-soft);
+}
+
+.metric-icon.green {
+  color: #168255;
+  border-color: #b9e7cf;
+  background: #effaf4;
+}
+
+.customer-pagination button.active,
+.calendar-grid .active {
+  color: #ffffff;
+  border-color: var(--brand-hover);
+  background: var(--brand);
+}
+
+.calendar-grid .selected {
+  color: var(--blue-deep);
+  border-color: var(--brand-hover);
+}
+
+.tag.green {
+  color: #147552;
+  border-color: #b9e7cf;
+  background: #effaf4;
 }
